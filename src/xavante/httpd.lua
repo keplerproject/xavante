@@ -72,10 +72,11 @@ function connection (skt)
 	
 	while read_method (req) do
 		read_headers (req)
-		parse_url (req)
-		local res = make_response (req)
---		conn.res = res
-		handle_request (req, res)
+		repeat
+			parse_url (req)
+			local res = make_response (req)
+--			conn.res = res
+		until handle_request (req, res) ~= "reparse"
 		send_response (req, res)
 		
 		req.socket:flush ()
@@ -144,20 +145,31 @@ end
 --		for example, if the query was /first/second/file.ext , tries:
 --			/first/second/file.ext
 --			/first/second/*.ext
---			/first/second/
+--			/first/second/*
 --			/first/*.ext
---			/first/
+--			/first/*
 --			/*.ext
+--			/*
+--		and, if the query was for a directory like /first/second/last/ , it tries:
+--			/first/second/last/
+--			/first/second/
+--			/first/
 --			/
 function path_permuter (path)
 	coroutine.yield (path)
 	local _,_,ext = string.find (path, "%.([^.]*)$")
+	local notdir = (string.sub (path, -1) ~= "/")
+	
 	while path ~= "" do
 		path = string.gsub (path, "/[^/]*$", "")
-		if ext then
-			coroutine.yield (path .."/*."..ext)
+		if notdir then
+			if ext then
+				coroutine.yield (path .."/*."..ext)
+			end
+			coroutine.yield (path .."/*")
+		else
+			coroutine.yield (path.."/")
 		end
-		coroutine.yield (path.."/")
 	end
 end
 
