@@ -3,9 +3,7 @@ module ("sajax")
 local export_list = {}
 local request_uri
 
-if xavante.httpd then
---if false then
-	
+if xavante and xavante.httpd then
 	request_uri = function (funcname)
 		return cgilua.mkabsoluteurl (cgilua.mkurlpath (cgilua.servervariable"SCRIPT_NAME" .. "/" .. funcname.. "?rs=rs"))
 	end
