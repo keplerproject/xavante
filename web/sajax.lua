@@ -107,18 +107,18 @@ else
 end
 	
 
-local function show_common_js ()
-	cgilua.put [[
+local function get_common_js ()
+	return [[
 		// remote scripting library
 		// (c) copyright 2005 modernmethod, inc
-		var rs_debug_mode = false;
+		var sajax_debug_mode = false;
 		
-		function rs_debug(text) {
-			if (rs_debug_mode)
+		function sajax_debug(text) {
+			if (sajax_debug_mode)
 				alert("RSD: " + text)
 		}
-		function rs_init_object() {
-			rs_debug("rs_init_object() called..")
+		function sajax_init_object() {
+			sajax_debug("rs_init_object() called..")
 			
 			var A;
 			try {
@@ -133,20 +133,55 @@ local function show_common_js ()
 			if(!A && typeof XMLHttpRequest != "undefined")
 				A = new XMLHttpRequest();
 			if (!A)
-				rs_debug("Could not create connection object.");
+				sajax_debug("Could not create connection object.");
 			return A;
+		}
+		function sajax_do_call(func_name, url, args) {
+			var i, x, n;
+			for (i = 0; i < args.length-1; i++) 
+				url = url + "&rsargs[]=" + escape(args[i]);
+			url = url + "&rsrnd=" + new Date().getTime();
+			x = sajax_init_object();
+			x.open("GET", url, true);
+			x.onreadystatechange = function() {
+				if (x.readyState != 4) 
+					return;
+				sajax_debug("received " + x.responseText);
+				
+				var status;
+				var data;
+				status = x.responseText.charAt(0);
+				data = x.responseText.substring(2);
+				if (status == "-") 
+					alert("Error: " + data);
+				else  
+					args[args.length-1](data);
+			}
+			x.send(null);
+			sajax_debug(func_name + " url = " + url);
+			sajax_debug(func_name + " waiting..");
+			delete x;
 		}
 	]]
 end
 
-local function show_one (funcname)
+function show_common_js()
+	cgilua.put (get_common_js ())
+end
+
+
+local function get_one_stub (funcname)
 	local uri = request_uri (funcname)
 	
-	cgilua.put (string.format ([[
+	return (string.format ([[
 		// wrapper for %s
 		
 		function x_%s() {
 			// count args; build URL
+			sajax_do_call ("%s", "%s", x_%s.arguments);
+		}
+		]], funcname, funcname, funcname, uri, funcname))
+--[[
 			var i, x, n;
 			var url = "%s";
 			var a = x_%s.arguments;
@@ -174,22 +209,32 @@ local function show_one (funcname)
 			rs_debug("x_%s waiting..");
 			delete x;
 		}
-	]], funcname, funcname, uri, funcname, funcname, funcname))
+	] ], funcname, funcname, uri, funcname, funcname, funcname))		--]]
+end
+
+local function show_one_stub (funcname)
+	cgilua.put (get_one_stub (funcname))
 end
 
 local js_has_been_shown = false
 
-function show_javascript ()
+function get_javascript ()
+	local js = {}
+	
 	if not js_has_been_shown then
-		show_common_js ()
+		table.insert (js, get_common_js ())
 		js_has_been_shown = true
 	end
 	
 	for fn,_ in pairs (export_list) do
-		show_one (fn)
+		table.insert (js, get_one_stub (fn))
 	end
+	return (table.concat (js))
 end
 
+function show_javascript ()
+	cgilua.put (get_javascript ())
+end
 
 function init ()
 end
