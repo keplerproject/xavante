@@ -23,14 +23,22 @@ local file = xavante.filehandler
 local xcgi = xavante.cgiluahandler.makeHandler (webdir)
 
 xavante.HTTP{
-  server = {host = "*", port = 80},
-  virtualhosts = {
-    localhost = {
-        defaultPages = {"index.html", "index.lp", "index.lua"}, -- not used yet
+    server = {host = "*", port = 80},
+    
+    defaultHost = {
         rules = {
             {match = "/", with = file, params = {baseDir = webdir}},
             {match = {"/*.lp", "/*.lua"},  with = xcgi},
         },
-    }, -- localhost
-  }, -- virtualhosts
+    },
+    
+    virtualhosts = {
+        --localhost = {
+        --    defaultPages = {"index.html", "index.lp", "index.lua"}, -- not used yet
+        --    rules = {
+        --        {match = "/", with = file, params = {baseDir = webdir}},
+        --        {match = {"/*.lp", "/*.lua"},  with = xcgi},
+        --    },
+        --}, -- localhost
+    }, -- virtualhosts
 }

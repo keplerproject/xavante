@@ -27,14 +27,8 @@ _VERSION     = "1.1 Beta"
 
 local _defaulthost = "localhost"
 
--------------------------------------------------------------------------------
--- Register the server configuration
--------------------------------------------------------------------------------
-function HTTP(config)
-  config.server = config.server or {host = "*", port = 8899}
-  xavante.httpd.register(config.server.host, config.server.port, _NAME.."/".._VERSION)
-  for hostname, host in pairs(config.virtualhosts) do
-    for _, rule in ipairs(host.rules) do
+local function _addRules(rules, hostname)
+    for _, rule in ipairs(rules) do
         local handler
         if rule.params then
             handler = rule.with.makeHandler(rule.params)
@@ -49,7 +43,19 @@ function HTTP(config)
             httpd.addHandler (hostname, mask, handler)
         end
     end
-  end
+end
+-------------------------------------------------------------------------------
+-- Register the server configuration
+-------------------------------------------------------------------------------
+function HTTP(config)
+    config.server = config.server or {host = "*", port = 80}
+    xavante.httpd.register(config.server.host, config.server.port, _NAME.."/".._VERSION)
+    if config.defaultHost then
+        _addRules(config.defaultHost.rules, "_")
+    end
+    for hostname, host in pairs(config.virtualhosts) do
+        _addRules(host.rules, hostname)
+    end
 end
 
 -------------------------------------------------------------------------------
@@ -67,7 +73,6 @@ end
 function webdir()
   return _webdir
 end
-
 function setwebdir(dir)
   _webdir = dir
 end
