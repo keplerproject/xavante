@@ -12,11 +12,6 @@
 module ("xavante")
 
 require "copas"
-require "coxpcall"
-
-pcall  = copcall
-xpcall = coxpcall
-
 require "xavante.httpd"
 
 -- Meta information is public even begining with an "_"
