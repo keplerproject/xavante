@@ -6,7 +6,7 @@
 --
 -- See xavante/config.lua for configuration details.
 --
--- Author: Andre Carregal, Javier Guerra
+-- Author: Andre Carregal and Javier Guerra
 -- Copyright (c) 2004-2005 Kepler Project
 -------------------------------------------------------------------------------
 module ("xavante")
