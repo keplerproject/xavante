@@ -17,7 +17,7 @@ function coxpcall(f, err)
     local status = results[1]
     table.remove (results, 1) -- remove status of coroutine.resume
     if not status then
-      return false, copcall(err(unpack(results)))
+      return false, err(unpack(results))
     end
     if coroutine.status(co) == "suspended" then
       arg = {coroutine.yield(unpack(results))}
