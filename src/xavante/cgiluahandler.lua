@@ -9,7 +9,6 @@ module (arg and arg[1])
 
 require "venv"
 require "lfs"
-require "helper"
 require "stable"
 
 -- Setting the Basic API.
@@ -72,11 +71,11 @@ end
 
 local function cgiluahandler (req, res, diskpath)
 	set_cgivars (req, diskpath)
-	helper.bg (req, res, venv (function ()
+	venv (function ()
 		SAPI = set_api (req, res)
 		require "cgilua"
 		pcall (cgilua.main)
-	end ))
+	end )()
 end
 
 set_api ()
