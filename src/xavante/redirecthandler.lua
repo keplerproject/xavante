@@ -20,7 +20,7 @@ local function redirect (req, res, dest)
 	if pfx == "/" then
 		path = string.gsub (path, "^("..req.match..")", dest)
 	elseif pfx == ":" then
-		path = path .. dest
+		path = path .. string.sub (dest, 2)
 	else
 		path = string.gsub (path, "/[^/]*$", "") .. "/" .. dest
 	end
