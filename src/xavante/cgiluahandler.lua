@@ -70,8 +70,17 @@ local function set_cgivars (req, diskpath)
 end
 
 local function cgiluahandler (req, res, diskpath)
+	if not lfs.attributes (diskpath .. req.parsed_url.path) then
+		return httpd.err_404 (req, res)
+	end
+	
 	set_cgivars (req, diskpath)
 	venv (function ()
+		local t = {
+			xavante.httpd.addHandler,
+			xavante.httpd.err_404
+		}
+		t = nil
 		SAPI = set_api (req, res)
 		require "cgilua"
 		pcall (cgilua.main)
