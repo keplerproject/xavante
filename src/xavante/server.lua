@@ -27,7 +27,7 @@ require "socket.http"
 _COPYRIGHT   = "Copyright (C) 2004-2005 Kepler Project"
 _DESCRIPTION = "A coroutine based Lua HTTP server with CGILua support"
 _NAME        = "Xavante"
-_VERSION     = "1.0 Beta 8"
+_VERSION     = "1.0"
 
 -- Private functions and atributes begin with a "_"
 local _serversoftware = _NAME.."/".._VERSION -- Used by SAPI
