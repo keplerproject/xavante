@@ -1,8 +1,8 @@
 -----------------------------------------------------------------------------
--- luahttpd : minimal http server
--- Author: Javier Guerra
--- 2005
--- HTTPEngine, work over Copas
+-- Xavante HTTP handler
+--
+-- Authors: Javier Guerra and Andre Carregal
+-- Copyright (c) 2004-2005 Kepler Project
 -----------------------------------------------------------------------------
 local url = require "socket.url"
 

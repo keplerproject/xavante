@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
 <html>
 <head>
-  <title>Xavante 1.0</title>
-  <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css">
+    <title>The Xavante Lua Web Server</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css">
 </head>
 
 <body>
@@ -14,10 +14,10 @@
  alt="Xavante" src="/img/xavante.gif" border="0"></a> </td>
     </tr>
     <tr>
-      <td align="center"><big><b>Xavante 1.0</b></big> </td>
+      <td align="center"><big><b>Xavante</b></big> </td>
     </tr>
     <tr>
-      <td align="center" valign="top">A CGILua Web Server</td>
+      <td align="center" valign="top">A Lua Web Server with CGILua support</td>
     </tr>
   </tbody>
 </table>
@@ -39,7 +39,7 @@
 
 <a name="over"></a>
 <h2>Overview</h2>
-<p>Xavante is a Lua Web server that handles HTTP 1.0 requests and
+<p>Xavante is a Lua Web server that handles HTTP 1.1 requests and
 uses <a href="http://www.keplerproject.org/cgilua">CGILua 5.0</a> as the native
 template engine.</p>
 <p>Xavante is free software and uses the same <a href="license.html">license</a>
@@ -60,12 +60,13 @@ page</p>
 <a name="new"></a>
 <h2>What's new</h2>
 <ul>
-  <li>[19/Jan/2005] Version 1.1 Beta released</li>
+  <li>[04/Mar/2005] Version 1.1 Beta released</li>
     <ul>
       <li>First public release</li>
-      <li>Includes CGILua 5.0 final version</li>
+      <li>Includes CGILua 5.0 Beta 2</li>
       <li>Refactored to use <a href="http://www.keplerproject.org/copas">Copas</a></li>
       <li>Source base merged with <a href = "http://luaforge.net/projects/luahttpd/">luahttpd</a></li>
+      <li>New configuration file with simpler rules</li>
     </ul>
 </ul>
 
@@ -77,7 +78,6 @@ page</p>
 <ul>
   <li><a href="http://www.lua.org">Lua 5</a> (it was tested with versions 5.0 through 5.0.2)</li>
   <li><a href="http://www.keplerproject.org/compat">Compat-5.1</a></li>
-  <li><a href="http://www.keplerproject.org/lualogging">LuaLogging</a></li>
   <li><a href="http://www.keplerproject.org/venv">VEnv</a></li>
   <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem</a></li>
   <li><a href="http://www.tecgraf.puc-rio.br/luasocket/">LuaSocket 2.0 Beta 3</a></li>
@@ -89,7 +89,7 @@ page</p>
 
 <p>The portability of Xavante is determined by the C part of Lua,
 LuaFileSystem and LuaSocket, the other components are Lua only. LuaFileSystem
-can also be ported to Lua for increased portability.</p>
+can also be written in Lua for increased portability.</p>
 
 <a name="config"></a>
 <h2>Installation and configuration</h2>
@@ -99,12 +99,10 @@ can also be ported to Lua for increased portability.</p>
 /
   /bin          -- Lua and binary libraries
     /cgilua
-    /logging
     /socket
     /xavante
   /conf
     /xavante    -- configuration
-  /log          -- log files
   /web          -- Xavante default HTTP documents
     /doc        -- Xavante documentation
     /img        -- Xavante images
@@ -119,65 +117,77 @@ directory also should have the following Lua libraries:
   venv.lua
 </pre>
 
-<p>The file <code>/bin/xavante/conf.lua</code> defines the Xavante
+<p>The file <code>/bin/xavante/config.lua</code> defines the Xavante
 configuration. Xavante defines <em>virtualhosts</em> for each site running.
-Each virtualhost can define a set of <em>aliases</em> within it.
-Each alias maps a <em>virtual directory</em> to a physical path, using a
-default page when the URL does not specify one.
-If the alias does not define a default page, the virtualhost default page is
-used. Each virtualhost can define the </em>handlers</em> for specific file
-extensions. Xavante currently offers a <strong>fileHandler</strong> and
-a <strong>CGILuaHandler</strong> for general files and CGILua scripts and
-templates.</p>
+Each virtualhost can define a set of <em>rules</em> for it.
+Each rule matches a <em>URL pattern</em> to a handler.
+Xavante currently offers a <strong>file handler</strong>, a <strong>redirect handler</strong> and
+a <strong>CGILua handler</strong> for general files, URL remapping and CGILua scripts.</p>
 
 <p>If LUA_PATH is correctly set, Xavante configuration can be redefined on the
-default file structure by the optional <code>/conf/xavante/conf.lua</code>
+default file structure by the optional <code>/conf/xavante/config.lua</code>
 file. If it does not exist, Xavante loads the default
-<code>/bin/xavante/conf.lua</code> file.</p>
+<code>/bin/xavante/config.lua</code> file.</p>
 
-<p>A tipical <code>conf.lua</code> uses the format below</p>
+<p>A tipical <code>config.lua</code> uses the format below</p>
 <pre class="example">
-xavante.register{
-  connection = {host = "*", port = 8899, timeout = 0},
+require "xavante.filehandler"
+require "xavante.cgiluahandler"
+require "xavante.redirecthandler"
 
-  logfile = xavante.logdir().."/xavante.log"),
-
-  virtualhosts = {
-    localhost = {
-      defaultPage = "index.html",
-      handlers = {
-        html = {contentType = "text/html"  , handler = xavante.fileHandler},
-        htm  = {contentType = "text/html"  , handler = xavante.fileHandler},
-        txt  = {contentType = "text/plain" , handler = xavante.fileHandler},
-        gif  = {contentType = "image/gif"  , handler = xavante.fileHandler},
-        jpg  = {contentType = "image/jpeg" , handler = xavante.fileHandler},
-        lua  = {nil                        , handler = xavante.CGILuaHandler},
-        lp   = {nil                        , handler = xavante.CGILuaHandler},
-      },
-      aliases = {
-        {alias = "/"    , path = xavante.homedir().."/web/", defaultPage = "default.lp"},
-      },
-    }, -- localhost
-  }, -- virtualhosts
+local simplerules = {
+    -- URL remapping example
+    {match = "/", with = xavante.redirecthandler, params = {"/index.lp"}}, 
+    -- filehandler example
+    {match = "/*", with = xavante.filehandler, params = {baseDir = xavante.webdir()}},
+    -- cgiluahandler example
+    {match = {"/*.lp", "/*.lua"},  with = xavante.cgiluahandler.makeHandler (xavante.webdir())},
 }
-</pre>
+
+xavante.HTTP{
+    server = {host = "*", port = 80},
+    
+    defaultHost = {
+    	rules = simplerules
+    },
+}</pre>
+<p>To use virtual hosts with Xavante, the call to <code>xavante.HTTP</code>
+must be changed to something like</p>
+
+<pre class="example">
+xavante.HTTP{
+    server = {host = "*", port = 80},
+    
+    defaultHost = {
+    },
+    
+    virtualhosts = {
+        ["www.sitename.com"] = simplerules
+    }
+}</pre>
 
 <a name="running"></a>
 <h2>Running Xavante</h2>
-<p>The distribution includes a <code>xavante_start.bat</code> for Windows and
-a <code>xavante_start</code> script for Unix. Calling it starts Xavante and
-opening <code>http://localhost:8899</code> displays the welcome page.</p>
+<p>Running Xavante requires the execution of <code>xavante_start.lua</code>. This can be done
+through a bat file in Windows, or by giving execution rights to it on Linux.</p>
+<p>After calling <code>xavante_start.lua</code>, opening the URL <code>http://localhost</code>
+should show the Xavante welcome page. If you changed the port number on <code>config.lua</code>
+you should also use this number on the URL.</p>
 
 <a name="credits"></a>
 <h2>Credits</h2>
+<p>Xavante 1.1 was redesigned and implemented by Javier Guerra and Andr&eacute; Carregal
+and merged Javier's luahttpd and Copas with Xavante 1.0 configuration schema. luahttpd is
+now part of Xavante.</p>
+
 <p>Xavante 1.0 was designed and implemented by Andr&eacute; Carregal as part of
 the <a href="http://www.keplerproject.org">Kepler Project</a> with
-contributions from Renato Crivano and Danilo Tuler. The CSS for this
-documentation is courtesy of Diego Nehab.</p>
-
+contributions from Renato Crivano and Danilo Tuler.</p>
 <p>Xavante 1.0 development was sponsored by <a
  href="http://www.fabricadigital.com.br">F&aacute;brica Digital</a> and
 <a href="http://www.hands.com.br">Hands</a>.</p>
+
+<p>The CSS for Kepler documentation is courtesy of Diego Nehab.</p>
 
 <h2>Contact us</h2>
 <p>For more information please <a
@@ -185,7 +195,7 @@ documentation is courtesy of Diego Nehab.</p>
 Comments are welcome!</p>
 <hr>
 <small>
-$Id: index.html,v 1.3 2005/02/23 21:03:17 carregal Exp $
+$Id: index.html,v 1.4 2005/03/03 04:32:02 carregal Exp $
 </small>
 </body>
 </html>

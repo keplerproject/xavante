@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
 -- Xavante redirect handler
 --
--- Authors: Andre Carregal and Javier Guerra
+-- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2005 Kepler Project
 -------------------------------------------------------------------------------
 module (arg and arg[1])

@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------
--- luahttpd : minimal http server
--- Author: Javier Guerra
--- 2005
--- filehandler: serves static files
------------------------------------------------------------------------------
+-- Xavante File handler
+--
+-- Authors: Javier Guerra and Andre Carregal
+-- Copyright (c) 2004-2005 Kepler Project
+----------------------------------------------------------------------------
 
 local url = require ("socket.url")
 

@@ -12,7 +12,7 @@
 -- optional /conf/xavante/config.lua file. If it does not exist, Xavante loads
 -- the default /bin/xavante/config.lua file.
 --
--- Author: Andre Carregal and Javier Guerra
+-- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2005 Kepler Project
 -------------------------------------------------------------------------------
 require "xavante.filehandler"

@@ -1,13 +1,16 @@
 -----------------------------------------------------------------------------
--- luahttpd : minimal http server
--- Author: Javier Guerra
--- 2005
--- CGILuaHandler: launches CGILua
---		heavily based on CGILua-5.0b/launcher/_cgi/t_cgi.lua
+-- Xavante CGILua handler
+--
+-- Authors: Javier Guerra and Andre Carregal
+-- Copyright (c) 2004-2005 Kepler Project
 -----------------------------------------------------------------------------
 
----------------------------------------------------------------------
 module (arg and arg[1])
+
+require "venv"
+require "lfs"
+require "helper"
+require "stable"
 
 -- Setting the Basic API.
 local function set_api (req, res)
@@ -41,11 +44,6 @@ local function set_api (req, res)
 	
 	return SAPI
 end
-
-require "venv"
-require "lfs"
-require "helper"
-require "stable"
 
 local function set_cgivars (req, diskpath)
 	
