@@ -122,7 +122,7 @@ end
 --			/
 function path_permuter (path)
 	coroutine.yield (path)
-	local _,_,ext = string.find (path, "%.([^.]*)$")
+	local _,_,ext = string.find (path, "%.([^./]*)$")
 	local notdir = (string.sub (path, -1) ~= "/")
 	
 	while path ~= "" do
@@ -158,9 +158,9 @@ function parse_url (req)
 	for p in path_iterator (path) do
 		h = hosthandlers [p]
 		if h then
-            req.match = p
-            break
-        end
+			req.match = p
+			break
+		end
 	end
 	
 	req.handler = h
