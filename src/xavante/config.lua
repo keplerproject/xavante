@@ -9,8 +9,8 @@
 -- Xavante currently offers a fileHandler and a CGILuaHandler.
 --
 -- Xavante configuration can be redefined on the default file structure by the
--- optional /conf/xavante/conf.lua file. If it does not exist, Xavante loads
--- the default /bin/xavante/conf.lua file.
+-- optional /conf/xavante/config.lua file. If it does not exist, Xavante loads
+-- the default /bin/xavante/config.lua file.
 --
 -- Author: Andre Carregal and Javier Guerra
 -- Copyright (c) 2004-2005 Kepler Project
