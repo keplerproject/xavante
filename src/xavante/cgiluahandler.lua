@@ -11,7 +11,9 @@ require "venv"
 require "lfs"
 require "stable"
 
--- Setting the Basic API.
+-------------------------------------------------------------------------------
+-- Implements SAPI
+-------------------------------------------------------------------------------
 local function set_api (req, res)
 	local SAPI = {
 		Response = {},
@@ -89,6 +91,9 @@ end
 
 set_api ()
 
+-------------------------------------------------------------------------------
+-- Returns the CGILua handler
+-------------------------------------------------------------------------------
 function makeHandler (diskpath)
 	return function (req, res)
 		return cgiluahandler (req, res, diskpath)

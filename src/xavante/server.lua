@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
 -- Xavante main module
 --
--- Handles HTTP 1.1 requests and responses with Copas
+-- Handles HTTP 1.1 requests and responses with Copas.
 -- Uses CGILua as native template engine.
 --
 -- See xavante/config.lua for configuration details.
@@ -76,6 +76,7 @@ end
 function webdir()
   return _webdir
 end
+
 function setwebdir(dir)
   _webdir = dir
 end

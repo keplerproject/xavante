@@ -10,6 +10,9 @@
 -- Copyright 2005 - Kepler Project (www.keplerproject.org)
 -------------------------------------------------------------------------------
 
+-------------------------------------------------------------------------------
+-- Implements xpcall with coroutines
+-------------------------------------------------------------------------------
 function coxpcall(f, err)
   local co = coroutine.create(f)
   while true do
@@ -27,6 +30,9 @@ function coxpcall(f, err)
   end
 end
 
+-------------------------------------------------------------------------------
+-- Implements pcall with coroutines
+-------------------------------------------------------------------------------
 function copcall(f, ...)
   return coxpcall(function() return f(unpack(arg)) end, error) 
 end
