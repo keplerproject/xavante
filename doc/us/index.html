@@ -1,44 +1,56 @@
-<!doctype html public "-//W3C//DTD HTML 3.2//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
     <title>The Xavante Lua Web Server</title>
-    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css">
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 
 <body>
-<center>
-<table border="0" cellpadding="2" cellspacing="2">
-  <tbody>
-    <tr>
-      <td align="center"><a href="http://www.keplerproject.org"><img
- alt="Xavante" src="xavante.gif" border="0"></a> </td>
-    </tr>
-    <tr>
-      <td align="center"><big><b>Xavante</b></big> </td>
-    </tr>
-    <tr>
-      <td align="center" valign="top">A Lua Web Server with CGILua support</td>
-    </tr>
-  </tbody>
-</table>
-</center>
-<hr>
-<h2>Contents</h2>
-<ul>
-  <li><a href="#over">Overview<br></a></li>
-  <li><a href="#version">Current Version</a></li>
-  <li><a href="#download">Download</a></li>
-  <li><a href="#new">What's new</a></li>
-  <li><a href="#components">Component Dependencies</a></li>
-  <li><a href="#portability">Portability</a></li>
-  <li><a href="#config">Installation and configuration</a></li>
-  <li><a href="#running">Running Xavante</a></li>
-  <li><a href="#credits">Credits</a></li>
-  <li><a href="#contact">Contact us</a></li>
-</ul>
 
-<a name="over"></a>
-<h2>Overview</h2>
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"><a href="http://www.keplerproject.org">
+		<img alt="Xavante logo" src="xavante.gif"/>
+	</a></div>
+	<div id="product_name"><big><strong>Xavante</strong></big></div>
+	<div id="product_description">A Lua Web Server with CGILua support</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+<h1>Xavante</h1>
+	<ul>
+		<li><strong>Home</strong>
+            <ul>
+              <li><a href="index.html#over">Overview<br></a></li>
+              <li><a href="index.html#version">Current Version</a></li>
+              <li><a href="index.html#download">Download</a></li>
+              <li><a href="index.html#history">History</a></li>
+              <li><a href="index.html#components">Dependencies</a></li>
+              <li><a href="index.html#portability">Portability</a></li>
+              <li><a href="index.html#credits">Credits</a></li>
+              <li><a href="index.html#contact">Contact us</a></li>
+            </ul>
+        </li>
+		<li><a href="manual.html">Manual</a>
+            <ul>
+              <li><a href="manual.html#install">Installing</a></li>
+              <li><a href="manual.html#config">Configuring</a></li>
+              <li><a href="manual.html#running">Running</a></li>
+            </ul>
+        </li>
+        <li><a href="license.html">License</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2><a name="over">Overview</a></h2>
 <p>Xavante is a Lua Web server that handles HTTP 1.1 requests and
 uses <a href="http://www.keplerproject.org/cgilua">CGILua 5.0</a> as the native
 template engine.</p>
@@ -46,19 +58,18 @@ template engine.</p>
 as Lua 5.0.
 </p>
 
-<a name="version"></a>
-<h2>Current version</h2>
+<h2><a name="version">Current version</a></h2>
 <p>Current version is 1.1 Beta.
 </p>
 
-<a name="download"></a>
-<h2>Download</h2>
+
+<h2><a name="download">Download</a></h2>
 <p>Xavante can be downloaded in source code from the
 <a href="http://luaforge.net/project/showfiles.php?group_id=6">LuaForge</a>
 page</p>
 
-<a name="new"></a>
-<h2>What's new</h2>
+
+<h2><a name="history">History</a></h2>
 <ul>
   <li>[04/Mar/2005] Version 1.1 Beta released</li>
     <ul>
@@ -70,13 +81,11 @@ page</p>
     </ul>
 </ul>
 
-
-<a name="components"></a>
-<h2>Component Dependencies</h2>
+<h2><a name="components">Component Dependencies</a></h2>
 
 <p>Xavante depends on the following libraries:</p>
 <ul>
-  <li><a href="http://www.lua.org">Lua 5</a> (it was tested with versions 5.0 through 5.0.2)</li>
+  <li><a href="http://www.lua.org">Lua 5</a></li>
   <li><a href="http://www.keplerproject.org/cgilua">CGILua 5.0</a></li>
   <li><a href="http://www.keplerproject.org/compat">Compat-5.1</a></li>
   <li><a href="http://www.keplerproject.org/copas">Copas 1.0</a></li>
@@ -85,131 +94,12 @@ page</p>
   <li><a href="http://www.keplerproject.org/venv">VEnv 1.0</a></li>
 </ul>
 
-<a name="portability"></a>
-<h2>Portability</h2>
+<h2><a name="portability">Portability</a></h2>
 
 <p>The portability of Xavante is determined by LuaFileSystem and LuaSocket.
 LuaFileSystem can also be rewritten in Lua for increased portability.</p>
 
-<a name="config"></a>
-<h2>Installation and configuration</h2>
-
-<p>The default directory structure for Xavante is:</p>
-<pre class="example">
-  $XAVANTE_BIN          -- Lua and binary libraries
-    /cgilua
-    /socket
-    /xavante
-  $XAVANTE_WEB          -- Xavante default HTTP documents
-    /doc        -- Xavante documentation
-    /img        -- Xavante images
-</pre>
-
-<p>The distributed source of Xavante can be copied to the
-<code>$XAVANTE_BIN</code> directory together with Lua and the other binary
-libraries.</p>
-
-<p>The file <code>t_xavante_start.lua</code> is a template for the startup
-file. You could redefine it to something like the example below and then
-rename it to <code>xavante_start.lua</code>.</p>
-<pre class="example">
--- Library extension for the platform used
-local LIB_EXT      = [[.dll]]
-
--- Physical location of Xavante file structure. The default structure assumes
--- that the bin, conf and web directories are under the same directory
-local XAVANTE_HOME = [[C:/Xavante]]
-local XAVANTE_BIN  = XAVANTE_HOME..[[/bin]]  -- used by require
-local XAVANTE_CONF = XAVANTE_HOME..[[/conf]] -- configuration files
-local XAVANTE_WEB  = XAVANTE_HOME..[[/web]]  -- documents and scripts
-
--- compatibility code for Lua version 5.0 providing 5.1 behavior
-if string.find (_VERSION, "Lua 5.0") and not package then
-	if not LUA_PATH then
-		LUA_PATH = XAVANTE_CONF.."/?.lua;"..XAVANTE_BIN.."/?.lua;"..XAVANTE_BIN.."/?/?.lua"
-	end
-	require"compat-5.1"
-	package.cpath = XAVANTE_BIN.."/?"..LIB_EXT..";"..
-	                XAVANTE_BIN.."/lib?"..LIB_EXT
-end
-
-require "xavante.server"
-
-xavante.setwebdir(XAVANTE_WEB)
-
--------------------------------------------------------------------------------
--- Loads the configuration file and starts Xavante
--------------------------------------------------------------------------------
-xavante.start()
-</pre>
-
-<p>The file <code>$XAVANTE_BIN/xavante/config.lua</code> defines the
-Xavante configuration. Xavante defines <em>virtualhosts</em> for each site running.
-Each virtualhost can define a set of <em>rules</em> for it.
-Each rule matches a <em>URL pattern</em> to a handler.
-Xavante currently offers a <strong>file handler</strong>, a <strong>redirect
-handler</strong> and a <strong>CGILua handler</strong> for general files, URL
-remapping and CGILua scripts.</p>
-
-<p>If LUA_PATH uses the optional <code>$XAVANTE_CONF</code> directory, Xavante
-configuration can be redefined using the <code>$XAVANTE_CONF/xavante/config.lua</code>
-file. If it does not exist, Xavante loads the default
-<code>$XAVANTE_BIN/xavante/config.lua</code> file.</p>
-
-<p>A tipical <code>config.lua</code> uses the format below</p>
-<pre class="example">
-require "xavante.filehandler"
-require "xavante.cgiluahandler"
-require "xavante.redirecthandler"
-
-local simplerules = {
-    -- URL remapping example
-    {match = "/", with = xavante.redirecthandler, params = {"/index.lp"}}, 
-    -- filehandler example
-    {match = "/*", with = xavante.filehandler, params = {baseDir = xavante.webdir()}},
-    -- cgiluahandler example
-    {match = {"/*.lp", "/*.lua"},  with = xavante.cgiluahandler.makeHandler (xavante.webdir())},
-}
-
-xavante.HTTP{
-    server = {host = "*", port = 80},
-    
-    defaultHost = {
-    	rules = simplerules
-    },
-}</pre>
-<p>To use virtual hosts with Xavante, the call to <code>xavante.HTTP</code>
-must be changed to something like</p>
-
-<pre class="example">
-xavante.HTTP{
-    server = {host = "*", port = 80},
-    
-    defaultHost = {
-    },
-    
-    virtualhosts = {
-        ["www.sitename.com"] = simplerules
-    }
-}</pre>
-
-<a name="running"></a>
-<h2>Running Xavante</h2>
-<p>Running Xavante requires the execution of <code>xavante_start.lua</code>. This can
-be done through a <code>.bat</code> file in Windows, or by giving execution rights to
-it on Linux.</p>
-
-<p>Remember that <code>xavante_start.lua</code> is the configured version of 
-<code>t_xavante_start.lua</code> and if you are installing Xavante from the source
-files you should edit it first.</p>
-
-<p>After calling <code>xavante_start.lua</code>, opening the URL
-<code>http://localhost</code> on your browser should show the Xavante welcome page.
-If you changed the port number on <code>config.lua</code> you should also use this
-port number in the URL.</p>
-
-<a name="credits"></a>
-<h2>Credits</h2>
+<h2><a name="credits">Credits</a></h2>
 
 <p>Xavante 1.1 was redesigned and implemented by Javier Guerra and Andr&eacute; Carregal. It
 merged Javier's work with luahttpd and Andr&eacute;'s work with Copas and Xavante 1.0.
@@ -221,15 +111,22 @@ contributions from Renato Crivano and Danilo Tuler. Xavante 1.0 development was
 sponsored by <a href="http://www.fabricadigital.com.br">F&aacute;brica Digital</a>
 and <a href="http://www.hands.com.br">Hands</a>.</p>
 
-<p>The CSS for Kepler documentation is courtesy of Diego Nehab.</p>
-
-<h2>Contact us</h2>
+<h2><a name="contact">Contact us</a></h2>
 <p>For more information please <a
  href="mailto:info-NO-SPAM-THANKS@keplerproject.org">contact us</a>.
 Comments are welcome!</p>
-<hr>
-<small>
-$Id: index.html,v 1.9 2005/03/11 03:18:39 carregal Exp $
-</small>
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+	<p><small>
+	$Id: index.html,v 1.10 2005/03/15 21:23:12 carregal Exp $
+	</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
 </body>
 </html>
