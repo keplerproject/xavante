@@ -13,25 +13,9 @@ require "xavante.mime"
 
 _mimetypes = {}
 
---[[
-local function readmimefile (filename)
-	mimetypes = {}
-	for line in io.lines (filename) do
-		if line ~= "" and not string.find (line, "^%s*#") then
-			local _,_,mtyp, exts = string.find (line, "^%s*(%S+)%s+(.*)$")
-			if (mtyp and exts) then
-				for ext in string.gfind (exts, "%S+") do
-					mimetypes [ext] = mtyp
-				end
-			end
-		end
-	end
-	
-	return mimetypes
-end
---]]
-
-local function filehandler (req, res, docroot)
+local function filehandler (req, res, params)
+    params = params or {}
+    local docroot = params.baseDir
 	local path = docroot .. url.unescape (req.parsed_url.path)
 	
 	local _,_,exten = string.find (path, "%.([^.]*)$")
@@ -63,9 +47,9 @@ local function filehandler (req, res, docroot)
 end
 
 
-function makeHandler (diskPath)
+function makeHandler (params)
 	return function (req, res)
-		return filehandler (req, res, diskPath)
+		return filehandler (req, res, params)
 	end
 end
 

@@ -18,16 +18,19 @@
 require "xavante.filehandler"
 require "xavante.cgiluahandler"
 
+local webdir = xavante.webdir()
+local file = xavante.filehandler
+local xcgi = xavante.cgiluahandler.makeHandler (webdir)
+
 xavante.register{
   server = {host = "*", port = 80},
   virtualhosts = {
     localhost = {
-      defaultPages = {"index.html", "index.lp", "index.lua"},
-      rules = {
-        {match = "/", handler = xavante.filehandler.makeHandler (xavante.webdir())},
-        {match = "/*.lp", handler = xavante.cgiluahandler.makeHandler (xavante.webdir())},
-        {match = "/*.lua", handler = xavante.cgiluahandler.makeHandler (xavante.webdir())},
-      },
+        defaultPages = {"index.html", "index.lp", "index.lua"}, -- not used yet
+        rules = {
+            {match = "/", with = file, params = {baseDir = webdir}},
+            {match = {"/*.lp", "/*.lua"},  with = xcgi},
+        },
     }, -- localhost
   }, -- virtualhosts
 }

@@ -35,7 +35,19 @@ function register(config)
   xavante.httpd.register(config.server.host, config.server.port, _NAME.."/".._VERSION)
   for hostname, host in pairs(config.virtualhosts) do
     for _, rule in ipairs(host.rules) do
-        httpd.addHandler (nil, rule.match, rule.handler)
+        local handler
+        if rule.params then
+            handler = rule.with.makeHandler(rule.params)
+        else
+            handler = rule.with
+        end
+        local match = rule.match
+        if type(rule.match) == "string" then
+            match = {rule.match}
+        end
+        for _, mask in ipairs(match) do
+            httpd.addHandler (nil, mask, handler)
+        end
     end
   end
 end

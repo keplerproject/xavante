@@ -42,20 +42,6 @@ local function set_api (req, res)
 	return SAPI
 end
 
----------------------------------------------------------------------
--- Trying to load and execute the "mainscript".
-
--- compatibility code for Lua version 5.0 providing 5.1 behavior
---[[if string.find (_VERSION, "Lua 5.0") and not package then
-	if not LUA_PATH then
-		local cgilua_luadir = [[LUA_DIR]]
-		LUA_PATH = cgilua_luadir.."/?.lua;"..cgilua_luadir.."/?/?.lua"
-	end
-	require"compat-5.1"
-	local cgilua_libdir = [[LUA_LIBDIR]]
-	package.cpath = cgilua_libdir.."/?LIB_EXT;"..cgilua_libdir.."/lib?LIB_EXT"
-end
---]]
 require "venv"
 require "lfs"
 require "helper"
@@ -102,8 +88,8 @@ end
 
 set_api ()
 
-function makeHandler (diskPath)
+function makeHandler (diskpath)
 	return function (req, res)
-		return cgiluahandler (req, res, diskPath)
+		return cgiluahandler (req, res, diskpath)
 	end
 end
