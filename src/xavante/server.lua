@@ -46,7 +46,7 @@ end
 -- Starts the server
 -------------------------------------------------------------------------------
 function start()
-  require "xavante.conf"
+  require "xavante.config"
   copas.loop()
 end
 
