@@ -17,12 +17,12 @@
 -------------------------------------------------------------------------------
 require "xavante.filehandler"
 require "xavante.cgiluahandler"
-require "xavante.redirect"
+require "xavante.redirecthandler"
 
 local webdir = xavante.webdir()
 local file = xavante.filehandler
 local xcgi = xavante.cgiluahandler.makeHandler (webdir)
-local redirect = xavante.redirect
+local redirect = xavante.redirecthandler
 
 xavante.HTTP{
     server = {host = "*", port = 80},
