@@ -21,7 +21,7 @@ require "xavante.redirecthandler"
 
 local simplerules = {
     -- URL remapping example
-    {match = "/", with = xavante.redirecthandler, params = {"/index.lp"}}, 
+    {match = "/", with = xavante.redirecthandler, params = {"index.lp"}}, 
     -- filehandler example
     {match = "/*", with = xavante.filehandler, params = {baseDir = xavante.webdir()}},
     -- cgiluahandler example
