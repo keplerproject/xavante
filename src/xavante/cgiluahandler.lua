@@ -70,11 +70,6 @@ local function set_cgivars (req, diskpath)
 	for n,v in pairs (req.headers) do
 		req.cgivars ["HTTP_"..string.gsub (string.upper (n), "-", "_")] = v
 	end
-	
---	print ("cgivars:")
---	for k,v in pairs (req.cgivars) do
---		print (k,v)
---	end
 end
 
 local function cgiluahandler (req, res, diskpath)

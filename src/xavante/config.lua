@@ -17,28 +17,26 @@
 -------------------------------------------------------------------------------
 require "xavante.filehandler"
 require "xavante.cgiluahandler"
+require "xavante.redirect"
 
 local webdir = xavante.webdir()
 local file = xavante.filehandler
 local xcgi = xavante.cgiluahandler.makeHandler (webdir)
+local redirect = xavante.redirect
 
 xavante.HTTP{
     server = {host = "*", port = 80},
     
     defaultHost = {
         rules = {
-            {match = "/", with = file, params = {baseDir = webdir}},
+            {match = "/", with = redirect, params = {"/default.lp"}}, 
+            {match = "/*", with = file, params = {baseDir = webdir}},
             {match = {"/*.lp", "/*.lua"},  with = xcgi},
         },
     },
     
     virtualhosts = {
         --localhost = {
-        --    defaultPages = {"index.html", "index.lp", "index.lua"}, -- not used yet
-        --    rules = {
-        --        {match = "/", with = file, params = {baseDir = webdir}},
-        --        {match = {"/*.lp", "/*.lua"},  with = xcgi},
-        --    },
         --}, -- localhost
     }, -- virtualhosts
 }

@@ -32,8 +32,10 @@ local function _addRules(rules, hostname)
         local handler
         if type (rule.with) == "function" then
             handler = rule.with
-        else
+        elseif type (rule.with) == "table" then
             handler = rule.with.makeHandler(rule.params)
+        else
+            error("Error on config.lua. The rule has an invalid 'with' field.")
         end
         local match = rule.match
         if type(match) == "string" then
@@ -44,6 +46,7 @@ local function _addRules(rules, hostname)
         end
     end
 end
+
 -------------------------------------------------------------------------------
 -- Register the server configuration
 -------------------------------------------------------------------------------

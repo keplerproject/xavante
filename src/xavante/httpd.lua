@@ -14,13 +14,6 @@ module ("httpd")
 local _serversoftware = ""
 
 local vhosts = {}
---local path_handler = {}
-
-function sh_t (t)
-	for k,v in pairs (t) do
-		print (k,v)
-	end
-end
 
 function strsplit (str)
 	local words = {}
@@ -32,34 +25,12 @@ function strsplit (str)
 	return words
 end
 
---[[
-do
-	local envtable = {}
-	local env_l = thread.newmutex ()
-	
-	-- returns a 'connection' table, tied to the thread
-	-- user is free to modify it, but only from the 'owning' thread
-	function cur_conn ()
-		local id = thread.id ()
-		env_l:lock ()
-		local conn = envtable [id]
-		if not conn then
-			conn = {}
-			envtable [id] = conn
-		end
-		env_l:unlock ()
-		return conn
-	end
-end
-
---]]
 
 -- Manages one connection, maybe several requests
 -- params:
 --		skt : client socket
 
 function connection (skt)
---	print ("strt skt:", skt)
 	local req = {
 		rawskt = skt,
 		copasskt = copas.wrap (skt),
@@ -69,12 +40,12 @@ function connection (skt)
     req.serversoftware = _serversoftware
 --	local conn = cur_conn ()
 --	conn.req = req
-	
 	while read_method (req) do
+        local res
 		read_headers (req)
 		repeat
 			parse_url (req)
-			local res = make_response (req)
+			res = make_response (req)
 --			conn.res = res
 		until handle_request (req, res) ~= "reparse"
 		send_response (req, res)
@@ -84,9 +55,6 @@ function connection (skt)
 			break
 		end
 	end
-	
---	print ("end skt:", skt)
---	skt:close ()
 end
 
 -- gets and parses the request line
@@ -192,7 +160,10 @@ function parse_url (req)
 	local h, set
 	for p in path_iterator (path) do
 		h = hosthandlers [p]
-		if h then break end
+		if h then
+            req.match = p
+            break
+        end
 	end
 	
 	req.handler = h
@@ -259,7 +230,6 @@ function send_res_data (res, data)
 	if not res.sent_headers then
 		send_res_headers (res)
 	end
-	
 	res.socket:send (data)
 end
 
