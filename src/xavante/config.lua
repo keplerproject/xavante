@@ -22,7 +22,7 @@ local webdir = xavante.webdir()
 local file = xavante.filehandler
 local xcgi = xavante.cgiluahandler.makeHandler (webdir)
 
-xavante.register{
+xavante.HTTP{
   server = {host = "*", port = 80},
   virtualhosts = {
     localhost = {
