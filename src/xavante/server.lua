@@ -30,10 +30,10 @@ local _defaulthost = "localhost"
 local function _addRules(rules, hostname)
     for _, rule in ipairs(rules) do
         local handler
-        if rule.params then
-            handler = rule.with.makeHandler(rule.params)
-        else
+        if type (rule.with) == "function" then
             handler = rule.with
+        else
+            handler = rule.with.makeHandler(rule.params)
         end
         local match = rule.match
         if type(match) == "string" then
