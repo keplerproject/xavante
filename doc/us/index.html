@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+  <title>Xavante 1.0</title>
+  <link rel="stylesheet" href="reference.css" type="text/css">
+</head>
+
+<body style="background-color: rgb(255, 255, 255);">
+<center>
+<table border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td align="center"><a href="http://www.keplerproject.org"><img
+ alt="Xavante" src="/img/xavante.gif" border="0"></a> </td>
+    </tr>
+    <tr>
+      <td align="center"><big><b>Xavante 1.0</b></big> </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top">A CGILua Web Server</td>
+    </tr>
+  </tbody>
+</table>
+</center>
+<hr>
+<h2>Contents</h2>
+<ul>
+  <li><a href="#over">Overview<br></a></li>
+  <li><a href="#version">Current Version</a></li>
+  <li><a href="#download">Download</a></li>
+  <li><a href="#new">What's new</a></li>
+  <li><a href="#components">Component Dependencies</a></li>
+  <li><a href="#portability">Portability</a></li>
+  <li><a href="#config">Installation and configuration</a></li>
+  <li><a href="#running">Running Xavante</a></li>
+  <li><a href="#credits">Credits</a></li>
+  <li><a href="#contact">Contact us</a></li>
+</ul>
+
+<a name="over"></a>
+<h2>Overview</h2>
+<p>Xavante is a Lua Web server that handles HTTP 1.0 requests and
+uses <a href="http://www.keplerproject.org/cgilua">CGILua 5.0</a> as the native
+template engine.</p>
+<p>Xavante is free software and uses the same <a href="license.html">license</a>
+as Lua 5.0.
+</p>
+
+<a name="version"></a>
+<h2>Current version</h2>
+<p>Current version is 1.0 beta 8.
+</p>
+
+<a name="download"></a>
+<h2>Download</h2>
+<p>Xavante can be downloaded in source code from the
+<a href="http://luaforge.net/project/showfiles.php?group_id=6">LuaForge</a>
+page</p>
+
+<a name="new"></a>
+<h2>What's new</h2>
+<ul>
+  <li>[19/Jan/2005] Version 1.0 beta 8 released</li>
+    <ul>
+      <li>First public release</li>
+      <li>Includes CGILua 5.0 Beta 2</li>
+    </ul>
+</ul>
+
+
+<a name="components"></a>
+<h2>Component Dependencies</h2>
+
+<p>Xavante depends on the following libraries:</p>
+<ul>
+  <li><a href="http://www.lua.org">Lua 5</a> (it was tested with versions 5.0 through 5.0.2)</li>
+  <li><a href="http://www.keplerproject.org/compat">Compat-5.1</a></li>
+  <li><a href="http://www.keplerproject.org/lualogging">LuaLogging</a></li>
+  <li><a href="http://www.keplerproject.org/venv">VEnv</a></li>
+  <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem</a></li>
+  <li><a href="http://www.tecgraf.puc-rio.br/luasocket/">LuaSocket 2.0 Beta 3</a></li>
+  <li><a href="http://www.keplerproject.org/cgilua">CGILua 5.0</a></li>
+</ul>
+
+<a name="portability"></a>
+<h2>Portability</h2>
+
+<p>The portability of Xavante is determined by the C part of Lua,
+LuaFileSystem and LuaSocket, the other components are Lua only. LuaFileSystem
+can also be ported to Lua for increased portability.</p>
+
+<a name="config"></a>
+<h2>Installation and configuration</h2>
+
+<p>The default directory structure for Xavante is:</p>
+<pre class="example">
+/
+  /bin          -- Lua and binary libraries
+    /cgilua
+    /logging
+    /socket
+    /xavante
+  /conf
+    /xavante    -- configuration
+  /log          -- log files
+  /web          -- Xavante default HTTP documents
+    /doc        -- Xavante documentation
+    /img        -- Xavante images
+</pre>
+
+<p>The distributed source of Xavante can be copied to the <code>/bin</code>
+directory together with Lua and the binary libraries. The <code>/bin</code>
+directory also should have the following Lua libraries:
+<pre class="example">
+  compat-5.1.lua
+  stable.lua
+  venv.lua
+</pre>
+
+<p>The file <code>/bin/xavante/conf.lua</code> defines the Xavante
+configuration. Xavante defines <em>virtualhosts</em> for each site running.
+Each virtualhost can define a set of <em>aliases</em> within it.
+Each alias maps a <em>virtual directory</em> to a physical path, using a
+default page when the URL does not specify one.
+If the alias does not define a default page, the virtualhost default page is
+used. Each virtualhost can define the </em>handlers</em> for specific file
+extensions. Xavante currently offers a <strong>fileHandler</strong> and
+a <strong>CGILuaHandler</strong> for general files and CGILua scripts and
+templates.</p>
+
+<p>If LUA_PATH is correctly set, Xavante configuration can be redefined on the
+default file structure by the optional <code>/conf/xavante/conf.lua</code>
+file. If it does not exist, Xavante loads the default
+<code>/bin/xavante/conf.lua</code> file.</p>
+
+<p>A tipical <code>conf.lua</code> uses the format below</p>
+<pre class="example">
+xavante.register{
+  connection = {host = "*", port = 8899, timeout = 0},
+
+  logfile = xavante.logdir().."/xavante.log"),
+
+  virtualhosts = {
+    localhost = {
+      defaultPage = "index.html",
+      handlers = {
+        html = {contentType = "text/html"  , handler = xavante.fileHandler},
+        htm  = {contentType = "text/html"  , handler = xavante.fileHandler},
+        txt  = {contentType = "text/plain" , handler = xavante.fileHandler},
+        gif  = {contentType = "image/gif"  , handler = xavante.fileHandler},
+        jpg  = {contentType = "image/jpeg" , handler = xavante.fileHandler},
+        lua  = {nil                        , handler = xavante.CGILuaHandler},
+        lp   = {nil                        , handler = xavante.CGILuaHandler},
+      },
+      aliases = {
+        {alias = "/"    , path = xavante.homedir().."/web/", defaultPage = "default.lp"},
+      },
+    }, -- localhost
+  }, -- virtualhosts
+}
+</pre>
+
+<a name="running"></a>
+<h2>Running Xavante</h2>
+<p>The distribution includes a <code>xavante_start.bat</code> for Windows and
+a <code>xavante_start</code> script for Unix. Calling it starts Xavante and
+opening <code>http://localhost:8899</code> displays the welcome page.</p>
+
+<a name="credits"></a>
+<h2>Credits</h2>
+<p>Xavante 1.0 was designed and implemented by Andr&eacute; Carregal as part of
+the <a href="http://www.keplerproject.org">Kepler Project</a> with
+contributions from Renato Crivano and Danilo Tuler. The CSS for this
+documentation is courtesy of Diego Nehab.</p>
+
+<p>Xavante 1.0 development was sponsored by <a
+ href="http://www.fabricadigital.com.br">F&aacute;brica Digital</a> and
+<a href="http://www.hands.com.br">Hands</a>.</p>
+
+<h2>Contact us</h2>
+<p>For more information please <a
+ href="mailto:info-NO-SPAM-THANKS@keplerproject.org">contact us</a>.
+Comments are welcome!</p>
+<hr>
+<small>
+$Id: index.html,v 1.1 2005/02/20 19:14:16 carregal Exp $
+</small>
+</body>
+</html>
