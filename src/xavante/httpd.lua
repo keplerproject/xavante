@@ -12,6 +12,7 @@ xpcall = coxpcall
 module ("httpd")
 
 local _serversoftware = ""
+local _serverport = ""
 
 local vhosts = {}
 
@@ -154,6 +155,7 @@ function parse_url (req)
 	local def_url = string.format ("http://%s%s", req.headers.Host, req.cmd_url)
 	
 	req.parsed_url = url.parse (def_url)
+	req.parsed_url.port = req.parsed_url.port or _serverport
 	req.built_url = url.build (req.parsed_url)
 	
 	local path = req.parsed_url.path
@@ -298,6 +300,7 @@ end
 function register (host, port, serversoftware)
 	local _server = assert(socket.bind(host, port))
     _serversoftware = serversoftware
+    _serverport = port
 	copas.addserver(_server, connection)
 end
 
