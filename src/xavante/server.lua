@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
 -- Xavante main module
 --
--- Handles HTTP 1.0 requests and responses, uses CGILua as the native
--- template engine.
+-- Handles HTTP 1.1 requests and responses with Copas
+-- Uses CGILua as native template engine.
 --
--- See xavante/xavante.conf for configuration details.
+-- See xavante/config.lua for configuration details.
 --
--- Author: Andre Carregal (carregal@keplerproject.org)
+-- Author: Andre Carregal, Javier Guerra
 -- Copyright (c) 2004-2005 Kepler Project
 -------------------------------------------------------------------------------
 module ("xavante")
@@ -16,8 +16,6 @@ require "coxpcall"
 
 pcall  = copcall
 xpcall = coxpcall
-
-require "venv"
 
 require "xavante.httpd"
 
