@@ -5,9 +5,6 @@
 -- HTTPEngine, work over Copas
 -----------------------------------------------------------------------------
 local url = require "socket.url"
-require "coxpcall"
-pcall  = copcall
-xpcall = coxpcall
 
 module ("httpd")
 
@@ -38,15 +35,12 @@ function connection (skt)
 	req.socket = req.copasskt
 
     req.serversoftware = _serversoftware
---	local conn = cur_conn ()
---	conn.req = req
 	while read_method (req) do
         local res
 		read_headers (req)
 		repeat
 			parse_url (req)
 			res = make_response (req)
---			conn.res = res
 		until handle_request (req, res) ~= "reparse"
 		send_response (req, res)
 		

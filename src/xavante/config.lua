@@ -19,24 +19,19 @@ require "xavante.filehandler"
 require "xavante.cgiluahandler"
 require "xavante.redirecthandler"
 
-local webdir = xavante.webdir()
-local file = xavante.filehandler
-local xcgi = xavante.cgiluahandler.makeHandler (webdir)
-local redirect = xavante.redirecthandler
+local simplerules = {
+    -- URL remapping example
+    {match = "/", with = xavante.redirecthandler, params = {"/index.lp"}}, 
+    -- filehandler example
+    {match = "/*", with = xavante.filehandler, params = {baseDir = xavante.webdir()}},
+    -- cgiluahandler example
+    {match = {"/*.lp", "/*.lua"},  with = xavante.cgiluahandler.makeHandler (xavante.webdir())},
+}
 
 xavante.HTTP{
     server = {host = "*", port = 80},
     
     defaultHost = {
-        rules = {
-            {match = "/", with = redirect, params = {"/default.lp"}}, 
-            {match = "/*", with = file, params = {baseDir = webdir}},
-            {match = {"/*.lp", "/*.lua"},  with = xcgi},
-        },
+    	rules = simplerules
     },
-    
-    virtualhosts = {
-        --localhost = {
-        --}, -- localhost
-    }, -- virtualhosts
 }

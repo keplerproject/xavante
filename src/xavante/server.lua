@@ -25,8 +25,6 @@ _DESCRIPTION = "A coroutine based Lua HTTP server with CGILua support"
 _NAME        = "Xavante"
 _VERSION     = "1.1 Beta"
 
-local _defaulthost = "localhost"
-
 local function _addRules(rules, hostname)
     for _, rule in ipairs(rules) do
         local handler
@@ -51,13 +49,17 @@ end
 -- Register the server configuration
 -------------------------------------------------------------------------------
 function HTTP(config)
+    -- normalizes the configuration
     config.server = config.server or {host = "*", port = 80}
+    
     xavante.httpd.register(config.server.host, config.server.port, _NAME.."/".._VERSION)
     if config.defaultHost then
         _addRules(config.defaultHost.rules, "_")
     end
-    for hostname, host in pairs(config.virtualhosts) do
-        _addRules(host.rules, hostname)
+    if type(config.virtualhosts) == "table" then
+        for hostname, host in pairs(config.virtualhosts) do
+            _addRules(host.rules, hostname)
+        end
     end
 end
 
@@ -65,8 +67,11 @@ end
 -- Starts the server
 -------------------------------------------------------------------------------
 function start()
-  require "xavante.config"
-  copas.loop()
+    local res, err = pcall(require, "xavante.config")
+    if not res then
+        error("Error loading config.lua", err)
+    end
+    copas.loop()
 end
 
 -------------------------------------------------------------------------------
