@@ -31,6 +31,7 @@ end
 --		skt : client socket
 
 function connection (skt)
+	skt:setoption ("tcp-nodelay", true)
 	local req = {
 		rawskt = skt,
 		copasskt = copas.wrap (skt),
@@ -80,23 +81,25 @@ end
 -- sets:
 --		req.headers: table of header fields, as name => value
 function read_headers (req)
-	req.headers = req.headers or {}
-	
+	local headers = {}
 	local prevname
 	
 	while 1 do
 		local l,err = req.socket:receive ()
-		if (not l or l == "") then return end
+		if (not l or l == "") then
+			req.headers = headers
+			return
+		end
 		local _,_, name, value = string.find (l, "^([^: ]+)%s*:%s*(.+)")
 		if name then
-			prevval = req.headers [name]
+			prevval = headers [name]
 			if prevval then
 				value = prevval .. "," .. value
 			end
-			req.headers [name] = value
+			headers [name] = value
 			prevname = name
 		elseif prevname then
-			req.headers [prevname] = req.headers [prevname] .. l
+			headers [prevname] = headers [prevname] .. l
 		end
 	end
 end
@@ -250,16 +253,19 @@ function send_response (req, res)
 				res.headers["Content-Length"] = string.len (res.content)
 			end
 		end
-		
-		send_res_data (res, res.content)
 	end
 	
 	if (res.headers ["Content-Length"]) and
 		req.headers ["Connection"] == "Keep-Alive"
 	then
+		res.headers ["Connection"] = "Keep-Alive"
 		res.keep_alive = true
 	else
 		res.keep_alive = nil
+	end
+	
+	if res.content then
+		send_res_data (res, res.content)
 	end
 end
 
