@@ -5,6 +5,9 @@
 -- Copyright (c) 2004-2005 Kepler Project
 -----------------------------------------------------------------------------
 local url = require "socket.url"
+require "coxpcall"
+pcall  = copcall
+xpcall = coxpcall
 
 module ("httpd")
 
