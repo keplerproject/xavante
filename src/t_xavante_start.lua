@@ -2,10 +2,9 @@
 -------------------------------------------------------------------------------
 -- Starts the Xavante Web server.
 --
--- See xavante/xavante.conf for configuration details.
+-- See /bin/xavante/config.lua for configuration details.
 --
--- Author: Andre Carregal and Javier Guerra
---
+-- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2005 Kepler Project
 -------------------------------------------------------------------------------
 
@@ -14,7 +13,6 @@
 local XAVANTE_HOME = [[XAVANTE_HOME]]
 local XAVANTE_BIN  = [[XAVANTE_BIN]]  -- used by require
 local XAVANTE_CONF = [[XAVANTE_CONF]] -- configuration files
-local XAVANTE_LOGS = [[XAVANTE_LOGS]]  -- log files
 local XAVANTE_WEB  = [[XAVANTE_WEB]]  -- documents and scripts
 
 -- compatibility code for Lua version 5.0 providing 5.1 behavior
