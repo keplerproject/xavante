@@ -1,3 +1,10 @@
+-----------------------------------------------------------------------------
+-- Xavante MIME types
+--
+-- Authors: Javier Guerra and Andre Carregal
+-- Copyright (c) 2004-2005 Kepler Project
+-----------------------------------------------------------------------------
+
 -- Extracted from Apache's mime.types
 -- This file controls what Internet media types are sent to the client for
 -- given file extension(s).  Sending the correct media type to the client
