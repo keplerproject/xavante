@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!doctype html public "-//W3C//DTD HTML 3.2//EN">
 <html>
 <head>
     <title>The Xavante Lua Web Server</title>
@@ -79,42 +79,39 @@ page</p>
   <li><a href="http://www.lua.org">Lua 5</a> (it was tested with versions 5.0 through 5.0.2)</li>
   <li><a href="http://www.keplerproject.org/cgilua">CGILua 5.0</a></li>
   <li><a href="http://www.keplerproject.org/compat">Compat-5.1</a></li>
-  <li><a href="http://www.keplerproject.org/copas">Copas</a></li>
-  <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem</a></li>
-  <li><a href="http://www.tecgraf.puc-rio.br/luasocket/">LuaSocket 2.0 Beta 3</a></li>
-  <li><a href="http://www.keplerproject.org/venv">VEnv</a></li>
+  <li><a href="http://www.keplerproject.org/copas">Copas 1.0</a></li>
+  <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.0</a></li>
+  <li><a href="http://www.tecgraf.puc-rio.br/luasocket/">LuaSocket 2.0</a></li>
+  <li><a href="http://www.keplerproject.org/venv">VEnv 1.0</a></li>
 </ul>
 
 <a name="portability"></a>
 <h2>Portability</h2>
 
-<p>The portability of Xavante is determined by the C part of Lua,
-LuaFileSystem and LuaSocket, the other components are Lua only. LuaFileSystem
-can also be written in Lua for increased portability.</p>
+<p>The portability of Xavante is determined by LuaFileSystem and LuaSocket.
+LuaFileSystem can also be rewritten in Lua for increased portability.</p>
 
 <a name="config"></a>
 <h2>Installation and configuration</h2>
 
 <p>The default directory structure for Xavante is:</p>
 <pre class="example">
-/
-  /bin          -- Lua and binary libraries
+  $XAVANTE_BIN          -- Lua and binary libraries
     /cgilua
     /socket
     /xavante
-  /conf
-    /xavante    -- configuration
-  /web          -- Xavante default HTTP documents
+  $XAVANTE_WEB          -- Xavante default HTTP documents
     /doc        -- Xavante documentation
     /img        -- Xavante images
 </pre>
 
-<p>The distributed source of Xavante can be copied to the <code>/bin</code>
-directory together with Lua and the binary libraries.</p>
+<p>The distributed source of Xavante can be copied to the
+<code>$XAVANTE_BIN</code> directory together with Lua and the other binary
+libraries.</p>
 
-<p>The file <code>t_xavante_start.lua</code> is a template for the startup file. A 
-user could redefine it to something like the example below and then rename it to
-<code>xavante_start.lua</code></p>
+<p>The file <code>t_xavante_start.lua</code> is a template for the startup
+file. You could redefine it to something like the example below and then
+rename it to <code>xavante_start.lua</code>.</p>
 <pre class="example">
 -- Library extension for the platform used
 local LIB_EXT      = [[.dll]]
@@ -146,17 +143,18 @@ xavante.setwebdir(XAVANTE_WEB)
 xavante.start()
 </pre>
 
-<p>The file <code>/bin/xavante/config.lua</code> defines the Xavante
-configuration. Xavante defines <em>virtualhosts</em> for each site running.
+<p>The file <code>$XAVANTE_BIN/xavante/config.lua</code> defines the
+Xavante configuration. Xavante defines <em>virtualhosts</em> for each site running.
 Each virtualhost can define a set of <em>rules</em> for it.
 Each rule matches a <em>URL pattern</em> to a handler.
-Xavante currently offers a <strong>file handler</strong>, a <strong>redirect handler</strong> and
-a <strong>CGILua handler</strong> for general files, URL remapping and CGILua scripts.</p>
+Xavante currently offers a <strong>file handler</strong>, a <strong>redirect
+handler</strong> and a <strong>CGILua handler</strong> for general files, URL
+remapping and CGILua scripts.</p>
 
-<p>If LUA_PATH is correctly set, Xavante configuration can be redefined on the
-default file structure by the optional <code>/conf/xavante/config.lua</code>
+<p>If LUA_PATH uses the optional <code>$XAVANTE_CONF</code> directory, Xavante
+configuration can be redefined using the <code>$XAVANTE_CONF/xavante/config.lua</code>
 file. If it does not exist, Xavante loads the default
-<code>/bin/xavante/config.lua</code> file.</p>
+<code>$XAVANTE_BIN/xavante/config.lua</code> file.</p>
 
 <p>A tipical <code>config.lua</code> uses the format below</p>
 <pre class="example">
@@ -197,16 +195,22 @@ xavante.HTTP{
 
 <a name="running"></a>
 <h2>Running Xavante</h2>
-<p>Running Xavante requires the execution of <code>xavante_start.lua</code>. This can be done
-through a bat file in Windows, or by giving execution rights to it on Linux. Remember that
-<code>xavante_start.lua</code> is the configured version of <code>t_xavante_start.lua</code>
-and if you are installing Xavante from the source files you should edit it first.</p>
-<p>After calling <code>xavante_start.lua</code>, opening the URL <code>http://localhost</code>
-should show the Xavante welcome page. If you changed the port number on <code>config.lua</code>
-you should also use this number on the URL.</p>
+<p>Running Xavante requires the execution of <code>xavante_start.lua</code>. This can
+be done through a <code>.bat</code> file in Windows, or by giving execution rights to
+it on Linux.</p>
+
+<p>Remember that <code>xavante_start.lua</code> is the configured version of 
+<code>t_xavante_start.lua</code> and if you are installing Xavante from the source
+files you should edit it first.</p>
+
+<p>After calling <code>xavante_start.lua</code>, opening the URL
+<code>http://localhost</code> on your browser should show the Xavante welcome page.
+If you changed the port number on <code>config.lua</code> you should also use this
+port number in the URL.</p>
 
 <a name="credits"></a>
 <h2>Credits</h2>
+
 <p>Xavante 1.1 was redesigned and implemented by Javier Guerra and Andr&eacute; Carregal. It
 merged Javier's work with luahttpd and Andr&eacute;'s work with Copas and Xavante 1.0.
 luahttpd is now part of Xavante.</p>
@@ -217,8 +221,7 @@ contributions from Renato Crivano and Danilo Tuler. Xavante 1.0 development was
 sponsored by <a href="http://www.fabricadigital.com.br">F&aacute;brica Digital</a>
 and <a href="http://www.hands.com.br">Hands</a>.</p>
 
-<p>Xavante development had significative contributions from David Burgess,
-Diego Nehab and Mike Pall</p>
+<p>The CSS for Kepler documentation is courtesy of Diego Nehab.</p>
 
 <h2>Contact us</h2>
 <p>For more information please <a
@@ -226,7 +229,7 @@ Diego Nehab and Mike Pall</p>
 Comments are welcome!</p>
 <hr>
 <small>
-$Id: index.html,v 1.7 2005/03/06 21:34:19 carregal Exp $
+$Id: index.html,v 1.8 2005/03/07 20:47:57 carregal Exp $
 </small>
 </body>
 </html>
