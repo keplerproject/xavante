@@ -9,7 +9,7 @@
 -------------------------------------------------------------------------------
 
 -- Physical location of Xavante file structure. The default structure assumes
--- that the bin, conf, log and web directories are under the same directory
+-- that the bin, conf and web directories are under the same directory
 local XAVANTE_HOME = [[XAVANTE_HOME]]
 local XAVANTE_BIN  = [[XAVANTE_BIN]]  -- used by require
 local XAVANTE_CONF = [[XAVANTE_CONF]] -- configuration files
