@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.6 2005/03/24 18:13:31 tomas Exp $
+# $Id: Makefile,v 1.7 2005/03/24 18:29:19 tomas Exp $
 
 LUA_DIR= /usr/local/share/lua/5.0
 LUA_LIBDIR= /usr/local/lib/lua/5.0
@@ -53,6 +53,7 @@ dist_dir:
 
 install: $(XAVANTE_START)
 	mkdir -p $(LUA_DIR)
+	cp $(COXPCALL_LUAS) $(LUA_DIR)
 	mkdir -p $(XAVANTE_LUADIR)
 	cp $(XAVANTE_LUAS) $(XAVANTE_LUADIR)
 	mkdir -p $(XAVANTE_BIN)
