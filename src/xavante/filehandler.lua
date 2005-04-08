@@ -13,7 +13,7 @@ module (arg and arg[1])
 
 require "xavante.mime"
 
-_mimetypes = {}
+local _mimetypes = {}
 
 local function filehandler (req, res, params)
 
