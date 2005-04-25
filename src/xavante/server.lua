@@ -61,12 +61,12 @@ end
 -------------------------------------------------------------------------------
 -- Starts the server
 -------------------------------------------------------------------------------
-function start()
+function start(exit_test)
     local res, err = pcall(require, "xavante.config")
     if not res then
         error("Error loading config.lua", err)
     end
-    copas.loop()
+    copas.loop(exit_test)
 end
 
 -------------------------------------------------------------------------------

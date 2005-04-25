@@ -31,4 +31,4 @@ xavante.setwebdir(XAVANTE_WEB)
 -------------------------------------------------------------------------------
 -- Loads the configuration file and starts Xavante
 -------------------------------------------------------------------------------
-xavante.start()
+xavante.start(check_exit)

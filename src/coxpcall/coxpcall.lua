@@ -15,6 +15,7 @@
 -------------------------------------------------------------------------------
 function coxpcall(f, err)
   local co = coroutine.create(f)
+  local arg = arg or {}
   while true do
     local results = {coroutine.resume(co, unpack(arg))}
     local status = results[1]
