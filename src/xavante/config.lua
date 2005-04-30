@@ -30,7 +30,7 @@ local simplerules = {
     {match = {"/*.lp", "/*.lua"},  with = xavante.cgiluahandler.makeHandler (xavante.webdir())},
 
 	-- davhandler example
-	{match = {"/dav/", "/dav/*"}, with = xavante.davhandler, params = xavante.davFileRepository.makeSource {diskPath = "/home/javier/davserver", rootUrl="http://localhost/"}},
+	{match = {"/dav/", "/dav/*"}, with = xavante.davhandler, params = xavante.davFileRepository.makeSource {rootDir = "/home/javier/davserver/", rootUrl="http://localhost/dav/"}},
 }
 
 xavante.HTTP{
