@@ -18,6 +18,8 @@
 require "xavante.filehandler"
 require "xavante.cgiluahandler"
 require "xavante.redirecthandler"
+require "xavante.davhandler"
+require "xavante.davFileRepository"
 
 local simplerules = {
     -- URL remapping example
@@ -26,6 +28,9 @@ local simplerules = {
     {match = "/*", with = xavante.filehandler, params = {baseDir = xavante.webdir()}},
     -- cgiluahandler example
     {match = {"/*.lp", "/*.lua"},  with = xavante.cgiluahandler.makeHandler (xavante.webdir())},
+
+	-- davhandler example
+	{match = {"/dav/", "/dav/*"}, with = xavante.davhandler, params = xavante.davFileRepository.makeSource {diskPath = "/home/javier/davserver", rootUrl="http://localhost/"}},
 }
 
 xavante.HTTP{
