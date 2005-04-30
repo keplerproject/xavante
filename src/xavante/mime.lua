@@ -14,7 +14,7 @@
 -- please read RFC 2045, 2046, 2047, 2048, and 2077.  The Internet media type
 -- registry is at <http://www.iana.org/assignments/media-types/>.
 
-xavante.filehandler.mimetypes {
+xavante.mimetypes = {
   ez = "application/andrew-inset",
   atom = "application/atom+xml",
   hqx = "application/mac-binhex40",

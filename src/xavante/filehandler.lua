@@ -13,8 +13,6 @@ module (arg and arg[1])
 
 require "xavante.mime"
 
-local _mimetypes = {}
-
 local function filehandler (req, res, params)
 
 	if req.cmd_mth ~= "GET" and req.cmd_mth ~= "HEADERS" then
@@ -27,7 +25,7 @@ local function filehandler (req, res, params)
 	
 	local _,_,exten = string.find (path, "%.([^.]*)$")
 	exten = exten or ""
-	local mimetype = _mimetypes [exten]
+	local mimetype = xavante.mimetypes [exten]
 	if mimetype then
 		res.headers ["Content-Type"] = mimetype
 	end
@@ -73,6 +71,6 @@ function makeHandler (params)
 	end
 end
 
-function mimetypes (types)
-    _mimetypes = types
-end
+--function mimetypes (types)
+--    _mimetypes = types
+--end
