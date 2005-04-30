@@ -6,6 +6,7 @@
 
 require "lfs"
 require "xavante.mime"
+require "socket.url"
 
 module (arg and arg[1])
 
@@ -15,8 +16,8 @@ local source = source_mt.__index
 local resource_mt = { __index = {} }
 local resource = resource_mt.__index
 
-function source:getPath ()
-	return self.diskPath
+function source:getRoot ()
+	return self.rootDir
 end
 
 function source:getRootUrl ()
@@ -24,17 +25,26 @@ function source:getRootUrl ()
 end
 
 function source:getResource (path)
-	local attr = lfs.attributes (self.diskPath .. path)
+--	print ("gr:", path)
+	local urlrootpath = self.parsed_rootUrl.path or "/"
+	assert (string.sub (path, 1, string.len (urlrootpath)) == urlrootpath)
+
+	local diskpath = self.rootDir .. string.sub (path, string.len (urlrootpath)+1)
+--	print ("diskpath:", diskpath)
+	local attr = lfs.attributes (diskpath)
 	if not attr then return end
 	
-	return setmetatable ({source = self, path = path, attr = attr}, resource_mt)
+	return setmetatable ({
+		source = self,
+		path = path,
+		diskpath = diskpath,
+		attr = attr
+	}, resource_mt)
 end
 
 local _liveprops = {}
 
 _liveprops["DAV:creationdate"] = function (self)
---	path = self.diskPath .. path
---	local attr = assert (lfs.attributes (path))
 	return os.date ("!%a, %d %b %Y %H:%M:%S GMT", self.attr.change)
 end
 
@@ -64,14 +74,10 @@ end
 --]]
 
 _liveprops["DAV:getlastmodified"] = function (self)
---	path = self.diskPath .. path
---	local attr = assert (lfs.attributes (path))
 	return os.date ("!%a, %d %b %Y %H:%M:%S GMT", self.attr.modification)
 end
 
 _liveprops["DAV:resourcetype"] = function (self)
---	path = self.diskPath .. path
---	local attr = assert (lfs.attributes (path))
 	if self.attr.mode == "directory" then
 		return "<DAV:collection/>"
 	else
@@ -86,12 +92,6 @@ _liveprops["DAV:getcontentlength"] = function (self)
 	return self:getContentSize ()
 end
 
---function source:existResource (path)
---	if lfs.attributes (self.diskPath .. path) then
---		return true
---	end
---end
-
 function resource:getContentType ()
 	local path = self.path
 
@@ -104,18 +104,14 @@ function resource:getContentType ()
 end
 
 function resource:getContentSize ()
---	attr = assert (lfs.attributes (self.diskPath .. path))
 	if self.attr.mode == "file" then
 		return self.attr.size
 	end
 end
 
 function resource:getResourceData ()
---	local path = self.diskPath .. path
-	local path = self.source.diskPath .. self.path
-
 	local function gen ()
-		local f = io.open (path, "rb")
+		local f = io.open (self.diskpath, "rb")
 		if not f then
 			return
 		end
@@ -136,7 +132,8 @@ end
 function resource:getItems (depth)
 	local gen
 	local path = self.path
-	local diskPath = self.source.diskPath
+	local diskpath = self.diskpath
+	local rootdir = self.source.rootDir
 
 	if depth == "0" then
 		gen = function () coroutine.yield (self) end
@@ -144,10 +141,13 @@ function resource:getItems (depth)
 	elseif depth == "1" then
 		gen = function ()
 				if self.attr.mode == "directory" then
+					if string.sub (diskpath, -1) ~= "/" then
+						diskpath = diskpath .."/"
+					end
 					if string.sub (path, -1) ~= "/" then
 						path = path .."/"
 					end
-					for entry in lfs.dir (diskPath .. path) do
+					for entry in lfs.dir (diskpath) do
 						if string.sub (entry, 1,1) ~= "." then
 							coroutine.yield (self.source:getResource (path..entry))
 						end
@@ -158,7 +158,7 @@ function resource:getItems (depth)
 
 	else
 		local function recur (p)
-			local attr = assert (lfs.attributes (diskPath .. p))
+			local attr = assert (lfs.attributes (rootdir .. p))
 			if attr.mode == "directory" then
 				for entry in lfs.dir (diskPath .. p) do
 					if string.sub (entry, 1,1) ~= "." then
@@ -175,7 +175,7 @@ function resource:getItems (depth)
 end
 
 function resource:getHRef ()
-	return self.source.rootUrl .. self.path
+	return socket.url.absolute (self.source.rootUrl,  self.path)
 end
 
 function resource:getAllProps ()
@@ -193,8 +193,9 @@ end
 
 function makeSource (params)
 	params = params or {}
-	params.diskPath = params.diskPath or "."
+	params.rootDir = params.rootDir or "./"
 	params.rootUrl = params.rootUrl or "http://localhost/"
+	params.parsed_rootUrl = socket.url.parse (params.rootUrl)
 
 	return setmetatable (params, source_mt)
 end

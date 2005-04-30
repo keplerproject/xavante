@@ -181,8 +181,6 @@ local function dav_propfind (req, res, repos)
 --	print ("depth:", depth)
 
 	local resource_q = repos:getResource (path)
-
---	if (not repos:existResource (path)) then
 	if not resource_q then
 		return httpd.err_404 (req, res)
 	end
@@ -218,7 +216,7 @@ local function dav_propfind (req, res, repos)
 		end
 
 		table.insert (content, string.format ([[<D:response %s>]], nsattr (namespace)))
-		table.insert (content, string.format ([[<D:href>%s</D:href>]], resource.path))
+		table.insert (content, string.format ([[<D:href>%s</D:href>]], resource:getHRef()))
 		for stat,props in pairs (propstat) do
 			table.insert (content, [[<D:propstat>]])
 			table.insert (content, [[<D:prop>]])
@@ -255,9 +253,7 @@ local function dav_options (req, res, repos)
 end
 
 local function dav_get (req, res, repos)
---	local path = url.unescape (req.parsed_url.path)
 	local resource = repos:getResource (url.unescape (req.parsed_url.path))
---	if (not repos:existResource (path)) then
 	if not resource then
 		return httpd.err_404 (req, res)
 	end
@@ -265,7 +261,6 @@ local function dav_get (req, res, repos)
 	res.headers ["Content-Type"] = resource:getContentType ()
 	res.headers ["Content-Length"] = resource:getContentSize () or 0
 
---	for k,v in pairs (res.headers) do print (k,v) end
 	httpd.send_res_headers (res)
 	for block in resource:getResourceData () do
 		httpd.send_res_data (res, block)
