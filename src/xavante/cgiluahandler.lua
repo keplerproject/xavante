@@ -63,8 +63,8 @@ local function set_cgivars (req, diskpath)
 		REMOTE_ADDR = string.gsub (req.rawskt:getpeername (), ":%d*$", ""),
 		AUTH_TYPE = nil,
 		REMOTE_USER = nil,
-		CONTENT_TYPE = req.headers ["Content-Type"],
-		CONTENT_LENGTH = req.headers ["Content-Length"],
+		CONTENT_TYPE = req.headers ["content-type"],
+		CONTENT_LENGTH = req.headers ["content-length"],
 	}
 	for n,v in pairs (req.headers) do
 		req.cgivars ["HTTP_"..string.gsub (string.upper (n), "-", "_")] = v
