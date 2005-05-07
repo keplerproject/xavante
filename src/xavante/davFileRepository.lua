@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 -- Xavante webDAV file repository
 -- Author: Javier Guerra
--- Copyright (c) 2004-2005 Javier Guerra
+-- Copyright (c) 2005 Javier Guerra
 -----------------------------------------------------------------------------
 
 require "lfs"
@@ -20,25 +20,43 @@ function source:getRoot ()
 	return self.rootDir
 end
 
-function source:getRootUrl ()
-	return self.rootUrl
-end
 
-function source:getResource (path)
---	print ("gr:", path)
-	local urlrootpath = self.parsed_rootUrl.path or "/"
-	assert (string.sub (path, 1, string.len (urlrootpath)) == urlrootpath)
-
-	local diskpath = self.rootDir .. string.sub (path, string.len (urlrootpath)+1)
---	print ("diskpath:", diskpath)
+function source:getResource (rootUrl, path)
+	local diskpath = self.rootDir .. path
 	local attr = lfs.attributes (diskpath)
 	if not attr then return end
+
+	local _,_,pfx = string.find (rootUrl, "^(.*/)[^/]-$")
+
+	if attr.mode == "directory" and string.sub (path, -1) ~= "/" then
+		path = path .."/"
+	end
 	
 	return setmetatable ({
 		source = self,
 		path = path,
 		diskpath = diskpath,
-		attr = attr
+		attr = attr,
+		pfx = pfx
+	}, resource_mt)
+end
+
+function source:createResource (rootUrl, path)
+	local diskpath = self.rootDir .. path
+	local attr = lfs.attributes (diskpath)
+	if not attr then
+		io.open (diskpath, "w"):close ()
+		attr = lfs.attributes (diskpath)
+	end
+	
+	local _,_,pfx = string.find (rootUrl, "^(.*/)[^/]-$")
+
+	return setmetatable ({
+		source = self,
+		path = path,
+		diskpath = diskpath,
+		attr = attr,
+		pfx = pfx
 	}, resource_mt)
 end
 
@@ -60,7 +78,7 @@ _liveprops["DAV:source"] = function (self)
 	return self:getHRef ()
 end
 
---[[
+
 _liveprops["DAV:supportedlock"] = function (self)
 	return [[<D:lockentry>
 <D:lockscope><D:exclusive/></D:lockscope>
@@ -71,7 +89,7 @@ _liveprops["DAV:supportedlock"] = function (self)
 <D:locktype><D:write/></D:locktype>
 </D:lockentry>]]
 end
---]]
+
 
 _liveprops["DAV:getlastmodified"] = function (self)
 	return os.date ("!%a, %d %b %Y %H:%M:%S GMT", self.attr.modification)
@@ -79,7 +97,7 @@ end
 
 _liveprops["DAV:resourcetype"] = function (self)
 	if self.attr.mode == "directory" then
-		return "<DAV:collection/>"
+		return "<D:collection/>"
 	else
 		return ""
 	end
@@ -93,23 +111,22 @@ _liveprops["DAV:getcontentlength"] = function (self)
 end
 
 function resource:getContentType ()
-	local path = self.path
-
-	if string.sub (path, -1) == "/" then
+	if self.attr.mode == "directory" then
 		return "httpd/unix-directory"
 	end
-	local _,_,exten = string.find (path, "%.([^.]*)$")
+	local _,_,exten = string.find (self.path, "%.([^.]*)$")
 	exten = exten or ""
-	return xavante.mimetypes [exten]
+	return xavante.mimetypes [exten] or ""
 end
 
 function resource:getContentSize ()
 	if self.attr.mode == "file" then
 		return self.attr.size
+	else return 0
 	end
 end
 
-function resource:getResourceData ()
+function resource:getContentData ()
 	local function gen ()
 		local f = io.open (self.diskpath, "rb")
 		if not f then
@@ -127,6 +144,13 @@ function resource:getResourceData ()
 	end
 
 	return coroutine.wrap (gen)
+end
+
+function resource:addContentData (b)
+	local f = assert (io.open (self.diskpath, "a+b"))
+	f:seek ("end")
+	f:write (b)
+	f:close ()
 end
 
 function resource:getItems (depth)
@@ -149,7 +173,7 @@ function resource:getItems (depth)
 					end
 					for entry in lfs.dir (diskpath) do
 						if string.sub (entry, 1,1) ~= "." then
-							coroutine.yield (self.source:getResource (path..entry))
+							coroutine.yield (self.source:getResource (self.pfx, path..entry))
 						end
 					end
 				end
@@ -160,12 +184,12 @@ function resource:getItems (depth)
 		local function recur (p)
 			local attr = assert (lfs.attributes (rootdir .. p))
 			if attr.mode == "directory" then
-				for entry in lfs.dir (diskPath .. p) do
+				for entry in lfs.dir (rootdir .. p) do
 					if string.sub (entry, 1,1) ~= "." then
 						recur (p.."/"..entry)
 					end
 				end
-			coroutine.yield (self.source:getResource (p))
+			coroutine.yield (self.source:getResource (self.pfx, p))
 			end
 		end
 		gen = function () recur (path) end
@@ -175,10 +199,12 @@ function resource:getItems (depth)
 end
 
 function resource:getHRef ()
-	return socket.url.absolute (self.source.rootUrl,  self.path)
+	local _,_,sfx = string.find (self.path, "^/*(.*)$")
+	return self.pfx..sfx
 end
 
-function resource:getAllProps ()
+function resource:getPropNames ()
+	return pairs (_liveprops)
 end
 
 function resource:getProp (propname)
@@ -189,13 +215,12 @@ function resource:getProp (propname)
 end
 
 function resource:setProp (propname, value)
+	return false
 end
 
 function makeSource (params)
 	params = params or {}
 	params.rootDir = params.rootDir or "./"
-	params.rootUrl = params.rootUrl or "http://localhost/"
-	params.parsed_rootUrl = socket.url.parse (params.rootUrl)
 
 	return setmetatable (params, source_mt)
 end
