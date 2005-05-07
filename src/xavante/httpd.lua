@@ -92,6 +92,7 @@ function read_headers (req)
 			return
 		end
 		local _,_, name, value = string.find (l, "^([^: ]+)%s*:%s*(.+)")
+		name = string.lower (name)
 		if name then
 			prevval = headers [name]
 			if prevval then
@@ -151,14 +152,14 @@ end
 -- starts with the full path, and goes up to the root
 -- until it finds a handler for the request method
 function parse_url (req)
-	local hosthandlers = vhosts [req.headers.Host] or vhosts ["_"]
-	local def_url = string.format ("http://%s%s", req.headers.Host, req.cmd_url)
+	local hosthandlers = vhosts [req.headers.host] or vhosts ["_"]
+	local def_url = string.format ("http://%s%s", req.headers.host, req.cmd_url)
 	
 	req.parsed_url = url.parse (def_url)
 	req.parsed_url.port = req.parsed_url.port or _serverport
 	req.built_url = url.build (req.parsed_url)
 	
-	local path = req.parsed_url.path
+	local path = url.unescape (req.parsed_url.path)
 	local h, set
 	for p in path_iterator (path) do
 		h = hosthandlers [p]
@@ -168,6 +169,11 @@ function parse_url (req)
 		end
 	end
 	
+	if req.match then
+		local _,_,pfx = string.find (req.match, "^(.*/)[^/]-$")
+		assert (string.sub (path, 1, string.len (pfx)) == pfx)
+		req.relpath = string.sub (path, string.len (pfx)+1)
+	end
 	req.handler = h
 end
 
@@ -258,7 +264,7 @@ function send_response (req, res)
 	end
 	
 	if (res.headers ["Content-Length"]) and
-		req.headers ["Connection"] == "Keep-Alive"
+		req.headers ["connection"] == "Keep-Alive"
 	then
 		res.headers ["Connection"] = "Keep-Alive"
 		res.keep_alive = true
