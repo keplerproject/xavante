@@ -20,8 +20,7 @@ local function filehandler (req, res, params)
 	end
 
 	params = params or {}
-	local docroot = params.baseDir
-	local path = docroot .. url.unescape (req.parsed_url.path)
+	local path = params.baseDir .."/".. req.relpath
 	
 	local _,_,exten = string.find (path, "%.([^.]*)$")
 	exten = exten or ""

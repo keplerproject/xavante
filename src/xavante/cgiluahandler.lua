@@ -56,7 +56,7 @@ local function set_cgivars (req, diskpath)
 		SERVER_PORT = req.parsed_url.port,
 		REQUEST_METHOD = req.cmd_mth,
 		PATH_INFO = "",
-		PATH_TRANSLATED = diskpath .. req.parsed_url.path,
+		PATH_TRANSLATED = diskpath .. "/"..req.relpath,
 		SCRIPT_NAME = req.parsed_url.path,
 		QUERY_STRING = req.parsed_url.query,
 		REMOTE_HOST = nil,
@@ -72,7 +72,7 @@ local function set_cgivars (req, diskpath)
 end
 
 local function cgiluahandler (req, res, diskpath)
-	if not lfs.attributes (diskpath .. req.parsed_url.path) then
+	if not lfs.attributes (diskpath .. "/"..req.relpath) then
 		return httpd.err_404 (req, res)
 	end
 	
