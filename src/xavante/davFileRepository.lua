@@ -60,6 +60,11 @@ function source:createResource (rootUrl, path)
 	}, resource_mt)
 end
 
+function source:createCollection (rootUrl, path)
+	local diskpath = self.rootDir .. path
+	return lfs.mkdir (diskpath)
+end
+
 local _liveprops = {}
 
 _liveprops["DAV:creationdate"] = function (self)
@@ -153,6 +158,14 @@ function resource:addContentData (b)
 	f:close ()
 end
 
+function resource:delete ()
+	local ok, err = os.remove (self.diskpath)
+	if not ok then
+		err = string.format ([[HTTP/1.1 424 %s]], err)
+	end
+	return ok, err
+end
+
 function resource:getItems (depth)
 	local gen
 	local path = self.path
@@ -196,6 +209,10 @@ function resource:getItems (depth)
 	end
 	
 	if gen then return coroutine.wrap (gen) end
+end
+
+function resource:getPath ()
+	return self.path
 end
 
 function resource:getHRef ()
