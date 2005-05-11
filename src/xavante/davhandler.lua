@@ -107,6 +107,10 @@ end
 -- iterator for traversing only childs in a LOM object
 -- whith a given tagname.
 local function lomChildsByTagName (x, tagname)
+	if not x then
+		return function () return nil end
+	end
+
 	local function gen (x)
 		for _,elem in ipairs (x) do
 			if type(elem) == "table" then
@@ -123,6 +127,10 @@ end
 -- iterator for traversing all elements in a LOM object
 -- whith a given tagname (at any depth).
 local function lomElementsByTagName (x, tagname)
+	if not x then
+		return function () return nil end
+	end
+
 	local function gen (x)
 		for _,elem in ipairs (x) do
 			if type(elem) == "table" then
@@ -141,6 +149,10 @@ end
 -- use as:
 -- for subnode, tagname in lomChilds (node) do ... end
 local function lomChilds (x)
+	if not x then
+		return function () return nil end
+	end
+
 	local function gen ()
 		for _, elem in ipairs (x) do
 			if type (elem) == "table" and elem.tag then
@@ -153,6 +165,10 @@ end
 
 -- returns all the text content of a LOM node
 local function lomContent (x)
+	if not x then
+		return ""
+	end
+
 	local out = {}
 	local function of (s)
 		table.insert (out, s)
@@ -423,6 +439,62 @@ local function dav_put (req, res, repos_b)
 	return res
 end
 
+local function dav_mkcol (req, res, repos_b)
+	local path = req.relpath
+	local resource = repos_b:getResource (req.match, path)
+	if resource then
+		res.statusline = "HTTP/1.1 405 Method Not Allowed\r\n"
+		res.content = ""
+		return res
+	end
+	local done, err = repos_b:createCollection (req.match, path)
+	if done then
+		res.statusline = "HTTP/1.1 201 Created\r\n"
+	else
+		res.statusline = "HTTP/1.1 403 Forbidden\r\n"
+	end
+	res.content = ""
+	return res
+end
+
+local function dav_delete (req, res, repos_b, props_b)
+	local path = req.relpath
+	local resource = repos_b:getResource (req.match, path)
+	if not resource then
+		return http.err_404
+	end
+	
+	-- NOTE: this should iterate depth-first
+	for r = resource:getItems ("Infinity") do
+		local ok, err = resource:delete ()
+		if not ok then
+			res.statusline = "HTTP/1.1 207 Multi-Status\r\n"
+			res.content = string.format ([[
+				<?xml version="1.0" encoding="utf-8" ?>
+				<d:multistatus xmlns:d="DAV:">
+					<d:response>
+						<d:href>%s</d:href>
+						<d:status>%s</d:status>
+					</d:response>
+				</d:multistatus>]], resource:getHRef(), err)
+			return res
+		end
+		props_b:delete (resource:getPath)		-- TODO
+	end
+	res.statusline = "HTTP/1.1 204 No Content\r\n"
+--[[
+	local done, err = resource:delete ()
+	if done then
+		res.statusline = "HTTP/1.1 204 No Content\r\n"
+		props_b:delete (path)
+	else
+		res.statusline = "HTTP/1.1 403 Forbidden\r\n"
+	end
+--]]
+	res.content = ""
+	return res
+end
+
 local function dav_lock (req, res, repos_b)
 	local data = xml_ns (req_xml (req))
 	print ("como xml:") lomtoxml (data) print ()
@@ -435,6 +507,8 @@ local dav_cmd_dispatch = {
 	OPTIONS = dav_options,
 	GET = dav_get,
 	PUT = dav_put,
+	MKCOL = dav_mkcol,
+	DELETE = dav_delete,
 	LOCK = dav_lock,
 }
 
