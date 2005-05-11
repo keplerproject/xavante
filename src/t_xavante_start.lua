@@ -30,5 +30,8 @@ xavante.setwebdir(XAVANTE_WEB)
 
 -------------------------------------------------------------------------------
 -- Loads the configuration file and starts Xavante
+--
+-- XAVANTE_ISFINISHED and XAVANTE_TIMEOUT are optional globals that can
+-- control how xavante will behave when externally controlled.
 -------------------------------------------------------------------------------
-xavante.start(isFinished)
+xavante.start(XAVANTE_ISFINISHED, XAVANTE_TIMEOUT)
