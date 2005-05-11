@@ -8,6 +8,8 @@
 --
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2005 Kepler Project
+--
+-- $Id: server.lua,v 1.18 2005/05/11 15:25:41 carregal Exp $
 -------------------------------------------------------------------------------
 module ("xavante")
 
@@ -16,9 +18,9 @@ require "xavante.httpd"
 
 -- Meta information is public even begining with an "_"
 _COPYRIGHT   = "Copyright (C) 2004-2005 Kepler Project"
-_DESCRIPTION = "A coroutine based Lua HTTP server with CGILua support"
+_DESCRIPTION = "A coroutine based Lua Web server with CGILua support"
 _NAME        = "Xavante"
-_VERSION     = "1.1 Beta"
+_VERSION     = "1.1"
 
 local function _addRules(rules, hostname)
     for _, rule in ipairs(rules) do
@@ -61,14 +63,14 @@ end
 -------------------------------------------------------------------------------
 -- Starts the server
 -------------------------------------------------------------------------------
-function start(isFinished)
+function start(isFinished, timeout)
     local res, err = pcall(require, "xavante.config")
     if not res then
         error("Error loading config.lua", err)
     end
     while true do
       if isFinished and isFinished() then break end
-      copas.step()
+      copas.step(timeout)
     end
 end
 
