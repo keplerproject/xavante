@@ -465,7 +465,7 @@ local function dav_delete (req, res, repos_b, props_b)
 	end
 	
 	-- NOTE: this should iterate depth-first
-	for r = resource:getItems ("Infinity") do
+	for r in resource:getItems ("Infinity") do
 		local ok, err = resource:delete ()
 		if not ok then
 			res.statusline = "HTTP/1.1 207 Multi-Status\r\n"
@@ -479,7 +479,7 @@ local function dav_delete (req, res, repos_b, props_b)
 				</d:multistatus>]], resource:getHRef(), err)
 			return res
 		end
-		props_b:delete (resource:getPath)		-- TODO
+		props_b:delete (resource:getPath ())		-- TODO
 	end
 	res.statusline = "HTTP/1.1 204 No Content\r\n"
 --[[
