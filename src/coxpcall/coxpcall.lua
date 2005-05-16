@@ -7,7 +7,7 @@
 --
 -- Authors: Roberto Ierusalimschy and Andre Carregal 
 --
--- $Id: coxpcall.lua,v 1.5 2005/05/16 20:14:06 carregal Exp $
+-- $Id: coxpcall.lua,v 1.6 2005/05/16 21:27:42 carregal Exp $
 --
 -- Copyright 2005 - Kepler Project (www.keplerproject.org)
 -------------------------------------------------------------------------------
@@ -17,7 +17,7 @@
 -------------------------------------------------------------------------------
 function coxpcall(f, err)
   local co = coroutine.create(f)
-  local arg = arg or {}
+  local arg = {}
   while true do
     local results = {coroutine.resume(co, unpack(arg))}
     local status = results[1]
