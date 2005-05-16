@@ -7,6 +7,8 @@
 --
 -- Authors: Roberto Ierusalimschy and Andre Carregal 
 --
+-- $Id: coxpcall.lua,v 1.5 2005/05/16 20:14:06 carregal Exp $
+--
 -- Copyright 2005 - Kepler Project (www.keplerproject.org)
 -------------------------------------------------------------------------------
 
