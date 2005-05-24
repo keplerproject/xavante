@@ -15,7 +15,7 @@ require "xavante.mime"
 
 local function filehandler (req, res, params)
 
-	if req.cmd_mth ~= "GET" and req.cmd_mth ~= "HEADERS" then
+	if req.cmd_mth ~= "GET" and req.cmd_mth ~= "HEAD" then
 		return httpd.err_405 (req, res)
 	end
 
