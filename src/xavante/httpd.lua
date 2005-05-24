@@ -238,7 +238,10 @@ function send_res_data (res, data)
 	if not res.sent_headers then
 		send_res_headers (res)
 	end
-	res.socket:send (data)
+	
+	if data then
+		res.socket:send (data)
+	end
 end
 
 -- sends prebuilt content to the client
@@ -260,6 +263,11 @@ function send_response (req, res)
 			if (type (res.content) == "string") then
 				res.headers["Content-Length"] = string.len (res.content)
 			end
+		end
+	else
+		if not res.sent_headers then
+			res.statusline = "HTTP/1.1 204 No Content\r\n"
+			res.headers["Content-Length"] = 0
 		end
 	end
 	
