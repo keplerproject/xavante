@@ -284,7 +284,7 @@ function send_response (req, res)
 	end
 	
 	if res.content then
-		send_res_data (res, res.content)
+		res:send_data (res.content)
 	end
 end
 
