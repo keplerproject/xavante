@@ -69,7 +69,7 @@ end
 function makeProps (params)
 	params = params or {}
 	
-	params.rootDir = params.rootDir or ".LOCKS/"
+	params.rootDir = params.rootDir or ".PROPS/"
 	mkdir_p (params.rootDir)
 
 	return setmetatable (params, props_mt)
