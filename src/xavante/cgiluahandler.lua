@@ -31,7 +31,7 @@ local function set_api (req, res)
 	end
 	-- Contents
 	SAPI.Response.write = function (s)
-		httpd.send_res_data (res, s)
+		res:send_data (s)
 	end
 	SAPI.Response.errorlog = function (s) io.stderr:write (s) end
 	-- Input POST data

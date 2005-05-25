@@ -54,7 +54,7 @@ local function filehandler (req, res, params)
 		repeat
 			block = f:read (8192)
 			if block then
-				httpd.send_res_data (res, block)
+				res:send_data (block)
 			end
 		until not block
 		f:close ()

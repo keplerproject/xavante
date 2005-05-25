@@ -412,9 +412,9 @@ local function dav_get (req, res, repos_b, props_b)
 	res.headers ["Content-Type"] = resource:getContentType ()
 	res.headers ["Content-Length"] = resource:getContentSize () or 0
 
-	httpd.send_res_headers (res)
+	res:send_headers ()
 	for block in resource:getContentData () do
-		httpd.send_res_data (res, block)
+		res:send_data (block)
 	end
 	return res
 end
@@ -435,7 +435,7 @@ local function dav_put (req, res, repos_b)
 		resource:addContentData (req.socket:receive (bsz))
 		contentlength = contentlength - bsz
 	end
-	httpd.send_res_headers (res)
+	res:send_headers ()
 	return res
 end
 
