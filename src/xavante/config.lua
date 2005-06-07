@@ -23,9 +23,11 @@ local simplerules = {
     -- URL remapping example
     {match = "/", with = xavante.redirecthandler, params = {"index.lp"}}, 
     -- filehandler example
-    {match = "/*", with = xavante.filehandler, params = {baseDir = xavante.webdir()}},
+    {match = "/*", with = xavante.filehandler,
+     params = {baseDir = xavante.webdir()}},
     -- cgiluahandler example
-    {match = {"/*.lp", "/*.lua"},  with = xavante.cgiluahandler.makeHandler (xavante.webdir())},
+    {match = {"/*.lp", "/*.lua"},
+     with = xavante.cgiluahandler.makeHandler (xavante.webdir())},
 }
 
 xavante.HTTP{
