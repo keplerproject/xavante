@@ -51,33 +51,41 @@
 <div id="content">
 
 <h2><a name="over"></a>Overview</h2>
-<p>Xavante is a Lua Web server that handles HTTP 1.1 requests and
-uses <a href="http://www.keplerproject.org/cgilua">CGILua 5.0</a> as the native
+
+<p>Xavante is a Lua Web server that handles HTTP 1.1 requests and uses
+<a href="http://www.keplerproject.org/cgilua/">CGILua 5.0</a> as the native
 template engine.</p>
+
 <p>Xavante is free software and uses the same <a href="license.html">license</a>
-as Lua 5.0.
-</p>
+as Lua 5.0.</p>
 
 <h2><a name="status"></a>Status</h2>
-<p>Current version is 1.1 Beta.</p>
 
+<p>Current version is 1.1.</p>
 
 <h2><a name="download"></a>Download</h2>
+
 <p>Xavante can be downloaded in source code from the
 <a href="http://luaforge.net/frs/?group_id=6">LuaForge</a>
 page</p>
-<p>Xavante <a href="http://luaforge.net/scm/?group_id=6">CVS</a>
-can also be accessed at LuaForge</p>
-
 
 <h2><a name="history"></a>History</h2>
 <ul>
-    <li>[17/Mar/2005] Version 1.1 Beta released
+    <li>[23/Jun/2005] Version 1.1 Released
         <ul>
-          <li>First public release</li>
-          <li>Refactored to use <a href="http://www.keplerproject.org/copas">Copas</a></li>
-          <li>Source base merged with <a href = "http://luaforge.net/projects/luahttpd/">luahttpd</a></li>
-          <li>New configuration file with simpler rules</li>
+            <li>Sajax</li>
+            <li>Uses Copas.step() to allow more control of the Xavante loop.</li>
+            <li>Uses coxpcall 1.6</li>
+            <li>Code cleanup, minor bug fixes</li>
+        </ul>
+    </li>
+
+    <li>[17/Mar/2005] Version 1.1 Beta Released
+        <ul>
+            <li>First public release</li>
+            <li>Refactored to use <a href="http://www.keplerproject.org/copas">Copas</a></li>
+            <li>Source base merged with <a href = "http://luaforge.net/projects/luahttpd/">luahttpd</a></li>
+            <li>New configuration file with simpler rules</li>
         </ul>
     </li>
 </ul>
@@ -88,17 +96,17 @@ can also be accessed at LuaForge</p>
 <ul>
   <li><a href="http://www.lua.org">Lua 5</a></li>
   <li><a href="http://www.keplerproject.org/cgilua">CGILua 5.0</a></li>
-  <li><a href="http://www.keplerproject.org/compat">Compat-5.1</a></li>
+  <li><a href="http://www.keplerproject.org/compat">Compat-5.1 Release 4</a></li>
   <li><a href="http://www.keplerproject.org/copas">Copas 1.0</a></li>
-  <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.0</a></li>
+  <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.1</a></li>
   <li><a href="http://www.tecgraf.puc-rio.br/luasocket/">LuaSocket 2.0</a></li>
-  <li><a href="http://www.keplerproject.org/venv">VEnv 1.0</a></li>
+  <li><a href="http://www.keplerproject.org/venv">VEnv 1.1</a></li>
 </ul>
 
 <h2><a name="portability"></a>Portability</h2>
 
-<p>The portability of Xavante is determined by LuaFileSystem and LuaSocket.
-LuaFileSystem can also be rewritten in Lua for increased portability.</p>
+<p>The portability of Xavante is determined by its binary components (LuaFileSystem and LuaSocket)
+and Lua itself. The other components are as portable as Lua.</p>
 
 <h2><a name="credits"></a>Credits</h2>
 
@@ -113,8 +121,8 @@ sponsored by <a href="http://www.fabricadigital.com.br">F&aacute;brica Digital</
 and <a href="http://www.hands.com.br">Hands</a>.</p>
 
 <h2><a name="contact"></a>Contact us</h2>
-<p>For more information please <a
- href="mailto:info-NO-SPAM-THANKS@keplerproject.org">contact us</a>.
+<p>For more information please
+<a href="mailto:info-NO-SPAM-THANKS@keplerproject.org">contact us</a>.
 Comments are welcome!</p>
 
 </div> <!-- id="content" -->
@@ -122,10 +130,10 @@ Comments are welcome!</p>
 </div> <!-- id="main" -->
 
 <div id="about">
-	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>
-	$Id: index.html,v 1.17 2005/04/04 23:03:47 carregal Exp $
-	</small></p>
+	<p><a href="http://validator.w3.org/check?uri=referer">
+    <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" />
+    </a></p>
+	<p><small>$Id: index.html,v 1.18 2005/06/20 22:49:37 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->

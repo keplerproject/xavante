@@ -53,78 +53,118 @@
 <h2><a name="install"></a>Installing</h2>
 
 <p>Xavante follows the
-<a href="http://www.keplerproject.org/compat">package model</a>
-for Lua 5.1, therefore it should be "installed".
-In other words, if you are using Lua 5.0, the file <tt>compat-5.1.lua</tt>
-must be installed in the <tt>LUA_PATH</tt>. If you are using Lua 5.1,
-nothing should be done.</p>
+<a href="http://www.keplerproject.org/compat/">package model</a>
+for Lua 5.1, therefore it should be "installed". Refer to
+<a href="http://www.keplerproject.org/compat/manual.html#configuration">
+Compat-5.1 configuration</a> section about how to install the compiled
+binary properly.</p>
 
-<p>The default directory structure for Xavante is based on two directories:</p>
+<p>Windows users can use the pre-compiled version of Xavante's components
+(LuaFileSystem and LuaSocket) available at
+<a href="http://luaforge.net">LuaForge</a>.</p>
+
+<p>The default directory structure for Xavante is based on four directories:</p>
+
+<p><code>$BIN</code> is where are located the binary libraries for Lua,
+LuaSocket and LuaFileSystem</p>
+
+<p><code>$LUA</code> is where are located the Lua libraries for Xavante,
+CGILua, Compat-5.1, Copas, coxpcall, LuaSocket, Sajax and VEnv.</p>
+
+<p><code>$CONF</code> is where are located the user configuration files
+for Xavante and CGILua.</p>
+
+<p><code>$WEB</code> is where are located the Xavante default HTTP documents.</p>
+
+<p>Xavante can be installed by copying its files and its dependencies to this directory
+structure. An example of a LuaBinaries compatible Xavante installation for Windows
+is shown below with the list of included files and in what projects they can be found in
+<a href="http://luaforge.net">LuaForge</a>.</p>
+
 <pre class="example">
-  $XAVANTE_BIN  -- Lua and binary libraries, xavante_start.lua
-    /cgilua
-    /copas
-    /coxpcall
-    /socket
-    /xavante    -- Xavante Lua files
-
-  $XAVANTE_WEB  -- Xavante default HTTP documents
-    /doc        -- Xavante documentation
-    /img        -- test images
+    $BIN
+        lfs.dll           -- <a href="http://luaforge.net/projects/luafilesystem/files">LuaFileSystem</a>
+        lmime.dll         -- <a href="http://luaforge.net/projects/luasocket/files">LuaSocket</a>
+        lsocket.dll       -- LuaSocket
+        lua.exe           -- <a href="http://luaforge.net/projects/luabinaries/files">LuaBinaries</a>
+        lua50.dll         -- LuaBinaries
+        xavante_start.lua -- <a href="http://luaforge.net/projects/xavante/files">Xavante</a>
+    
+    $LUA
+        /cgilua           -- <a href="http://luaforge.net/projects/cgilua/files">CGILua</a>
+            ...        
+        /copas            -- <a href="http://luaforge.net/projects/copas/files">Copas</a>
+            ...
+        /coxpcall         -- Xavante
+            coxpcall.lua
+        /sajax            -- Xavante
+            sajax.lua
+        /socket           -- LuaSocket
+            ...
+        /xavante          -- Xavante
+            ...
+        compat-5.1.lua    -- <a href="http://luaforge.net/projects/compat/files">Compat</a>
+        ltn12.lua         -- LuaSocket
+        mime.lua          -- LuaSocket
+        stable.lua        -- <a href="http://luaforge.net/projects/venv/files">VEnv</a>
+        venv.lua          -- VEnv
+    
+    $CONF
+        /cgilua
+          config.lua      -- CGILua
+        /xavante
+          config.lua      -- Xavante
+        
+    $WEB
+        /doc              -- Xavante
+            ...
+        /img              -- Xavante
+            ...
+        index.lp          -- Xavante
+        test.lp           -- Xavante
 </pre>
 
-<p>The distributed source of Xavante can be copied to the
-<code>$XAVANTE_BIN</code> directory together with Lua and the other binary
-libraries.</p>
-
 <p>The file <code>t_xavante_start.lua</code> is a template for the startup
-file. You must redefine it to something like the example below and then
-rename it to <code>xavante_start.lua</code>.</p>
+file. You must edit it so it reflects your system and then rename it to
+<code>xavante_start.lua</code>. The example below shows the startup file
+for the default Windows installation (on <code>c:\xavante</code>).</p>
 
 <pre class="example">
--- xavante_start.lua configured for a Windows installation
--- based on the C:\xavante directory
+-- Default directory for documents and scripts
+local XAVANTE_WEB  = [[c:/xavante/web]]  
 
--- Library extension for the platform used
-local LIB_EXT      = [[.dll]]
-
--- Physical location of Xavante file structure.
--- The example structure assumes that the bin
--- and web directories are under the same directory
-local XAVANTE_HOME = [[C:/Xavante]]
-local XAVANTE_BIN  = XAVANTE_HOME..[[/bin]]
-local XAVANTE_WEB  = XAVANTE_HOME..[[/web]]
-
--- compatibility code for Lua version 5.0 providing
--- 5.1 behavior
-if string.find (_VERSION, "Lua 5.0") and not package then
+--- compatibility code for Lua version 5.0 providing 5.1 behavior
+if string.find (_VERSION, "Lua 5.0") and not _COMPAT51 then
 	if not LUA_PATH then
-		LUA_PATH = XAVANTE_BIN.."/?.lua;"..
-                   XAVANTE_BIN.."/?/?.lua"
+		LUA_PATH = [[c:/xavante/conf/?.lua;
+                    c:/xavante/lua/?.lua;
+                    c:/xavante/lua/?/?.lua]]
 	end
 	require"compat-5.1"
-	package.cpath = XAVANTE_BIN.."/?"..LIB_EXT..";"..
-	                XAVANTE_BIN.."/lib?"..LIB_EXT
+	package.cpath = [[c:/xavante/bin/?.dll;
+                    c:/xavante/bin/l?.dll]]
 end
 
 require "xavante.server"
 
 xavante.setwebdir(XAVANTE_WEB)
-
--- Loads the configuration file and starts Xavante
-xavante.start()
+xavante.start(XAVANTE_ISFINISHED, XAVANTE_TIMEOUT)
 </pre>
 
 <h2><a name="config"></a>Configuring</h2>
 
-<p>The file <code>$XAVANTE_BIN/xavante/config.lua</code> defines the
-Xavante configuration. Xavante defines <em>virtualhosts</em> for each site
-that it is running.
-Each virtualhost can define a set of <em>rules</em> for it.
+<p>The file <code>$BIN/xavante/config.lua</code> defines the
+Xavante configuration. This file is usually copied to the
+<code>$CONF</code> directory to make it easier to upgrade
+a Xavante installation.</p>
+
+<p>Xavante defines <em>virtualhosts</em> for each site
+that it is running. Each virtualhost can define a set of <em>rules</em> for it.
 Each rule matches a <em>URL pattern</em> with a handler.
-Xavante currently offers a <strong>file handler</strong>, a <strong>redirect
-handler</strong> and a <strong>CGILua handler</strong> for general files, URL
-remapping and CGILua scripts.</p>
+Xavante currently offers a <strong>file handler</strong>,
+a <strong>redirect handler</strong> and
+a <strong>CGILua handler</strong> for general files, URL
+remapping and CGILua scripts respectively.</p>
 
 <p>A tipical <code>config.lua</code> uses the format below</p>
 
@@ -134,20 +174,15 @@ require "xavante.cgiluahandler"
 require "xavante.redirecthandler"
 
 local simplerules = {
-
     -- URL remapping example
-    { match = "/",
-      with = xavante.redirecthandler,
-      params = {"/index.lp"}}, 
-    
+    {match = "/", with = xavante.redirecthandler,
+    params = {"index.lp"}}, 
     -- filehandler example
-    { match = "/*",
-      with = xavante.filehandler,
-      params = {baseDir = xavante.webdir()}},
-
+    {match = "/*", with = xavante.filehandler,
+    params = {baseDir = xavante.webdir()}},
     -- cgiluahandler example
-    { match = {"/*.lp", "/*.lua"},
-      with = xavante.cgiluahandler.makeHandler (xavante.webdir())},
+    {match = {"/*.lp", "/*.lua"},
+    with = xavante.cgiluahandler.makeHandler (xavante.webdir())},
 }
 
 xavante.HTTP{
@@ -156,7 +191,9 @@ xavante.HTTP{
     defaultHost = {
     	rules = simplerules
     },
-}</pre>
+}
+</pre>
+
 <p>To use virtual hosts with Xavante, the call to <code>xavante.HTTP</code>
 would be changed to something like</p>
 
@@ -188,15 +225,17 @@ files you should edit it first.</p>
 If you changed the port number on <code>config.lua</code> you should also use this
 port number in the URL.</p>
 
+<p>The welcome page presents the Xavante version and links to the documentation and
+for a simple set of tests.</p>
+
 </div> <!-- id="content" -->
 
 </div> <!-- id="main" -->
 
 <div id="about">
-	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>
-	$Id: manual.html,v 1.9 2005/05/24 23:27:13 carregal Exp $
-	</small></p>
+	<p><a href="http://validator.w3.org/check?uri=referer">
+    <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+	<p><small>$Id: manual.html,v 1.10 2005/06/20 22:49:37 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
