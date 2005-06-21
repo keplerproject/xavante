@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.8 2005/06/21 19:36:13 carregal Exp $
+# $Id: Makefile,v 1.9 2005/06/21 20:18:18 mascarenhas Exp $
 
 LUA_DIR= /usr/local/share/lua/5.0
 LUA_LIBDIR= /usr/local/lib/lua/5.0
@@ -70,8 +70,8 @@ install: $(XAVANTE_START)
 	cp $(DOCS) $(XAVANTE_WEB)/doc
 	mkdir -p $(XAVANTE_WEB)/img
 	cp $(IMGS) $(XAVANTE_WEB)/img
-	ln -s $(LUA_LIBDIR) $(XAVANTE_BIN)
-	ln -s $(LUA_DIR) $(XAVANTE_LUA)
+	ln -sf $(LUA_LIBDIR) $(XAVANTE_BIN)
+	ln -sf $(LUA_DIR) $(XAVANTE_LUA)
 
 clean:
 	rm -f $(XAVANTE_START)
