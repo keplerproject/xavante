@@ -92,7 +92,6 @@ and then rename it to <code>xavante_start.lua</code>.</p>
         lsocket.dll       -- LuaSocket
         lua.exe           -- <a href="http://luaforge.net/projects/luabinaries/files">LuaBinaries</a>
         lua50.dll         -- LuaBinaries
-        xavante_start.lua -- Xavante (t_xavante_start.lua)
     
     $LUA
         /cgilua           -- <a href="http://luaforge.net/projects/cgilua/files">CGILua</a>
@@ -111,6 +110,7 @@ and then rename it to <code>xavante_start.lua</code>.</p>
         ltn12.lua         -- LuaSocket
         mime.lua          -- LuaSocket
         stable.lua        -- <a href="http://luaforge.net/projects/venv/files">VEnv</a>
+        xavante_start.lua -- Xavante (t_xavante_start.lua)
         venv.lua          -- VEnv
     
     $CONF
@@ -138,13 +138,10 @@ local XAVANTE_WEB  = [[c:/xavante/web]]
 --- compatibility code for Lua version 5.0 providing 5.1 behavior
 if string.find (_VERSION, "Lua 5.0") and not _COMPAT51 then
 	if not LUA_PATH then
-		LUA_PATH = [[c:/xavante/conf/?.lua;
-                    c:/xavante/lua/?.lua;
-                    c:/xavante/lua/?/?.lua]]
+		LUA_PATH = [[c:/xavante/conf/?.lua;c:/xavante/lua/?.lua;c:/xavante/lua/?/?.lua]]
 	end
 	require"compat-5.1"
-	package.cpath = [[c:/xavante/bin/?.dll;
-                    c:/xavante/bin/l?.dll]]
+	package.cpath = [[c:/xavante/bin/?.dll;c:/xavante/bin/l?.dll]]
 end
 
 require "xavante.server"
@@ -158,7 +155,11 @@ xavante.start(XAVANTE_ISFINISHED, XAVANTE_TIMEOUT)
 <p>The file <code>$LUA/xavante/config.lua</code> defines the
 Xavante configuration. This file is usually copied to the
 <code>$CONF/xavante</code> directory to make it easier to upgrade
-a Xavante installation.</p>
+a Xavante installation since the searching order of
+<code>LUA_PATH</code> will make the command
+<code>require"xavante.config"</code> find the
+<code>$CONF/xavante/config.lua</code> before the
+<code>$LUA/xavante/config.lua</code>.</p>
 
 <p>Xavante defines <em>virtualhosts</em> for each site
 that it is running. Each virtualhost can define a set of <em>rules</em> for it.
@@ -212,17 +213,25 @@ xavante.HTTP{
 
 
 <h2><a name="running"></a>Running</h2>
+
 <p>Running Xavante requires the execution of the correctly set
 <code>xavante_start.lua</code>. This can be done through a 
 <code>.bat</code> file in Windows, or by giving execution rights to
 the <code>xavante_start.lua</code> on Linux.</p>
 
+<p>The example below is a <code>xavante.bat</code> that can be used to start
+Xavante in Windows using the same configuration as the above examples.</p>
+
+<pre class="example">
+@echo Starting Xavante
+c:\xavante\bin\lua50.exe c:\xavante\lua\xavante_start.lua
+</pre>
 <p>Remember that <code>xavante_start.lua</code> is the configured version of 
 <code>t_xavante_start.lua</code> and if you are
 <a href="#install">installing</a> Xavante from the source
 files you should edit it first.</p>
 
-<p>After calling <code>xavante_start.lua</code>, opening the URL
+<p>After Xavante is started, opening the URL
 <code>http://localhost</code> on your browser should show the Xavante welcome page.
 If you changed the port number on <code>config.lua</code> you should also use this
 port number in the URL.</p>
@@ -237,7 +246,7 @@ for a simple set of tests.</p>
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">
     <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>$Id: manual.html,v 1.13 2005/06/21 15:46:59 carregal Exp $</small></p>
+	<p><small>$Id: manual.html,v 1.14 2005/06/21 17:16:21 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
