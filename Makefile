@@ -1,20 +1,18 @@
-# $Id: Makefile,v 1.7 2005/03/24 18:29:19 tomas Exp $
+# $Id: Makefile,v 1.8 2005/06/21 19:36:13 carregal Exp $
 
 LUA_DIR= /usr/local/share/lua/5.0
 LUA_LIBDIR= /usr/local/lib/lua/5.0
 XAVANTE_HOME= /usr/local/xavante
-XAVANTE_WEB= $(XAVANTE_HOME)/web
-XAVANTE_BIN= $(XAVANTE_HOME)/bin
-XAVANTE_LUADIR= $(LUA_DIR)/xavante
-XAVANTE_LIBDIR= $(LUA_LIBDIR)
+XAVANTE_BIN = $(XAVANTE_HOME)/bin
+XAVANTE_LUA = $(XAVANTE_HOME)/lua
+XAVANTE_CONF = $(XAVANTE_HOME)/conf/xavante
+XAVANTE_WEB = $(XAVANTE_HOME)/web
+
 # OS extension for dynamic libraries
 LIB_EXT= .so
 #LIB_EXT= .dylib
-# Lua paths
-LUA_PATH= $(LUA_DIR)/?.lua;$(LUA_DIR)/?/?.lua
-LUA_CPATH= $(XAVANTE_LIBDIR)/?$(LIB_EXT);$(XAVANTE_LIBDIR)/lib?$(LIB_EXT)
 
-VERSION= 1.1b
+VERSION= 1.1
 PKG = xavante-$(VERSION)
 DIST_DIR= $(PKG)
 TAR_FILE= $(PKG).tar.gz
@@ -23,13 +21,15 @@ ZIP_FILE= $(PKG).zip
 T_START= src/t_xavante_start.lua
 XAVANTE_START= src/xavante_start.lua
 COXPCALL_LUAS = src/coxpcall/coxpcall.lua
+SAJAX_LUAS = src/sajax/sajax.lua
 XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/config.lua src/xavante/filehandler.lua src/xavante/httpd.lua src/xavante/mime.lua src/xavante/redirecthandler.lua src/xavante/server.lua
-WEBS= web/index.lp web/loop.lp web/test.lp
-DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/xavante.gif
+XAVANTE_CONFIG = src/xavante/config.lua
+WEBS= web/index.lp web/test.lp
+DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html doc/us/xavante.gif
 IMGS= web/img/test.jpg web/img/xavante.gif
 
 $(XAVANTE_START) build:
-	sed -e "s|\[\[XAVANTE_HOME\]\]|\[\[$(XAVANTE_HOME)\]\]|" -e "s|\[\[XAVANTE_BIN\]\]|\[\[$(XAVANTE_BIN)\]\]|" -e "s|\[\[XAVANTE_WEB\]\]|\[\[$(XAVANTE_WEB)\]\]|" -e "s|\[\[LUA_PATH\]\]|\[\[$(LUA_PATH)\]\]|" -e "s|\[\[LUA_CPATH\]\]|\[\[$(LUA_CPATH)\]\]|" < $(T_START) > $(XAVANTE_START)
+	sed -e "s|\[\[XAVANTE_HOME\]\]|\[\[$(XAVANTE_HOME)\]\]|" -e "s|\[\[LIB_EXT\]\]|\[\[$(LIB_EXT)\]\]|" < $(T_START) > $(XAVANTE_START)
 	chmod +x $(XAVANTE_START)
 
 dist: dist_dir
@@ -42,6 +42,8 @@ dist_dir:
 	cp Makefile config $(DIST_DIR)
 	mkdir $(DIST_DIR)/coxpcall
 	cp $(COXPCALL_LUAS) $(DIST_DIR)/coxpcall
+	mkdir $(DIST_DIR)/sajax
+	cp $(SAJAX_LUAS) $(DIST_DIR)/sajax
 	mkdir $(DIST_DIR)/xavante
 	cp $(XAVANTE_LUAS) $(DIST_DIR)/xavante
 	mkdir $(DIST_DIR)/web
@@ -53,17 +55,23 @@ dist_dir:
 
 install: $(XAVANTE_START)
 	mkdir -p $(LUA_DIR)
-	cp $(COXPCALL_LUAS) $(LUA_DIR)
-	mkdir -p $(XAVANTE_LUADIR)
-	cp $(XAVANTE_LUAS) $(XAVANTE_LUADIR)
-	mkdir -p $(XAVANTE_BIN)
-	cp $(XAVANTE_START) $(XAVANTE_BIN)
+	mkdir -p $(LUA_DIR)/coxpcall
+	cp $(COXPCALL_LUAS) $(LUA_DIR)/coxpcall
+	mkdir -p $(LUA_DIR)/sajax
+	cp $(SAJAX_LUAS) $(LUA_DIR)/sajax
+	mkdir -p $(LUA_DIR)/xavante
+	cp $(XAVANTE_LUAS) $(LUA_DIR)/xavante
+	cp $(XAVANTE_START) $(LUA_DIR)
+	mkdir -p $(XAVANTE_CONF)
+	cp $(XAVANTE_CONFIG) $(XAVANTE_CONF)
 	mkdir -p $(XAVANTE_WEB)
 	cp $(WEBS) $(XAVANTE_WEB)
 	mkdir -p $(XAVANTE_WEB)/doc
 	cp $(DOCS) $(XAVANTE_WEB)/doc
 	mkdir -p $(XAVANTE_WEB)/img
 	cp $(IMGS) $(XAVANTE_WEB)/img
+	ln -s $(LUA_LIBDIR) $(XAVANTE_BIN)
+	ln -s $(LUA_DIR) $(XAVANTE_LUA)
 
 clean:
 	rm -f $(XAVANTE_START)
