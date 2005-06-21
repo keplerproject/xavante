@@ -1,4 +1,4 @@
-#!/usr/local/bin/lua
+#!/usr/local/bin/lua50
 -------------------------------------------------------------------------------
 -- Starts the Xavante Web server.
 --
