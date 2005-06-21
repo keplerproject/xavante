@@ -52,9 +52,11 @@
 
 <h2><a name="over"></a>Overview</h2>
 
-<p>Xavante is a Lua Web server that handles HTTP 1.1 requests and uses
-<a href="http://www.keplerproject.org/cgilua/">CGILua 5.0</a> as the native
-template engine.</p>
+<p>Xavante is a Lua HTTP 1.1 Web server that uses a modular architecture based
+on handlers. Xavante currently offers a file handler, a redirect handler and a
+CGILua handler for general files, URL remapping and
+<a href="http://www.keplerproject.org/cgilua/">CGILua 5.0</a> scripts respectively.
+A WebDAV handler is in the works.</p>
 
 <p>Xavante is free software and uses the same <a href="license.html">license</a>
 as Lua 5.0.</p>
@@ -92,16 +94,33 @@ page</p>
 
 <h2><a name="components"></a>Component Dependencies</h2>
 
-<p>Xavante depends on the following libraries:</p>
-<ul>
-  <li><a href="http://www.lua.org">Lua 5</a></li>
-  <li><a href="http://www.keplerproject.org/cgilua">CGILua 5.0</a></li>
-  <li><a href="http://www.keplerproject.org/compat">Compat-5.1 Release 4</a></li>
-  <li><a href="http://www.keplerproject.org/copas">Copas 1.0</a></li>
-  <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.1</a></li>
-  <li><a href="http://www.tecgraf.puc-rio.br/luasocket/">LuaSocket 2.0</a></li>
-  <li><a href="http://www.keplerproject.org/venv">VEnv 1.1</a></li>
-</ul>
+<p>Xavante dependendencies can be separated by the used handlers:</p>
+
+<dl>
+    <dt><strong>Xavante Core</strong></dt>
+    <dd>
+        <ul>
+          <li><a href="http://www.lua.org">Lua 5</a></li>
+          <li><a href="http://www.keplerproject.org/compat">Compat-5.1 Release 4</a></li>
+          <li><a href="http://www.keplerproject.org/copas">Copas 1.0</a></li>
+          <li><a href="http://www.tecgraf.puc-rio.br/luasocket/">LuaSocket 2.0</a></li>
+        </ul>
+    </dd>
+    <dt><strong>File Handler</strong></dt>
+    <dd>
+        <ul>
+          <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.1</a></li>
+        </ul>
+    </dd>
+    <dt><strong>CGILua handler</strong></dt>
+    <dd>
+        <ul>
+          <li><a href="http://www.keplerproject.org/cgilua">CGILua 5.0</a></li>
+          <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.1</a></li>
+          <li><a href="http://www.keplerproject.org/venv">VEnv 1.1</a></li>
+        </ul>
+    </dd>
+</dl>
 
 <h2><a name="portability"></a>Portability</h2>
 
@@ -133,7 +152,7 @@ Comments are welcome!</p>
 	<p><a href="http://validator.w3.org/check?uri=referer">
     <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" />
     </a></p>
-	<p><small>$Id: index.html,v 1.18 2005/06/20 22:49:37 carregal Exp $</small></p>
+	<p><small>$Id: index.html,v 1.19 2005/06/21 15:11:51 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
