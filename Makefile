@@ -1,22 +1,6 @@
-# $Id: Makefile,v 1.9 2005/06/21 20:18:18 mascarenhas Exp $
+# $Id: Makefile,v 1.10 2005/06/22 18:22:39 carregal Exp $
 
-LUA_DIR= /usr/local/share/lua/5.0
-LUA_LIBDIR= /usr/local/lib/lua/5.0
-XAVANTE_HOME= /usr/local/xavante
-XAVANTE_BIN = $(XAVANTE_HOME)/bin
-XAVANTE_LUA = $(XAVANTE_HOME)/lua
-XAVANTE_CONF = $(XAVANTE_HOME)/conf/xavante
-XAVANTE_WEB = $(XAVANTE_HOME)/web
-
-# OS extension for dynamic libraries
-LIB_EXT= .so
-#LIB_EXT= .dylib
-
-VERSION= 1.1
-PKG = xavante-$(VERSION)
-DIST_DIR= $(PKG)
-TAR_FILE= $(PKG).tar.gz
-ZIP_FILE= $(PKG).zip
+include ./config
 
 T_START= src/t_xavante_start.lua
 XAVANTE_START= src/xavante_start.lua
