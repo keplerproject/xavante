@@ -9,7 +9,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2005 Kepler Project
 --
--- $Id: server.lua,v 1.18 2005/05/11 15:25:41 carregal Exp $
+-- $Id: server.lua,v 1.19 2005/06/22 18:24:49 carregal Exp $
 -------------------------------------------------------------------------------
 module ("xavante")
 
@@ -19,8 +19,7 @@ require "xavante.httpd"
 -- Meta information is public even begining with an "_"
 _COPYRIGHT   = "Copyright (C) 2004-2005 Kepler Project"
 _DESCRIPTION = "A coroutine based Lua Web server with CGILua support"
-_NAME        = "Xavante"
-_VERSION     = "1.1"
+_VERSION     = "Xavante 1.1"
 
 local function _addRules(rules, hostname)
     for _, rule in ipairs(rules) do
@@ -49,7 +48,7 @@ function HTTP(config)
     -- normalizes the configuration
     config.server = config.server or {host = "*", port = 80}
     
-    xavante.httpd.register(config.server.host, config.server.port, _NAME.."/".._VERSION)
+    xavante.httpd.register(config.server.host, config.server.port, _VERSION)
     if config.defaultHost then
         _addRules(config.defaultHost.rules, "_")
     end
