@@ -1,16 +1,20 @@
-# $Id: config,v 1.1 2005/06/22 18:22:39 carregal Exp $
+# $Id: config,v 1.2 2005/07/04 19:30:04 carregal Exp $
 
-LUA_DIR= /usr/local/share/lua/5.0
+# System's libraries directory (where binary libraries are installed)
 LUA_LIBDIR= /usr/local/lib/lua/5.0
-XAVANTE_HOME= /usr/local/xavante
+
+# System's lua directory (where Lua libraries are installed)
+LUA_DIR= /usr/local/share/lua/5.0
+
+XAVANTE_HOME= /usr/local/kepler
 XAVANTE_BIN = $(XAVANTE_HOME)/bin
 XAVANTE_LUA = $(XAVANTE_HOME)/lua
 XAVANTE_CONF = $(XAVANTE_HOME)/conf/xavante
 XAVANTE_WEB = $(XAVANTE_HOME)/web
 
-# OS extension for dynamic libraries
-LIB_EXT= .so
-#LIB_EXT= .dylib
+# Lua paths
+LUA_PATH= $(LUA_DIR)/?.lua;$(LUA_DIR)/?/?.lua;$(LUA_DIR)/?/init.lua
+LUA_CPATH= $(LUA_LIBDIR)/?.so;$(LUA_LIBDIR)/l?.so
 
 VERSION= 1.1
 PKG = xavante-$(VERSION)

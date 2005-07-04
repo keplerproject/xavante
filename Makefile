@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.10 2005/06/22 18:22:39 carregal Exp $
+# $Id: Makefile,v 1.11 2005/07/04 19:30:18 carregal Exp $
 
 include ./config
 
@@ -13,7 +13,7 @@ DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html
 IMGS= web/img/test.jpg web/img/xavante.gif
 
 $(XAVANTE_START) build:
-	sed -e "s|\[\[XAVANTE_HOME\]\]|\[\[$(XAVANTE_HOME)\]\]|" -e "s|\[\[LIB_EXT\]\]|\[\[$(LIB_EXT)\]\]|" < $(T_START) > $(XAVANTE_START)
+	sed -e "s|\[\[LUA_PATH\]\]|\[\[$(LUA_PATH)\]\]|" -e "s|\[\[LUA_CPATH\]\]|\[\[$(LUA_CPATH)\]\]|" -e "s|\[\[XAVANTE_WEB\]\]|\[\[$(XAVANTE_WEB)\]\]|" < $(T_START) > $(XAVANTE_START)
 	chmod +x $(XAVANTE_START)
 
 dist: dist_dir

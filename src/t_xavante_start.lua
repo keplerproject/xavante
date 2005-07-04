@@ -8,28 +8,18 @@
 -- Copyright (c) 2004-2005 Kepler Project
 -------------------------------------------------------------------------------
 
-local LIB_EXT      = [[LIB_EXT]]
-local XAVANTE_HOME = [[XAVANTE_HOME]]
-local XAVANTE_BIN  = XAVANTE_HOME.."/bin/"  
-local XAVANTE_CONF = XAVANTE_HOME.."/conf/"
-local XAVANTE_LUA  = XAVANTE_HOME.."/lua/"
-local XAVANTE_WEB  = XAVANTE_HOME.."/web/"
-
 --- compatibility code for Lua version 5.0 providing 5.1 behavior
 if string.find (_VERSION, "Lua 5.0") and not _COMPAT51 then
 	if not LUA_PATH then
-		LUA_PATH = XAVANTE_CONF.."?.lua;"..
-                   XAVANTE_LUA.."?.lua;"..
-                   XAVANTE_LUA.."?/?.lua;"..
-                   XAVANTE_LUA.."?/init.lua;"
+		LUA_PATH = [[LUA_PATH]]
 	end
 	require"compat-5.1"
-	package.cpath = XAVANTE_BIN.."?."..LIB_EXT
+	package.cpath = [[LUA_CPATH]]
 end
 
 require "xavante.server"
 
-xavante.setwebdir(XAVANTE_WEB)
+xavante.setwebdir([[XAVANTE_WEB]])
 
 -------------------------------------------------------------------------------
 -- Loads the configuration file and starts Xavante
