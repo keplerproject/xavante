@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.12 2005/07/05 20:05:26 carregal Exp $
+# $Id: Makefile,v 1.13 2005/07/05 20:50:24 tomas Exp $
 
 include ./config
 
@@ -45,7 +45,7 @@ install: $(XAVANTE_START)
 	cp $(SAJAX_LUAS) $(LUA_DIR)/sajax
 	mkdir -p $(LUA_DIR)/xavante
 	cp $(XAVANTE_LUAS) $(LUA_DIR)/xavante
-	cp $(XAVANTE_START) $(LUA_DIR)
+	cp $(XAVANTE_START) $(BIN_DIR)
 	mkdir -p $(XAVANTE_CONF)
 	cp $(XAVANTE_CONFIG) $(XAVANTE_CONF)
 	mkdir -p $(XAVANTE_WEB)
