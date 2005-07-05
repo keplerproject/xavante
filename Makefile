@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.11 2005/07/04 19:30:18 carregal Exp $
+# $Id: Makefile,v 1.12 2005/07/05 20:05:26 carregal Exp $
 
 include ./config
 
@@ -54,7 +54,6 @@ install: $(XAVANTE_START)
 	cp $(DOCS) $(XAVANTE_WEB)/doc
 	mkdir -p $(XAVANTE_WEB)/img
 	cp $(IMGS) $(XAVANTE_WEB)/img
-	ln -sf $(LUA_LIBDIR) $(XAVANTE_BIN)
 	ln -sf $(LUA_DIR) $(XAVANTE_LUA)
 
 clean:
