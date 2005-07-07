@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.13 2005/07/05 20:50:24 tomas Exp $
+# $Id: Makefile,v 1.14 2005/07/07 20:33:29 tomas Exp $
 
 include ./config
 
@@ -22,19 +22,21 @@ dist: dist_dir
 	rm -rf $(DIST_DIR)
 
 dist_dir:
-	mkdir $(DIST_DIR)
+	mkdir -p $(DIST_DIR)
 	cp Makefile config $(DIST_DIR)
-	mkdir $(DIST_DIR)/coxpcall
-	cp $(COXPCALL_LUAS) $(DIST_DIR)/coxpcall
-	mkdir $(DIST_DIR)/sajax
-	cp $(SAJAX_LUAS) $(DIST_DIR)/sajax
-	mkdir $(DIST_DIR)/xavante
-	cp $(XAVANTE_LUAS) $(DIST_DIR)/xavante
-	mkdir $(DIST_DIR)/web
+	mkdir -p $(DIST_DIR)/src
+	cp $(T_START) $(DIST_DIR)/src
+	mkdir -p $(DIST_DIR)/src/coxpcall
+	cp $(COXPCALL_LUAS) $(DIST_DIR)/src/coxpcall
+	mkdir -p $(DIST_DIR)/src/sajax
+	cp $(SAJAX_LUAS) $(DIST_DIR)/src/sajax
+	mkdir -p $(DIST_DIR)/src/xavante
+	cp $(XAVANTE_LUAS) $(DIST_DIR)/src/xavante
+	mkdir -p $(DIST_DIR)/web
 	cp $(WEBS) $(DIST_DIR)/web
-	mkdir $(DIST_DIR)/web/doc
+	mkdir -p $(DIST_DIR)/web/doc
 	cp $(DOCS) $(DIST_DIR)/web/doc
-	mkdir $(DIST_DIR)/web/img
+	mkdir -p $(DIST_DIR)/web/img
 	cp $(IMGS) $(DIST_DIR)/web/img
 
 install: $(XAVANTE_START)
@@ -48,12 +50,7 @@ install: $(XAVANTE_START)
 	cp $(XAVANTE_START) $(BIN_DIR)
 	mkdir -p $(XAVANTE_CONF)
 	cp $(XAVANTE_CONFIG) $(XAVANTE_CONF)
-	mkdir -p $(XAVANTE_WEB)
-	cp $(WEBS) $(XAVANTE_WEB)
-	mkdir -p $(XAVANTE_WEB)/doc
-	cp $(DOCS) $(XAVANTE_WEB)/doc
-	mkdir -p $(XAVANTE_WEB)/img
-	cp $(IMGS) $(XAVANTE_WEB)/img
+	cp -r web $(XAVANTE_WEB)
 	ln -sf $(LUA_DIR) $(XAVANTE_LUA)
 
 clean:
