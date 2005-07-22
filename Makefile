@@ -1,10 +1,9 @@
-# $Id: Makefile,v 1.15 2005/07/22 20:51:27 tomas Exp $
+# $Id: Makefile,v 1.16 2005/07/22 22:05:15 tomas Exp $
 
 CONFIG= ./config
 
 include $(CONFIG)
 
-XAVANTE_LUA_PATH = $(XAVANTE_CONF)/?.lua;$(LUA_PATH)
 T_START= src/t_xavante_start.lua
 XAVANTE_START= src/xavante_start.lua
 COXPCALL_LUAS = src/coxpcall/coxpcall.lua
@@ -16,7 +15,7 @@ DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html
 IMGS= web/img/test.jpg web/img/xavante.gif
 
 $(XAVANTE_START) build:
-	sed -e "s|\[\[LUA_PATH\]\]|\[\[$(XAVANTE_LUA_PATH)\]\]|" -e "s|\[\[LUA_CPATH\]\]|\[\[$(LUA_CPATH)\]\]|" -e "s|\[\[XAVANTE_WEB\]\]|\[\[$(XAVANTE_WEB)\]\]|" < $(T_START) > $(XAVANTE_START)
+	sed -e "s|\[\[LUA_PATH\]\]|\[\[$(LUA_PATH)\]\]|" -e "s|\[\[LUA_CPATH\]\]|\[\[$(LUA_CPATH)\]\]|" -e "s|\[\[XAVANTE_WEB\]\]|\[\[$(XAVANTE_WEB)\]\]|" < $(T_START) > $(XAVANTE_START)
 	chmod +x $(XAVANTE_START)
 
 dist: dist_dir
