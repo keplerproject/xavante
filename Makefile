@@ -1,7 +1,10 @@
-# $Id: Makefile,v 1.14 2005/07/07 20:33:29 tomas Exp $
+# $Id: Makefile,v 1.15 2005/07/22 20:51:27 tomas Exp $
 
-include ./config
+CONFIG= ./config
 
+include $(CONFIG)
+
+XAVANTE_LUA_PATH = $(XAVANTE_CONF)/?.lua;$(LUA_PATH)
 T_START= src/t_xavante_start.lua
 XAVANTE_START= src/xavante_start.lua
 COXPCALL_LUAS = src/coxpcall/coxpcall.lua
@@ -13,7 +16,7 @@ DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html
 IMGS= web/img/test.jpg web/img/xavante.gif
 
 $(XAVANTE_START) build:
-	sed -e "s|\[\[LUA_PATH\]\]|\[\[$(LUA_PATH)\]\]|" -e "s|\[\[LUA_CPATH\]\]|\[\[$(LUA_CPATH)\]\]|" -e "s|\[\[XAVANTE_WEB\]\]|\[\[$(XAVANTE_WEB)\]\]|" < $(T_START) > $(XAVANTE_START)
+	sed -e "s|\[\[LUA_PATH\]\]|\[\[$(XAVANTE_LUA_PATH)\]\]|" -e "s|\[\[LUA_CPATH\]\]|\[\[$(LUA_CPATH)\]\]|" -e "s|\[\[XAVANTE_WEB\]\]|\[\[$(XAVANTE_WEB)\]\]|" < $(T_START) > $(XAVANTE_START)
 	chmod +x $(XAVANTE_START)
 
 dist: dist_dir
@@ -47,7 +50,7 @@ install: $(XAVANTE_START)
 	cp $(SAJAX_LUAS) $(LUA_DIR)/sajax
 	mkdir -p $(LUA_DIR)/xavante
 	cp $(XAVANTE_LUAS) $(LUA_DIR)/xavante
-	cp $(XAVANTE_START) $(BIN_DIR)
+	cp $(XAVANTE_START) $(SYS_BINDIR)
 	mkdir -p $(XAVANTE_CONF)
 	cp $(XAVANTE_CONFIG) $(XAVANTE_CONF)
 	cp -r web $(XAVANTE_WEB)
