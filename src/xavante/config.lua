@@ -9,8 +9,7 @@
 -- Xavante currently offers a fileHandler and a CGILuaHandler.
 --
 -- Xavante configuration can be redefined on the default file structure by the
--- optional /conf/xavante/config.lua file. If it does not exist, Xavante loads
--- the default /bin/xavante/config.lua file.
+-- the use of LUA_PATH, see more details in the online documentation.
 --
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2005 Kepler Project
@@ -19,15 +18,27 @@ require "xavante.filehandler"
 require "xavante.cgiluahandler"
 require "xavante.redirecthandler"
 
+-- Define here where HTML and CGILua scripts are located
+local webDir = [[XAVANTE_WEB]]
+
 local simplerules = {
-    -- URL remapping example
-    {match = "/", with = xavante.redirecthandler, params = {"index.lp"}}, 
-    -- filehandler example
-    {match = "/*", with = xavante.filehandler,
-     params = {baseDir = xavante.webdir()}},
-    -- cgiluahandler example
-    {match = {"/*.lp", "/*.lua"},
-     with = xavante.cgiluahandler.makeHandler (xavante.webdir())},
+    { -- URL remapping example
+    match = "/",
+    with = xavante.redirecthandler,
+    params = {"index.lp"}
+    }, 
+
+    
+    { -- filehandler example
+    match = "/*",
+    with = xavante.filehandler,
+    params = {baseDir = webDir}
+    },
+     
+    { -- cgiluahandler example
+    match = {"/*.lp", "/*.lua"},
+    with = xavante.cgiluahandler.makeHandler (webDir)
+    },
 }
 
 xavante.HTTP{

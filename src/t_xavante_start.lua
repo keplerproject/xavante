@@ -2,7 +2,7 @@
 -------------------------------------------------------------------------------
 -- Starts the Xavante Web server.
 --
--- See xavante/config.lua for configuration details.
+-- See xavante/config.lua and the online documentation for configuration details.
 --
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2005 Kepler Project
@@ -19,12 +19,12 @@ end
 
 require "xavante.server"
 
-xavante.setwebdir([[XAVANTE_WEB]])
-
 -------------------------------------------------------------------------------
 -- Loads the configuration file and starts Xavante
 --
 -- XAVANTE_ISFINISHED and XAVANTE_TIMEOUT are optional globals that can
--- control how Xavante will behave when externally controlled.
+-- control how Xavante will behave when being externally controlled.
+-- XAVANTE_ISFINISHED is a function to be called on every step of Xavante,
+-- XAVANTE_TIMEOUT is the timeout to be used by Copas.
 -------------------------------------------------------------------------------
 xavante.start(XAVANTE_ISFINISHED, XAVANTE_TIMEOUT)
