@@ -41,7 +41,7 @@ function connection (skt)
 
     req.serversoftware = _serversoftware
 	while read_method (req) do
-        local res
+		local res
 		read_headers (req)
 		repeat
 			parse_url (req)
@@ -204,6 +204,10 @@ local function send_res_headers (res)
 	if (res.sent_headers) then
 		return
 	end
+	
+	if xavante.cookies then
+		xavante.cookies.set_res_cookies (res)
+	end
 		
 	res.statusline = res.statusline or "HTTP/1.1 200 OK\r\n"
 	
@@ -285,6 +289,8 @@ function send_response (req, res)
 	
 	if res.content then
 		res:send_data (res.content)
+	else
+		res:send_headers ()
 	end
 end
 
