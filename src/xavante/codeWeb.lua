@@ -8,7 +8,7 @@
 require "cgilua.prep"
 module (arg and arg[1])
 
-function addModule (host, urlpath, m)
+function addModule (host, urlpath, m, register_as_tree)
 	if m.__main then
 		xavante.httpd.addHandler (host, urlpath, m.__main)
 	end
@@ -17,7 +17,12 @@ function addModule (host, urlpath, m)
 			string.sub (k,1,1) ~= "_" and
 			type (v) == "function"
 		then
-			xavante.httpd.addHandler (host, urlpath.."/"..k, v)
+			local pth = urlpath.."/"..k
+			xavante.httpd.addHandler (host, pth, v)
+			if register_as_tree then
+				xavante.httpd.addHandler (host, pth.."/", v)
+				xavante.httpd.addHandler (host, pth.."/*", v)
+			end
 		end
 	end
 end
