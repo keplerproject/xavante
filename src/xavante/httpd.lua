@@ -320,6 +320,12 @@ The Method %s is not allowed for URL %s on this server.<P>
 	return res
 end
 
+function redirect (res, d)
+	res.headers ["Location"] = d
+	res.statusline = "HTTP/1.1 301 Moved Permanently\r\n"
+	res.content = ""
+end
+
 function register (host, port, serversoftware)
 	local _server = assert(socket.bind(host, port))
     _serversoftware = serversoftware
