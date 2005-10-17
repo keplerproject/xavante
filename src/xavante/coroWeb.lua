@@ -9,31 +9,32 @@ local session = require "xavante.session"
 
 module (arg and arg[1])
 
+-- original coroutine functions
+local o_resume, o_yield = coroutine.resume, coroutine.yield
+
+-- creates a resume/yield pair
 local function _ortoroutines (err)
 	err = err or error
 	local _tag = {}
-	print ("_tag:", _tag)
 	return
 		function (co, ...)
 			local r,sts
 			repeat
-				print ("resume (", unpack (arg))
-				r = { coroutine.resume (co, unpack (arg)) }
+				r = { o_resume (co, unpack (arg)) }
 				sts = coroutine.status (co)
 				
-				print ("r=", unpack (r))
 				if not r[1] then err (r[2]) end
 				table.remove (r,1)
 				
 				if r[1] ~= _tag and sts == "suspended" then
-					arg = { coroutine.yield (unpack (r)) }
+					arg = { o_yield (unpack (r)) }
 				end
 			until r[1] == _tag or sts == "dead"
 			table.remove (r,1)
 			return unpack (r)
 		end,
 		function (...)
-			return coroutine.yield (_tag, unpack (arg))
+			return o_yield (_tag, unpack (arg))
 		end
 end
 
@@ -41,11 +42,8 @@ local function _error (res, err)
 	res:send_data ("<h1>error:"..err.."</h1>")
 end
 
---
--- use xavante.webtreads.resume() and xavante.webtreads.yield()
--- instead of coroutine.resume() and coroutine.yield()
---
-resume, yield = _ortoroutines ()
+
+local resume, yield = _ortoroutines ()
 
 --
 -- creates a xavante handler
@@ -59,11 +57,6 @@ function handler (name, h)
 		sess.coHandler = sess.coHandler or coroutine.create (h)
 		
 		resume (sess.coHandler, req, res)
-	--	local ok, err = coroutine.resume (sess.coHandler, req, res)
-		
-	--	if not ok then _error (res, err) end
-	
-		print ("stat: ", coroutine.status (sess.coHandler))
 		
 		if coroutine.status (sess.coHandler) == "dead" then
 			session.close (req, res, name)
@@ -86,12 +79,15 @@ function event (in_req, sh_t, get_all)
 		subH = sh_t [req.relpath]
 		if subH and type (subH) == "function" then
 			ret = subH (req, res)
+
 		end
-		if ret == "refresh" then
---			xavante.httpd.redirect (res, string.gsub (req.parsed_url.path, "/[^/]*$", ""))
+		if ret then
+			xavante.httpd.redirect (res, ret)
+			
+		elseif ret == "refresh" then
 			xavante.httpd.redirect (res, in_req.parsed_url.path)
 			req, res = yield ()
 		end
-	until not subH or get_all or ret == "refresh" 
+	until not subH or get_all or ret == "refresh"
 	return req, res
 end
