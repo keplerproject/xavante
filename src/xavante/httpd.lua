@@ -322,7 +322,7 @@ end
 
 function redirect (res, d)
 	res.headers ["Location"] = d
-	res.statusline = "HTTP/1.1 301 Moved Permanently\r\n"
+	res.statusline = "HTTP/1.1 302 Found\r\n"
 	res.content = ""
 end
 
