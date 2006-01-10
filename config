@@ -1,4 +1,4 @@
-# $Id: config,v 1.7 2005/07/22 22:05:15 tomas Exp $
+# $Id: config,v 1.8 2006/01/10 16:16:38 tomas Exp $
 
 # System's libraries directory (where binary libraries are installed)
 LUA_LIBDIR= /usr/local/lib/lua/5.0
@@ -8,6 +8,9 @@ LUA_DIR= /usr/local/share/lua/5.0
 
 # System's executables directory (where binary or script executables are installed)
 SYS_BINDIR= /usr/local/bin
+
+# Complete path to Lua command line interpreter
+LUA_INTERPRETER= /usr/local/bin/lua50
 
 XAVANTE_HOME= /usr/local/kepler
 XAVANTE_LUA = $(XAVANTE_HOME)/lua
