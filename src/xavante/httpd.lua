@@ -39,7 +39,7 @@ function connection (skt)
 	}
 	req.socket = req.copasskt
 
-    req.serversoftware = _serversoftware
+  req.serversoftware = _serversoftware
 	while read_method (req) do
 		local res
 		read_headers (req)
@@ -153,7 +153,7 @@ end
 -- until it finds a handler for the request method
 function parse_url (req)
 	local hosthandlers = vhosts [req.headers.host] or vhosts ["_"]
-	local def_url = string.format ("http://%s%s", req.headers.host, req.cmd_url)
+	local def_url = string.format ("http://%s%s", req.headers.host or "", req.cmd_url or "")
 	
 	req.parsed_url = url.parse (def_url)
 	req.parsed_url.port = req.parsed_url.port or _serverport
