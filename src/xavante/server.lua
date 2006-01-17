@@ -9,17 +9,20 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2005 Kepler Project
 --
--- $Id: server.lua,v 1.19 2005/06/22 18:24:49 carregal Exp $
+-- $Id: server.lua,v 1.20 2006/01/17 20:44:25 mascarenhas Exp $
 -------------------------------------------------------------------------------
 module ("xavante")
 
 require "copas"
 require "xavante.httpd"
+require "string"
 
 -- Meta information is public even begining with an "_"
 _COPYRIGHT   = "Copyright (C) 2004-2005 Kepler Project"
 _DESCRIPTION = "A coroutine based Lua Web server with CGILua support"
 _VERSION     = "Xavante 1.1"
+
+local _startmessage = "Xavante started on port %i"
 
 local function _addRules(rules, hostname)
     for _, rule in ipairs(rules) do
@@ -39,6 +42,13 @@ local function _addRules(rules, hostname)
             httpd.addHandler (hostname, mask, handler)
         end
     end
+end
+
+-------------------------------------------------------------------------------
+-- Sets startup message
+-------------------------------------------------------------------------------
+function start_message(msg)
+	_startmessage = msg
 end
 
 -------------------------------------------------------------------------------
@@ -67,6 +77,7 @@ function start(isFinished, timeout)
     if not res then
         error("Error loading config.lua", err)
     end
+    print(string.format(_startmessage, xavante.httpd.get_port()))
     while true do
       if isFinished and isFinished() then break end
       copas.step(timeout)

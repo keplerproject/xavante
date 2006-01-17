@@ -26,6 +26,12 @@ function strsplit (str)
 	return words
 end
 
+-- Returns the server port
+--
+
+function get_port()
+	return _serverport
+end
 
 -- Manages one connection, maybe several requests
 -- params:
