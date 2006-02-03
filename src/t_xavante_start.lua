@@ -17,6 +17,8 @@ if string.find (_VERSION, "Lua 5.0") and not _COMPAT51 then
 	package.cpath = [[LUA_CPATH]]
 end
 
+XAVANTE_WEB = XAVANTE_WEB or [[XAVANTE_WEB]]
+
 require "xavante.server"
 
 -------------------------------------------------------------------------------

@@ -19,7 +19,7 @@ require "xavante.cgiluahandler"
 require "xavante.redirecthandler"
 
 -- Define here where HTML and CGILua scripts are located
-local webDir = [[XAVANTE_WEB]]
+local webDir = XAVANTE_WEB
 
 local simplerules = {
     { -- URL remapping example
