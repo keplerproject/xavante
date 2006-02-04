@@ -12,7 +12,6 @@ xpcall = coxpcall
 module ("httpd")
 
 local _serversoftware = ""
-local _serverport = ""
 
 local vhosts = {}
 
@@ -39,13 +38,16 @@ end
 
 function connection (skt)
 	skt:setoption ("tcp-nodelay", true)
+	local srv, port = skt:getsockname ()
 	local req = {
 		rawskt = skt,
+		srv = srv,
+		port = port,
 		copasskt = copas.wrap (skt),
 	}
 	req.socket = req.copasskt
-
-  req.serversoftware = _serversoftware
+	req.serversoftware = _serversoftware
+	
 	while read_method (req) do
 		local res
 		read_headers (req)
@@ -162,7 +164,7 @@ function parse_url (req)
 	local def_url = string.format ("http://%s%s", req.headers.host or "", req.cmd_url or "")
 	
 	req.parsed_url = url.parse (def_url)
-	req.parsed_url.port = req.parsed_url.port or _serverport
+	req.parsed_url.port = req.parsed_url.port or req.port
 	req.built_url = url.build (req.parsed_url)
 	
 	local path = url.unescape (req.parsed_url.path)
@@ -334,8 +336,8 @@ end
 
 function register (host, port, serversoftware)
 	local _server = assert(socket.bind(host, port))
-    _serversoftware = serversoftware
-    _serverport = port
+	_serversoftware = serversoftware
+--	_serverport = port
 	copas.addserver(_server, connection)
 end
 
