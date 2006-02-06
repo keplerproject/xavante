@@ -117,8 +117,8 @@ xavante.cookies.delete (res, name [, options])
 	</p>
 	
 	<p>
-		To recognize the client coming back; a cookie is stored in the client's browser, with
-		a session ID (SID) as the value.
+		To recognize the client coming back, a cookie is stored in the client's browser with
+		a randomly generated session ID (SID) as the value.
 	</p>
 	
 <pre class="example">
@@ -129,7 +129,7 @@ xavante.session.close (req, res [,name])
 
 	<p>
 		The <code>name</code> is optional but strongly suggested to use a string unique to
-		your handler, to minimize any chance of collition. Remember to give the same
+		your handler, to minimize any chance of collision. Remember to give the same
 		name (if any) to the <code>session.close()</code> function.
 	</p>
 	
@@ -519,9 +519,9 @@ end)
 	</p>
 	<p>
 		When the user clicks on a link, the corresponding subhandler is executed and the
-		counter variable is modified.  The subhandler then returns a "refresh" string,
+		<code>counter</code> variable is modified.  The subhandler then returns a "refresh" string,
 		which causes the <code>event()</code> function to return immediately to the main loop
-		and refresh the main page, with the new counter variables.
+		and refresh the main page, with the updated counter variables.
 	</p>
 	<p>
 		Note that these
