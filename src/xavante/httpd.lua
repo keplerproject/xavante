@@ -25,12 +25,6 @@ function strsplit (str)
 	return words
 end
 
--- Returns the server port
---
-
-function get_port()
-	return _serverport
-end
 
 -- Manages one connection, maybe several requests
 -- params:
@@ -221,6 +215,7 @@ local function send_res_headers (res)
 	
 	res.socket:send (res.statusline)
 	for name, value in pairs (res.headers) do
+		if type(value) == "table" then vale = table.concat (value, ", ") end
 		res.socket:send (string.format ("%s: %s\r\n", name, value))
 	end
 	res.socket:send ("\r\n")
