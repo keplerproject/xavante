@@ -30,20 +30,20 @@ local function set_api ()
 	}
 	-- Headers
 	SAPI.Response.contenttype = function (s)
-		dostring(id_string .. '.res.headers ["Content-Type"] = ' .. s)
+		dostring(id_string .. '.res.headers["Content-Type"] = arg[1]', s)
 	end
 	SAPI.Response.redirect = function (s)
-                dostring(id_string .. '.res.headers ["Location"] = ' .. s)
+                dostring(id_string .. '.res.headers["Location"] = arg[1]', s)
 	end
 	SAPI.Response.header = function (h, v)
-                dostring(id_string .. '.res.headers ["' .. h .. '"] = ' .. v)
+                dostring(id_string .. '.res.headers[arg[1]] = arg[2]', h, v)
 	end
 	-- Contents
 	SAPI.Response.write = function (s)
                 coroutine.yield("SEND_DATA", s)
 	end
 	SAPI.Response.errorlog = function (s) 
-		dostring('io.stderr:write (arg[1])', s)
+		dostring('io.stderr:write(arg[1])', s)
 	end
 	-- Input POST data
 	SAPI.Request.getpostdata = function (n)
@@ -51,7 +51,7 @@ local function set_api ()
 	end
 	-- Input general information
 	SAPI.Request.servervariable = function (n)
-		return select(2, dostring('return ' .. id_string .. '.req.cgivars["' .. n .. '"]'))
+		return select(2, dostring('return ' .. id_string .. '.req.cgivars[arg[1]]', n))
 	end
 	
 	return SAPI
