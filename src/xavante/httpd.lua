@@ -195,6 +195,18 @@ function default_headers (req)
 	}
 end
 
+function add_res_header (res, h, v)
+	local prevval = res.headers [h]
+	if (prevval  == nil) then
+		res.headers[h] = v
+	elseif type (prevval) == "table" then
+		table.insert (prevval, v)
+	else
+		res.headers[h] = {prevval, v}
+	end
+end
+
+
 -- sends the response headers
 -- params:
 --		res: response object
@@ -248,6 +260,7 @@ function make_response (req)
 		req = req,
 		socket = req.socket,
 		headers = default_headers (req),
+		add_header = add_res_header,
 		send_headers = send_res_headers,
 		send_data = send_res_data,
 	}
