@@ -13,6 +13,8 @@ module ("httpd")
 
 local _serversoftware = ""
 
+local _serverports = {}
+
 local vhosts = {}
 
 function strsplit (str)
@@ -345,8 +347,16 @@ end
 function register (host, port, serversoftware)
 	local _server = assert(socket.bind(host, port))
 	_serversoftware = serversoftware
---	_serverport = port
+	_serverports[port] = true
 	copas.addserver(_server, connection)
+end
+
+function get_ports()
+  local ports = {}
+  for k, _ in pairs(_serverports) do
+    table.insert(ports, tostring(k))
+  end
+  return table.concat(ports, ", ")
 end
 
 function addHandler (host, urlpath, f)

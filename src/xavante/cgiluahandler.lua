@@ -36,7 +36,7 @@ local function set_api ()
                 dostring(id_string .. '.res.headers["Location"] = arg[1]', s)
 	end
 	SAPI.Response.header = function (h, v)
-                dostring(id_string .. '.res.headers[arg[1]] = arg[2]', h, v)
+                dostring(id_string .. ".res.headers[arg[1] ] = arg[2]", h, v)
 	end
 	-- Contents
 	SAPI.Response.write = function (s)
@@ -51,7 +51,7 @@ local function set_api ()
 	end
 	-- Input general information
 	SAPI.Request.servervariable = function (n)
-		return select(2, dostring('return ' .. id_string .. '.req.cgivars[arg[1]]', n))
+		return select(2, dostring('return ' .. id_string .. ".req.cgivars[arg[1] ]", n))
 	end
 	
 	return SAPI

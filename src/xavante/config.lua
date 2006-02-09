@@ -41,7 +41,7 @@ local simplerules = {
     },
 }
 
-xavante.start_message("Xavante started on port %i")
+xavante.start_message("Xavante started on port(s) %s")
 
 xavante.HTTP{
     server = {host = "*", port = 80},
