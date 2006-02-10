@@ -36,11 +36,11 @@ local function set_api ()
                 dostring(id_string .. '.res.headers["Location"] = arg[1]', s)
 	end
 	SAPI.Response.header = function (h, v)
-                dostring(id_string .. ".res.headers[arg[1] ] = arg[2]", h, v)
+                dostring(id_string .. ".res:add_header (arg[1], arg[2])", h, v)
 	end
 	-- Contents
 	SAPI.Response.write = function (s)
-                coroutine.yield("SEND_DATA", s)
+		coroutine.yield("SEND_DATA", s)
 	end
 	SAPI.Response.errorlog = function (s) 
 		dostring('io.stderr:write(arg[1])', s)
@@ -97,22 +97,22 @@ end
 local function cgiluahandler (req, res, diskpath)
 	if not lfs.attributes (diskpath .. "/"..req.relpath) then
 		return httpd.err_404 (req, res)
-	end      
+	end
  
-        requests[tostring(req)] = { req = req, res = res }	
+	requests[tostring(req)] = { req = req, res = res }	
 
 	set_cgivars (req, diskpath)
-        local new_state = rings.new()
-        new_state:dostring(state_init, tostring(req))
-        local coro_arg, status, op, arg
-        repeat
-        	status, op, arg = new_state:dostring("return main_coro(arg[1])", coro_arg)
-        	if op == "SEND_DATA" then
-        		res:send_data(arg)
-        	elseif op == "RECEIVE" then
-        		coro_arg = req.socket:receive(arg)
-        	end
-        until not op
+	local new_state = rings.new()
+	new_state:dostring(state_init, tostring(req))
+	local coro_arg, status, op, arg
+	repeat
+		status, op, arg = new_state:dostring("return main_coro(arg[1])", coro_arg)
+		if op == "SEND_DATA" then
+			res:send_data(arg)
+		elseif op == "RECEIVE" then
+			coro_arg = req.socket:receive(arg)
+		end
+	until not op
 end
 
 -------------------------------------------------------------------------------
