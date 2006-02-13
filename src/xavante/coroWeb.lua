@@ -43,7 +43,7 @@ local function _error (res, err)
 end
 
 
-local resume, yield = _ortoroutines ()
+resume, yield = _ortoroutines ()
 
 --
 -- creates a xavante handler
