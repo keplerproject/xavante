@@ -30,37 +30,37 @@ local function set_api ()
 	}
 	-- Headers
 	SAPI.Response.contenttype = function (s)
-		dostring(id_string .. '.res.headers["Content-Type"] = arg[1]', s)
+		remotedostring(id_string .. '.res.headers["Content-Type"] = arg[1]', s)
 	end
 	SAPI.Response.redirect = function (s)
-                dostring(id_string .. '.res.headers["Location"] = arg[1]', s)
+		remotedostring(id_string .. '.res.headers["Location"] = arg[1]', s)
 	end
 	SAPI.Response.header = function (h, v)
-                dostring(id_string .. ".res:add_header (arg[1], arg[2])", h, v)
+		remotedostring(id_string .. ".res:add_header (arg[1], arg[2])", h, v)
 	end
 	-- Contents
 	SAPI.Response.write = function (s)
 		coroutine.yield("SEND_DATA", s)
 	end
 	SAPI.Response.errorlog = function (s) 
-		dostring('io.stderr:write(arg[1])', s)
+		remotedostring('io.stderr:write(arg[1])', s)
 	end
 	-- Input POST data
 	SAPI.Request.getpostdata = function (n)
-                return coroutine.yield("RECEIVE", n)
+		return coroutine.yield("RECEIVE", n)
 	end
 	-- Input general information
 	SAPI.Request.servervariable = function (n)
-		return select(2, dostring('return ' .. id_string .. ".req.cgivars[arg[1] ]", n))
+		return select(2, remotedostring('return ' .. id_string .. ".req.cgivars[arg[1] ]", n))
 	end
 	
 	return SAPI
 end
 
 SAPI = set_api ()
-_, LUA_PATH = dostring("return package.path")
+_, LUA_PATH = remotedostring("return package.path")
 require"compat-5.1"
-_, package.cpath = dostring("return package.cpath")
+_, package.cpath = remotedostring("return package.cpath")
 require"coxpcall"
 pcall = copcall
 xpcall = coxpcall
