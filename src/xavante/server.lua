@@ -9,7 +9,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2005 Kepler Project
 --
--- $Id: server.lua,v 1.21 2006/02/09 16:14:57 uid20031 Exp $
+-- $Id: server.lua,v 1.22 2006/02/15 20:45:45 mascarenhas Exp $
 -------------------------------------------------------------------------------
 module ("xavante")
 
@@ -22,7 +22,9 @@ _COPYRIGHT   = "Copyright (C) 2004-2005 Kepler Project"
 _DESCRIPTION = "A coroutine based Lua Web server with CGILua support"
 _VERSION     = "Xavante 1.1"
 
-local _startmessage = "Xavante started on port(s) %s"
+local _startmessage = function (ports)
+  print(string.format("Xavante started on port(s) %s", table.concat(ports, ", ")))
+end
 
 local function _addRules(rules, hostname)
     for _, rule in ipairs(rules) do
@@ -77,7 +79,7 @@ function start(isFinished, timeout)
     if not res then
         error("Error loading config.lua", err)
     end
-    print(string.format(_startmessage, xavante.httpd.get_ports()))
+    _startmessage(xavante.httpd.get_ports())
     while true do
       if isFinished and isFinished() then break end
       copas.step(timeout)

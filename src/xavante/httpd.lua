@@ -356,7 +356,7 @@ function get_ports()
   for k, _ in pairs(_serverports) do
     table.insert(ports, tostring(k))
   end
-  return table.concat(ports, ", ")
+  return ports
 end
 
 function addHandler (host, urlpath, f)

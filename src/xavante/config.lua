@@ -41,7 +41,11 @@ local simplerules = {
     },
 }
 
-xavante.start_message("Xavante started on port(s) %s")
+xavante.start_message(function (ports)
+    local date = os.date("[%Y-%m-%d %H:%M:%S]")
+    print(string.format("%s Xavante started on port(s) %s",
+      date, table.concat(ports, ", ")))
+  end)
 
 xavante.HTTP{
     server = {host = "*", port = 80},
