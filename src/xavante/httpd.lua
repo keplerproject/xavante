@@ -253,7 +253,13 @@ local function send_res_data (res, data)
 	end
 	
 	if data then
-		res.socket:send (data)
+		if res.chunked then
+			res.socket:send (string.format ("%X\r\n", string.len (data)))
+			res.socket:send (data)
+			res.socket:send ("\r\n")
+		else
+			res.socket:send (data)
+		end
 	end
 end
 
@@ -266,6 +272,10 @@ function make_response (req)
 		send_headers = send_res_headers,
 		send_data = send_res_data,
 	}
+	
+	res.chunked = true
+	res:add_header ("Transfer-Encoding", "chunked")
+	
 	return res
 end
 
@@ -296,8 +306,9 @@ function send_response (req, res)
 		end
 	end
 	
-	if (res.headers ["Content-Length"]) and
-		req.headers ["connection"] == "Keep-Alive"
+	if res.chunked or 
+		((res.headers ["Content-Length"]) and
+		req.headers ["connection"] == "Keep-Alive")
 	then
 		res.headers ["Connection"] = "Keep-Alive"
 		res.keep_alive = true
@@ -309,6 +320,10 @@ function send_response (req, res)
 		res:send_data (res.content)
 	else
 		res:send_headers ()
+	end
+	
+	if res.chunked then
+		res.socket:send ("0\r\n\r\n")
 	end
 end
 
