@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.20 2006/01/17 20:44:25 mascarenhas Exp $
+# $Id: Makefile,v 1.21 2006/03/02 18:00:25 tomas Exp $
 
 CONFIG= ./config
 
@@ -49,6 +49,7 @@ install: $(XAVANTE_START)
 	cp $(SAJAX_LUAS) $(LUA_DIR)/sajax
 	mkdir -p $(LUA_DIR)/xavante
 	cp $(XAVANTE_LUAS) $(LUA_DIR)/xavante
+	mkdir -p $(SYS_BINDIR)
 	cp $(XAVANTE_START) $(SYS_BINDIR)
 	mkdir -p $(XAVANTE_CONF)/xavante
 	if [ ! -e $(XAVANTE_CONF)/xavante/$(XAVANTE_CONFIG) ] ; then cp $(XAVANTE_CONFIG) $(XAVANTE_CONF)/xavante; fi
