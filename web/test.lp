@@ -35,24 +35,24 @@ Username = <%= cgilua.cookies.get("Xavante") or "" %><br />
 <br />
 <b>Server Variables</b>:<br />
 <table border="1" cellpadding="5">
-  <tr><td>SERVER_SOFTWARE</td><td><%= cgilua.servervariable("SERVER_SOFTWARE") %></td></tr>
-  <tr><td>SERVER_NAME</td><td><%= cgilua.servervariable("SERVER_NAME") %></td></tr>
-  <tr><td>GATEWAY_INTERFACE</td><td><%= cgilua.servervariable("GATEWAY_INTERFACE") %></td></tr>
-  <tr><td>SERVER_PROTOCOL</td><td><%= cgilua.servervariable("SERVER_PROTOCOL") %></td></tr>
-  <tr><td>SERVER_PORT</td><td><%= cgilua.servervariable("SERVER_PORT") %></td></tr>
-  <tr><td>REQUEST_METHOD</td><td><%= cgilua.servervariable("REQUEST_METHOD") %></td></tr>
-  <tr><td>PATH_INFO</td><td><%= cgilua.servervariable("PATH_INFO") %></td></tr>
-  <tr><td>PATH_TRANSLATED</td><td><%= cgilua.servervariable("PATH_TRANSLATED") %></td></tr>
-  <tr><td>SCRIPT_NAME</td><td><%= cgilua.servervariable("SCRIPT_NAME") %></td></tr>
-  <tr><td>QUERY_STRING</td><td><%= cgilua.servervariable("QUERY_STRING") %></td></tr>
-  <tr><td>REMOTE_HOST</td><td><%= cgilua.servervariable("REMOTE_HOST") %></td></tr>
-  <tr><td>REMOTE_ADDR</td><td><%= cgilua.servervariable("REMOTE_ADDR") %></td></tr>
-  <tr><td>REMOTE_PORT</td><td><%= cgilua.servervariable("REMOTE_PORT") %></td></tr>
-  <tr><td>AUTH_TYPE</td><td><%= cgilua.servervariable("AUTH_TYPE") %></td></tr>
-  <tr><td>REMOTE_USER</td><td><%= cgilua.servervariable("REMOTE_USER") %></td></tr>
-  <tr><td>REMOTE_IDENT</td><td><%= cgilua.servervariable("REMOTE_IDENT") %></td></tr>
-  <tr><td>CONTENT_TYPE</td><td><%= cgilua.servervariable("CONTENT_TYPE") %></td></tr>
-  <tr><td>CONTENT_LENGTH</td><td><%= cgilua.servervariable("CONTENT_LENGTH") %></td></tr>
+  <tr><td>SERVER_SOFTWARE</td><td><%= tostring(cgilua.servervariable("SERVER_SOFTWARE")) %></td></tr>
+  <tr><td>SERVER_NAME</td><td><%= tostring(cgilua.servervariable("SERVER_NAME")) %></td></tr>
+  <tr><td>GATEWAY_INTERFACE</td><td><%= tostring(cgilua.servervariable("GATEWAY_INTERFACE")) %></td></tr>
+  <tr><td>SERVER_PROTOCOL</td><td><%= tostring(cgilua.servervariable("SERVER_PROTOCOL")) %></td></tr>
+  <tr><td>SERVER_PORT</td><td><%= tostring(cgilua.servervariable("SERVER_PORT")) %></td></tr>
+  <tr><td>REQUEST_METHOD</td><td><%= tostring(cgilua.servervariable("REQUEST_METHOD")) %></td></tr>
+  <tr><td>PATH_INFO</td><td><%= tostring(cgilua.servervariable("PATH_INFO")) %></td></tr>
+  <tr><td>PATH_TRANSLATED</td><td><%= tostring(cgilua.servervariable("PATH_TRANSLATED")) %></td></tr>
+  <tr><td>SCRIPT_NAME</td><td><%= tostring(cgilua.servervariable("SCRIPT_NAME")) %></td></tr>
+  <tr><td>QUERY_STRING</td><td><%= tostring(cgilua.servervariable("QUERY_STRING")) %></td></tr>
+  <tr><td>REMOTE_HOST</td><td><%= tostring(cgilua.servervariable("REMOTE_HOST")) %></td></tr>
+  <tr><td>REMOTE_ADDR</td><td><%= tostring(cgilua.servervariable("REMOTE_ADDR")) %></td></tr>
+  <tr><td>REMOTE_PORT</td><td><%= tostring(cgilua.servervariable("REMOTE_PORT")) %></td></tr>
+  <tr><td>AUTH_TYPE</td><td><%= tostring(cgilua.servervariable("AUTH_TYPE")) %></td></tr>
+  <tr><td>REMOTE_USER</td><td><%= tostring(cgilua.servervariable("REMOTE_USER")) %></td></tr>
+  <tr><td>REMOTE_IDENT</td><td><%= tostring(cgilua.servervariable("REMOTE_IDENT")) %></td></tr>
+  <tr><td>CONTENT_TYPE</td><td><%= tostring(cgilua.servervariable("CONTENT_TYPE")) %></td></tr>
+  <tr><td>CONTENT_LENGTH</td><td><%= tostring(cgilua.servervariable("CONTENT_LENGTH")) %></td></tr>
 </table>
 <br />
 <b>Date</b>:<br />
