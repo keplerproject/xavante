@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.21 2006/03/02 18:00:25 tomas Exp $
+# $Id: Makefile,v 1.22 2006/03/30 23:23:16 carregal Exp $
 
 CONFIG= ./config
 
@@ -53,7 +53,7 @@ install: $(XAVANTE_START)
 	cp $(XAVANTE_START) $(SYS_BINDIR)
 	mkdir -p $(XAVANTE_CONF)/xavante
 	if [ ! -e $(XAVANTE_CONF)/xavante/$(XAVANTE_CONFIG) ] ; then cp $(XAVANTE_CONFIG) $(XAVANTE_CONF)/xavante; fi
-	cp -r web $(XAVANTE_WEB)
+	cp -r web/ $(XAVANTE_WEB)
 	mkdir -p $(XAVANTE_WEB)/doc
 	cp $(DOCS) $(XAVANTE_WEB)/doc
 	ln -sf $(LUA_DIR) $(XAVANTE_LUA)
