@@ -273,8 +273,8 @@ function make_response (req)
 		send_data = send_res_data,
 	}
 	
-	res.chunked = true
-	res:add_header ("Transfer-Encoding", "chunked")
+	--res.chunked = true
+	--res:add_header ("Transfer-Encoding", "chunked")
 	
 	return res
 end
