@@ -6,7 +6,7 @@
 -------------------------------------------------------------------------------
 require "socket.url"
 
-module (arg and arg[1])
+module (arg and arg[1], package.seeall)
 
 -- dest can be of three kinds:
 --	absolute: begins with '/', the match part of the path is replaced with dest

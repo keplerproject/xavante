@@ -9,7 +9,7 @@ require "coxpcall"
 pcall  = copcall
 xpcall = coxpcall
 
-module ("httpd")
+module ("httpd", package.seeall)
 
 local _serversoftware = ""
 

@@ -9,7 +9,7 @@ require "lfs"
 require "socket.url"
 local url = socket.url
 
-module (arg and arg[1])
+module (arg and arg[1], package.seeall)
 
 require "xavante.mime"
 

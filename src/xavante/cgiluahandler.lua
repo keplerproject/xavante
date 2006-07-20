@@ -7,7 +7,7 @@
 
 requests = requests or {}
 
-module (arg and arg[1])
+module (arg and arg[1], package.seeall)
 
 require "rings"
 require "lfs"
