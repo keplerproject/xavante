@@ -244,7 +244,7 @@ end
 --		data : content data to send
 local function send_res_data (res, data)
 
-	if not data then
+	if not data or data == "" then
 		return
 	end
 
