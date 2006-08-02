@@ -29,9 +29,8 @@
               <li><a href="index.html#over">Overview</a></li>
               <li><a href="index.html#status">Status</a></li>
               <li><a href="index.html#download">Download</a></li>
-              <li><a href="index.html#history">History</a></li>
-              <li><a href="index.html#components">Dependencies</a></li>
-              <li><a href="index.html#portability">Portability</a></li>
+              <li><a href="index.html#dependencies">Dependencies</a></li>
+              <li><a href="index.html#history">History</a></li>              
               <li><a href="index.html#credits">Credits</a></li>
               <li><a href="index.html#contact">Contact us</a></li>
             </ul>
@@ -44,8 +43,13 @@
             </ul>
         </li>
         <li><a href="sajax.html">Sajax</a></li>
+	    <li><a href="http://luaforge.net/projects/xavante/">Project</a>
+	        <ul>
+	            <li><a href="http://luaforge.net/tracker/?group_id=6">Bug Tracker</a></li>
+	            <li><a href="http://luaforge.net/scm/?group_id=6">CVS</a></li>
+	        </ul>
+	    </li>
         <li><a href="license.html">License</a></li>
-		<li><a href="http://luaforge.net/projects/xavante/">LuaForge project</a></li>
 	</ul>
 </div> <!-- id="navigation" -->
 
@@ -53,27 +57,83 @@
 
 <h2><a name="over"></a>Overview</h2>
 
-<p>Xavante is a Lua HTTP 1.1 Web server that uses a modular architecture based
+<p>
+Xavante is a Lua HTTP 1.1 Web server that uses a modular architecture based
 on handlers. Xavante currently offers a file handler, a redirect handler and a
 CGILua handler for general files, URL remapping and
 <a href="http://www.keplerproject.org/cgilua/">CGILua 5.0</a> scripts respectively.
-A WebDAV handler is in the works.</p>
+A WebDAV handler is in the works.
+</p>
 
-<p>Xavante is free software and uses the same <a href="license.html">license</a>
-as Lua 5.0.</p>
+<p>
+Xavante is free software and uses the same <a href="license.html">license</a>
+as Lua 5.0.
+</p>
 
 <h2><a name="status"></a>Status</h2>
 
-<p>Current version is 1.1.</p>
+<p>Current version is 1.2.</p>
 
 <h2><a name="download"></a>Download</h2>
 
-<p>Xavante can be downloaded in source code from the
-<a href="http://luaforge.net/projects/xavante/files">LuaForge</a> page</p>
+<p>
+Xavante can be downloaded in source code from the
+<a href="http://luaforge.net/projects/xavante/files">LuaForge</a> page
+</p>
+
+<h2><a name="dependencies"></a>Dependencies</h2>
+
+<p>Xavante dependendencies can be separated by the used handlers:</p>
+
+<dl>
+    <dt><strong>Xavante Core</strong></dt>
+    <dd>
+        <ul>
+          <li><a href="http://www.lua.org">Lua 5.0.x</a></li>
+          <li><a href="http://www.keplerproject.org/compat">Compat-5.1 Release 5</a></li>
+          <li><a href="http://www.keplerproject.org/copas">Copas 1.2</a></li>
+          <li><a href="http://www.cs.princeton.edu/~diego/professional/luasocket">LuaSocket 2.0</a></li>
+        </ul>
+    </dd>
+
+    <dt><strong>File Handler</strong></dt>
+    <dd>
+        <ul>
+          <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.2</a></li>
+        </ul>
+    </dd>
+
+    <dt><strong>CGILua handler</strong></dt>
+    <dd>
+        <ul>
+          <li><a href="http://www.keplerproject.org/cgilua">CGILua 5.0</a></li>
+          <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.2</a></li>
+          <li><a href="http://www.keplerproject.org/rings">Rings 1.0</a></li>
+        </ul>
+    </dd>
+</dl>
+
+<p>
+The portability of Xavante is determined by its binary components (LuaSocket,
+LuaFileSystem and Rings) and Lua itself. The other components are as portable as Lua.
+</p>
 
 <h2><a name="history"></a>History</h2>
 <dl>
-    <dt><strong>1.1</strong> [12/Jul/2005]</dt>
+    <dt><strong>Xavante 1.2</strong> [04/Aug/2006]</dt>
+    <dd>
+    <ul>
+        <li>Uses Compat-5.1 Release 5</li>
+        <li>Uses Rings instead of VEnv</li>
+        <li>Handles multivalued HTTP headers</li>
+        <li>Added HTTP chunked mode response</li>
+        <li>New configuration option for the Xavante startup message</li>
+        <li>Redirection sends a 302 status instead of a 301 (less client caching)</li>
+        <li>Minor bug fixes in the CGILua handler</li>
+    </ul>
+    </dd>
+
+    <dt><strong><a href="http://www.keplerproject.org/xavante/1.1">Xavante 1.1</a></strong> [12/Jul/2005]</dt>
     <dd>
     <ul>
         <li>Sajax</li>
@@ -84,7 +144,7 @@ as Lua 5.0.</p>
     </ul>
     </dd>
 
-    <dt><strong>1.1 Beta</strong> [17/Mar/2005]</dt>
+    <dt><strong>Xavante 1.1 Beta</strong> [17/Mar/2005]</dt>
     <dd>
     <ul>
         <li>First public release</li>
@@ -93,59 +153,49 @@ as Lua 5.0.</p>
         <li>New configuration file with simpler rules</li>
     </ul>
     </dd>
+
+    <dt><strong>Xavante 1.0 </strong> [Feb/2004]</dt>
+    <dd>
+    <ul>
+    	<li>(not released to the public)</li>
+    </ul>
+    </dd>
+    
 </dl>
-
-<h2><a name="components"></a>Component Dependencies</h2>
-
-<p>Xavante dependendencies can be separated by the used handlers:</p>
-
-<dl>
-    <dt><strong>Xavante Core</strong></dt>
-    <dd>
-        <ul>
-          <li><a href="http://www.lua.org">Lua 5</a></li>
-          <li><a href="http://www.keplerproject.org/compat">Compat-5.1 Release 4</a></li>
-          <li><a href="http://www.keplerproject.org/copas">Copas 1.0</a></li>
-          <li><a href="http://www.tecgraf.puc-rio.br/luasocket/">LuaSocket 2.0</a></li>
-        </ul>
-    </dd>
-    <dt><strong>File Handler</strong></dt>
-    <dd>
-        <ul>
-          <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.1</a></li>
-        </ul>
-    </dd>
-    <dt><strong>CGILua handler</strong></dt>
-    <dd>
-        <ul>
-          <li><a href="http://www.keplerproject.org/cgilua">CGILua 5.0</a></li>
-          <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.1</a></li>
-          <li><a href="http://www.keplerproject.org/venv">VEnv 1.1</a></li>
-        </ul>
-    </dd>
-</dl>
-
-<h2><a name="portability"></a>Portability</h2>
-
-<p>The portability of Xavante is determined by its binary components (LuaFileSystem and LuaSocket)
-and Lua itself. The other components are as portable as Lua.</p>
 
 <h2><a name="credits"></a>Credits</h2>
 
-<p>Xavante 1.1 was redesigned and implemented by Javier Guerra and Andr&eacute; Carregal. It
-merged Javier's work with luahttpd and Andr&eacute;'s work with Copas and Xavante 1.0.
-luahttpd is now part of Xavante.</p>
+<p>
+Xavante 1.2 was implemented by Javier Guerra, Andr&eacute; Carregal,
+F&aacute;bio Mascarenhas and Leonardo Godinho.
+</p>
 
-<p>Xavante 1.0 was designed and implemented by Andr&eacute; Carregal as part of
+<p>
+Xavante 1.1 was redesigned and implemented by Javier Guerra and Andr&eacute; Carregal. It
+merged Javier's work with luahttpd and Andr&eacute;'s work with Copas and Xavante 1.0.
+luahttpd is now part of Xavante.
+</p>
+
+<p>
+Xavante 1.0 was designed and implemented by Andr&eacute; Carregal as part of
 the <a href="http://www.keplerproject.org">Kepler Project</a> with
 contributions from Renato Crivano and Danilo Tuler. Xavante 1.0 development was
 sponsored by <a href="http://www.fabricadigital.com.br">F&aacute;brica Digital</a>
-and <a href="http://www.hands.com.br">Hands</a>.</p>
+and <a href="http://www.hands.com.br">Hands</a>.
+</p>
 
 <h2><a name="contact"></a>Contact us</h2>
-<p>For more information please
+
+<p>
+For more information please
 <a href="mailto:info-NO-SPAM-THANKS@keplerproject.org">contact us</a>.
-Comments are welcome!</p>
+Comments are welcome!
+</p>
+
+<p>
+You can also reach other Kepler developers and users on the Kepler
+Project <a href="http://luaforge.net/mail/?group_id=104">mailing list</a>.
+</p>
 
 </div> <!-- id="content" -->
 
@@ -153,9 +203,8 @@ Comments are welcome!</p>
 
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">
-    <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" />
-    </a></p>
-	<p><small>$Id: index.html,v 1.25 2005/07/12 21:22:54 uid20006 Exp $</small></p>
+    <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+	<p><small>$Id: index.html,v 1.26 2006/08/02 14:31:40 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
