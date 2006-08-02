@@ -1,3 +1,5 @@
+-- $Id: sajax.lua,v 1.2 2006/08/02 13:30:07 carregal Exp $
+
 module ("sajax")
 
 local export_list = {}

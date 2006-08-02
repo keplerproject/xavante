@@ -2,7 +2,9 @@
 -- Xavante redirect handler
 --
 -- Authors: Javier Guerra and Andre Carregal
--- Copyright (c) 2004-2005 Kepler Project
+-- Copyright (c) 2004-2006 Kepler Project
+--
+-- $Id: redirecthandler.lua,v 1.6 2006/08/02 13:30:07 carregal Exp $
 -------------------------------------------------------------------------------
 require "socket.url"
 

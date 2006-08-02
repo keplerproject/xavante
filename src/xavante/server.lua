@@ -7,9 +7,9 @@
 -- See xavante/config.lua for configuration details.
 --
 -- Authors: Javier Guerra and Andre Carregal
--- Copyright (c) 2004-2005 Kepler Project
+-- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: server.lua,v 1.23 2006/07/20 22:49:47 carregal Exp $
+-- $Id: server.lua,v 1.24 2006/08/02 13:30:07 carregal Exp $
 -------------------------------------------------------------------------------
 module ("xavante", package.seeall)
 

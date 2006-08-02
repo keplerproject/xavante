@@ -2,7 +2,9 @@
 -- Xavante MIME types
 --
 -- Authors: Javier Guerra and Andre Carregal
--- Copyright (c) 2004-2005 Kepler Project
+-- Copyright (c) 2004-2006 Kepler Project
+--
+-- $Id: mime.lua,v 1.5 2006/08/02 13:30:07 carregal Exp $
 -----------------------------------------------------------------------------
 
 -- Extracted from Apache's mime.types

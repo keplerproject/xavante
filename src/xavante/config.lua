@@ -12,8 +12,10 @@
 -- the use of LUA_PATH, see more details in the online documentation.
 --
 -- Authors: Javier Guerra and Andre Carregal
--- Copyright (c) 2004-2005 Kepler Project
--------------------------------------------------------------------------------
+-- Copyright (c) 2004-2006 Kepler Project
+---
+-- $Id: config.lua,v 1.21 2006/08/02 13:30:07 carregal Exp $
+------------------------------------------------------------------------------
 require "xavante.filehandler"
 require "xavante.cgiluahandler"
 require "xavante.redirecthandler"

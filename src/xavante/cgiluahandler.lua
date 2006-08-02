@@ -2,7 +2,9 @@
 -- Xavante CGILua handler
 --
 -- Authors: Javier Guerra and Andre Carregal
--- Copyright (c) 2004-2005 Kepler Project
+-- Copyright (c) 2004-2006 Kepler Project
+--
+-- $Id: cgiluahandler.lua,v 1.18 2006/08/02 13:30:07 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}

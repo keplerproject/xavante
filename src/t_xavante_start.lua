@@ -5,7 +5,7 @@
 -- See xavante/config.lua and the online documentation for configuration details.
 --
 -- Authors: Javier Guerra and Andre Carregal
--- Copyright (c) 2004-2005 Kepler Project
+-- Copyright (c) 2004-2006 Kepler Project
 -------------------------------------------------------------------------------
 
 --- compatibility code for Lua version 5.0 providing 5.1 behavior
