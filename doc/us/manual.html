@@ -57,14 +57,18 @@
 
 <h2><a name="install"></a>Installing</h2>
 
-<p>Xavante follows the
+<p>
+Xavante follows the
 <a href="http://www.keplerproject.org/compat/">package model</a>
 for Lua 5.1, therefore it should be "installed". Refer to
 <a href="http://www.keplerproject.org/compat/manual.html#configuration">
-Compat-5.1 configuration</a> section about how to install the modules properly.</p>
+Compat-5.1 configuration</a> section about how to install the modules properly.
+</p>
 
-<p>Windows users can use the pre-compiled version of Xavante's binary components
-(LuaFileSystem and LuaSocket) available at <a href="http://luaforge.net">LuaForge</a>.</p>
+<p>
+Windows users can use the pre-compiled version of Xavante's binary components
+(LuaSocket, LuaFileSystem and Rings) available at
+<a href="http://luaforge.net">LuaForge</a>.</p>
 
 <p>Xavante installation is very flexible and is based on three directories:</p>
 
@@ -74,12 +78,19 @@ Compat-5.1 configuration</a> section about how to install the modules properly.<
 
 <p><code>$WEB</code> - Xavante HTTP documents.</p>
 
-<p>For convenience, those directories can be under the same home directory as the following
-examples show.</p>
+<p>
+The <code>$LUA</code> directory should be part of the defined <code>LUA_PATH</code>
+and the <code>$LIB</code> directory should be part of the defined <code>LUA_CPATH</code>.
+Those directories can be even under the same home directory if this is convenient,
+as the following examples show.
+</p>
 
-<p>The Xavante source includes a file <code>t_xavante_start.lua</code>. This is
-a template for the Xavante startup file. You must edit it so it reflects your system Lua paths
-and then rename it to <code>xavante_start.lua</code>.</p>
+<p>
+The Xavante source includes a file called <code>t_xavante_start.lua</code>. This is
+a template for the Xavante startup file. You must edit it so it reflects your system
+Lua paths and then rename it to <code>xavante_start.lua</code>. This file also defines
+the global <code>XAVANTE_WEB</code>, corresponding to the <code>$WEB</code> directory.
+</p>
 
 <h3>Windows Installation Example</h3>
 
@@ -96,23 +107,25 @@ somewhat different name for the directory.</p>
 $HOME
     lua50.dll             -- <a href="http://luaforge.net/projects/luabinaries/files">LuaBinaries</a>
     lua50.exe             -- LuaBinaries
-    xavante_start.lua     -- Xavante (t_xavante_start.lua)
+    xavante_start.lua     -- Xavante (from t_xavante_start.lua)
     
     $LIB
         lfs.dll           -- <a href="http://luaforge.net/projects/luafilesystem/files">LuaFileSystem</a>
-        lmime.dll         -- <a href="http://luaforge.net/projects/luasocket/files">LuaSocket</a>
-        lsocket.dll       -- LuaSocket
+        rings.dll         -- <a href="http://luaforge.net/projects/rings/files">Rings</a>
+        /mime
+            core.dll      -- <a href="http://luaforge.net/projects/luasocket/files">LuaSocket</a>
+        /socket
+            core.dll      -- LuaSocket
     
     $LUA
         compat-5.1.lua    -- <a href="http://luaforge.net/projects/compat/files">Compat</a>
         ltn12.lua         -- LuaSocket
         mime.lua          -- LuaSocket
-        stable.lua        -- <a href="http://luaforge.net/projects/venv/files">VEnv</a>
-        venv.lua          -- VEnv
+        stable.lua        -- <a href="http://luaforge.net/projects/rings/files">Rings</a>
         /cgilua           -- <a href="http://luaforge.net/projects/cgilua/files">CGILua</a>
             ...        
         /copas            -- <a href="http://luaforge.net/projects/copas/files">Copas</a>
-            ...
+            copas.lua
         /coxpcall         -- Xavante
             coxpcall.lua
         /sajax            -- Xavante
@@ -164,12 +177,12 @@ if string.find (_VERSION, "Lua 5.0") and not _COMPAT51 then
 end
 
 require "xavante.server"
-xavante.start(XAVANTE_ISFINISHED, XAVANTE_TIMEOUT)
+xavante.start()
 </pre>
 
 <h3>Linux Installation Example</h3>
 
-<p>And example of a Linux Xavante installation is the one used by Kepler. It puts the
+<p>An example of a Linux Xavante installation is the one used by Kepler. It puts the
 <code>$HOME</code> directory at <code>/usr/local/kepler</code>,
 the <code>$LIB</code> directory at <code>/usr/local/lib/lua/5.0</code>,
 with a symbolic link at <code>$HOME/lib</code>, the <code>$LUA</code> directory at
@@ -187,8 +200,11 @@ the <code>$LIB</code> directories</p>
 $HOME
     $LIB
         lfs.so
-        lmime.so
-        lsocket.so
+        rings.so
+        /mime
+            core.so
+        /socket
+            core.so
 </pre>
 
 <p>and in the definition of the paths in <code>xavante_start.lua</code>:</p>
@@ -208,11 +224,13 @@ if string.find (_VERSION, "Lua 5.0") and not _COMPAT51 then
 end
 
 require "xavante.server"
-xavante.start(XAVANTE_ISFINISHED, XAVANTE_TIMEOUT)
+xavante.start()
 </pre>
 
-<p>To install Xavante from the distribution source in a Linux enviroment, simply
-edit the <code>config</code> file to use the correct paths for your system and do:</p>
+<p>
+To install Xavante from the distribution source in a Linux enviroment, simply
+edit the <code>config</code> file to use the correct paths for your system and do:
+</p>
 
 <pre class="example">
 make
@@ -321,7 +339,7 @@ for a simple set of tests.</p>
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">
     <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>$Id: manual.html,v 1.33 2006/08/02 14:31:40 carregal Exp $</small></p>
+	<p><small>$Id: manual.html,v 1.34 2006/08/03 00:41:46 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
