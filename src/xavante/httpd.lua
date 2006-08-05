@@ -4,14 +4,14 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: httpd.lua,v 1.29 2006/08/02 13:30:07 carregal Exp $
+-- $Id: httpd.lua,v 1.30 2006/08/05 04:28:04 carregal Exp $
 -----------------------------------------------------------------------------
 local url = require "socket.url"
 require "coxpcall"
 pcall  = copcall
 xpcall = coxpcall
 
-module ("httpd", package.seeall)
+module ("xavante.httpd", package.seeall)
 
 local _serversoftware = ""
 
@@ -19,10 +19,13 @@ local _serverports = {}
 
 local vhosts = {}
 
+-- handles the change of string.find in 5.1 to string.match
+string.gmatch = string.gmatch or string.gfind
+
 function strsplit (str)
 	local words = {}
 	
-	for w in string.gfind (str, "%S+") do
+	for w in string.gmatch (str, "%S+") do
 		table.insert (words, w)
 	end
 	
@@ -49,12 +52,13 @@ function connection (skt)
 	while read_method (req) do
 		local res
 		read_headers (req)
+
 		repeat
 			parse_url (req)
 			res = make_response (req)
 		until handle_request (req, res) ~= "reparse"
 		send_response (req, res)
-		
+
 		req.socket:flush ()
 		if not res.keep_alive then
 			break
