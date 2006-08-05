@@ -4,14 +4,14 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: filehandler.lua,v 1.11 2006/08/02 13:30:07 carregal Exp $
+-- $Id: filehandler.lua,v 1.12 2006/08/05 04:27:20 carregal Exp $
 ----------------------------------------------------------------------------
 
 require "lfs"
 require "socket.url"
 local url = socket.url
 
-module (arg and arg[1], package.seeall)
+module ("xavante.filehandler", package.seeall)
 
 require "xavante.mime"
 
@@ -33,7 +33,7 @@ local function filehandler (req, res, params)
 	
 	local attr = lfs.attributes (path)
 	if not attr then
-		return httpd.err_404 (req, res)
+		return xavante.httpd.err_404 (req, res)
 	end
 	assert (type(attr) == "table")
 	

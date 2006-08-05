@@ -4,11 +4,11 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: redirecthandler.lua,v 1.6 2006/08/02 13:30:07 carregal Exp $
+-- $Id: redirecthandler.lua,v 1.7 2006/08/05 04:28:33 carregal Exp $
 -------------------------------------------------------------------------------
 require "socket.url"
 
-module (arg and arg[1], package.seeall)
+module ("xavante.redirecthandler", package.seeall)
 
 -- dest can be of three kinds:
 --	absolute: begins with '/', the match part of the path is replaced with dest
