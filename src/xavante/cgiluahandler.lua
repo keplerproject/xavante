@@ -4,12 +4,12 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.18 2006/08/02 13:30:07 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.19 2006/08/05 04:26:22 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
 
-module (arg and arg[1], package.seeall)
+module ("xavante.cgiluahandler", package.seeall)
 
 require "rings"
 require "lfs"
@@ -17,13 +17,21 @@ require "lfs"
 -------------------------------------------------------------------------------
 -- Implements SAPI
 -------------------------------------------------------------------------------
-local state_init = [[
-
-local function select(n, ...)
-  return arg[n]
+-- returns the correct argument selector for Lua 5.0 or 5.1
+local function argument(n)
+    if string.find (_VERSION, "Lua 5.0") then
+        return "arg["..tostring(n).."]"
+    else
+        return "select("..tostring(n)..", ...)"
+    end
 end
 
-local id_string = 'requests["' .. arg[1] .. '"]'
+local state_init = [[
+
+local select = select or function (n, ...) return arg[n] end
+
+
+local id_string = 'requests["' ..]]..argument(1)..[[ .. '"]'
 
 local function set_api ()
 	local SAPI = {
@@ -32,20 +40,20 @@ local function set_api ()
 	}
 	-- Headers
 	SAPI.Response.contenttype = function (s)
-		remotedostring(id_string .. '.res.headers["Content-Type"] = arg[1]', s)
+		remotedostring(id_string .. '.res.headers["Content-Type"] = ]]..argument(1)..[[', s)
 	end
 	SAPI.Response.redirect = function (s)
-		remotedostring(id_string .. '.res.headers["Location"] = arg[1]', s)
+		remotedostring(id_string .. '.res.headers["Location"] = ]]..argument(1)..[[', s)
 	end
 	SAPI.Response.header = function (h, v)
-		remotedostring(id_string .. ".res:add_header (arg[1], arg[2])", h, v)
+		remotedostring(id_string .. ".res:add_header (]]..argument(1)..[[, ]]..argument(2)..[[)", h, v)
 	end
 	-- Contents
 	SAPI.Response.write = function (s)
 		coroutine.yield("SEND_DATA", s)
 	end
 	SAPI.Response.errorlog = function (s) 
-		remotedostring('io.stderr:write(arg[1])', s)
+		remotedostring('io.stderr:write(]]..argument(1)..[[)', s)
 	end
 	-- Input POST data
 	SAPI.Request.getpostdata = function (n)
@@ -53,15 +61,20 @@ local function set_api ()
 	end
 	-- Input general information
 	SAPI.Request.servervariable = function (n)
-		return select(2, remotedostring('return ' .. id_string .. ".req.cgivars[arg[1] ]", n))
+		return select(2, remotedostring('return ' .. id_string .. ".req.cgivars[]]..argument(1)..[[]", n))
 	end
 	
 	return SAPI
 end
 
 SAPI = set_api ()
-_, LUA_PATH = remotedostring("return package.path")
-require"compat-5.1"
+if string.find (_VERSION, "Lua 5.0") and not _COMPAT51 then
+    _, LUA_PATH = remotedostring("return package.path")
+    require"compat-5.1"
+else
+    _, package.path = remotedostring("return package.path")
+end
+
 _, package.cpath = remotedostring("return package.cpath")
 require"coxpcall"
 pcall = copcall
@@ -108,7 +121,7 @@ local function cgiluahandler (req, res, diskpath)
 	new_state:dostring(state_init, tostring(req))
 	local coro_arg, status, op, arg
 	repeat
-		status, op, arg = new_state:dostring("return main_coro(arg[1])", coro_arg)
+		status, op, arg = new_state:dostring("return main_coro("..argument(1)..")", coro_arg)
 		if op == "SEND_DATA" then
 			res:send_data(arg)
 		elseif op == "RECEIVE" then
