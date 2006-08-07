@@ -6,18 +6,11 @@
 --
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
+--
+-- $Id: t_xavante_start.lua,v 1.16 2006/08/07 02:08:57 carregal Exp $
 -------------------------------------------------------------------------------
 
---- compatibility code for Lua version 5.0 providing 5.1 behavior
-if string.find (_VERSION, "Lua 5.0") and not _COMPAT51 then
-	if not LUA_PATH then
-		LUA_PATH = [[LUA_PATH]]
-	end
-	require"compat-5.1"
-	package.cpath = [[LUA_CPATH]]
-end
-
-XAVANTE_WEB = XAVANTE_WEB or [[XAVANTE_WEB]]
+dofile(os.getenv("KEPLER_INIT"))
 
 require "xavante.server"
 
