@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.19 2006/08/05 04:26:22 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.20 2006/08/08 22:51:02 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -111,7 +111,7 @@ end
 
 local function cgiluahandler (req, res, diskpath)
 	if not lfs.attributes (diskpath .. "/"..req.relpath) then
-		return httpd.err_404 (req, res)
+		return xavante.httpd.err_404 (req, res)
 	end
  
 	requests[tostring(req)] = { req = req, res = res }	
