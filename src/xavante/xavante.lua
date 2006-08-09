@@ -9,7 +9,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: server.lua,v 1.24 2006/08/02 13:30:07 carregal Exp $
+-- $Id: xavante.lua,v 1.1 2006/08/09 02:00:29 carregal Exp $
 -------------------------------------------------------------------------------
 module ("xavante", package.seeall)
 

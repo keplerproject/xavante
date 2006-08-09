@@ -7,7 +7,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: t_xavante_start.lua,v 1.17 2006/08/08 22:51:33 carregal Exp $
+-- $Id: t_xavante_start.lua,v 1.18 2006/08/09 02:00:29 carregal Exp $
 -------------------------------------------------------------------------------
 
 KEPLER_INIT = KEPLER_INIT or os.getenv("KEPLER_INIT")
@@ -18,7 +18,7 @@ end
 
 XAVANTE_WEB = KEPLER_WEB
 
-require "xavante.server"
+require "xavante"
 
 -------------------------------------------------------------------------------
 -- Loads the configuration file and starts Xavante
