@@ -60,30 +60,30 @@
 <p>
 Xavante is a Lua HTTP 1.1 Web server that uses a modular architecture based
 on handlers. Xavante currently offers a file handler, a redirect handler and a
-CGILua handler for general files, URL remapping and
+CGILua handler. Those are used for general files, URL remapping and
 <a href="http://www.keplerproject.org/cgilua/">CGILua 5.0</a> scripts respectively.
 A WebDAV handler is in the works.
 </p>
 
 <p>
 Xavante is free software and uses the same <a href="license.html">license</a>
-as Lua 5.0.
+as Lua.
 </p>
 
 <h2><a name="status"></a>Status</h2>
 
-<p>Current version is 1.2.</p>
+<p>Current version is 1.2 and works with both Lua 5.0 and Lua 5.1.</p>
 
 <h2><a name="download"></a>Download</h2>
 
 <p>
-Xavante can be downloaded in source code from the
+Xavante can be downloaded in source code from its
 <a href="http://luaforge.net/projects/xavante/files">LuaForge</a> page
 </p>
 
 <h2><a name="dependencies"></a>Dependencies</h2>
 
-<p>Xavante dependendencies can be separated by the used handlers:</p>
+<p>Xavante dependencies can be separated by the used handlers:</p>
 
 <dl>
     <dt><strong>Xavante Core</strong></dt>
@@ -118,6 +118,11 @@ The portability of Xavante is determined by its binary components (LuaSocket,
 LuaFileSystem and Rings) and Lua itself. The other components are as portable as Lua.
 </p>
 
+<p>
+Note that even if Xavante can be used with Lua 5.1, scripts for CGILua 5.0 may
+still use Lua 5.0 and therefore present problems.
+</p>
+
 <h2><a name="history"></a>History</h2>
 <dl>
     <dt><strong>Xavante 1.2</strong> [04/Aug/2006]</dt>
@@ -127,8 +132,11 @@ LuaFileSystem and Rings) and Lua itself. The other components are as portable as
         <li>Uses Rings instead of VEnv</li>
         <li>Handles multivalued HTTP headers</li>
         <li>Added HTTP chunked mode response</li>
+        <li>New startup method, using KEPLER_INIT if available</li>
         <li>New configuration option for the Xavante startup message</li>
         <li>Redirection sends a 302 status instead of a 301 (less client caching)</li>
+        <li>Changed xavante/server.lua to xavante/xavante.lua for a simpler
+        require"xavante" instead of require"xavante.server"</li>
         <li>Minor bug fixes in the CGILua handler</li>
     </ul>
     </dd>
@@ -204,7 +212,7 @@ Project <a href="http://luaforge.net/mail/?group_id=104">mailing list</a>.
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">
     <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>$Id: index.html,v 1.26 2006/08/02 14:31:40 carregal Exp $</small></p>
+	<p><small>$Id: index.html,v 1.27 2006/08/09 02:52:07 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
