@@ -7,16 +7,19 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: t_xavante_start.lua,v 1.18 2006/08/09 02:00:29 carregal Exp $
+-- $Id: t_xavante_start.lua,v 1.19 2006/08/10 20:09:37 carregal Exp $
 -------------------------------------------------------------------------------
 
-KEPLER_INIT = KEPLER_INIT or os.getenv("KEPLER_INIT")
-
-if KEPLER_INIT then
-    dofile(KEPLER_INIT)
+-- Kepler bootstrap
+local bootstrap, err = loadfile(os.getenv("KEPLER_INIT") or [[KEPLER_INIT]])
+if bootstrap then
+  bootstrap()
+else
+  io.stderr:write(tostring(err))
+  return nil
 end
 
-XAVANTE_WEB = KEPLER_WEB
+XAVANTE_WEB = XAVANTE_WEB or [[XAVANTE_WEB]]
 
 require "xavante"
 
