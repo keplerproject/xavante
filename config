@@ -1,4 +1,4 @@
-# $Id: config,v 1.8 2006/01/10 16:16:38 tomas Exp $
+# $Id: config,v 1.9 2006/08/10 21:23:19 mascarenhas Exp $
 
 # System's libraries directory (where binary libraries are installed)
 LUA_LIBDIR= /usr/local/lib/lua/5.0
@@ -12,17 +12,15 @@ SYS_BINDIR= /usr/local/bin
 # Complete path to Lua command line interpreter
 LUA_INTERPRETER= /usr/local/bin/lua50
 
-XAVANTE_HOME= /usr/local/kepler
+XAVANTE_HOME= /usr/local/kepler/1.0
+KEPLER_INIT= /usr/local/kepler/kepler_init.lua
 XAVANTE_LUA = $(XAVANTE_HOME)/lua
 XAVANTE_CONF = $(XAVANTE_HOME)/conf
 XAVANTE_WEB = $(XAVANTE_HOME)/web
-
-# Lua paths
-LUA_PATH= $(XAVANTE_CONF)/?.lua;$(LUA_DIR)/?.lua;$(LUA_DIR)/?/?.lua;$(LUA_DIR)/?/init.lua
-LUA_CPATH= $(LUA_LIBDIR)/?.so;$(LUA_LIBDIR)/l?.so
 
 VERSION= 1.1
 PKG = xavante-$(VERSION)
 DIST_DIR= $(PKG)
 TAR_FILE= $(PKG).tar.gz
 ZIP_FILE= $(PKG).zip
+
