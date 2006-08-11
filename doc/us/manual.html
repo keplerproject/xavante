@@ -58,16 +58,12 @@
 <h2><a name="install"></a>Installing</h2>
 
 <p>
-Xavante follows the package model for Lua 5.1, therefore it should be "installed".
+Xavante follows the
+<a href="http://www.inf.puc-rio.br/~roberto/pil2/chapter15.pdf">package model</a>
+for Lua 5.1, therefore it should be "installed".
 Refer to <a href="http://www.keplerproject.org/compat/manual.html#configuration">
 Compat-5.1 configuration</a> section about how to install the modules properly
 in a Lua 5.0 environment.
-</p>
-
-<p>
-You can learn more about the Lua 5.1 package model in
-<a href="http://www.inf.puc-rio.br/~roberto/pil2/chapter15.pdf">chapter 15</a>
-of Programming in Lua (second edition).
 </p>
 
 <p>
@@ -93,18 +89,50 @@ as the following examples show.
 </p>
 
 <p>
-The Xavante source includes a file called <code>t_xavante_start.lua</code>. This is
-a template for the Xavante startup file. You must edit it so it reflects your system
-Lua Paths and CPaths, then rename it to <code>xavante_start.lua</code>. This file also defines
-the global <code>XAVANTE_WEB</code>, corresponding to the <code>$WEB</code> directory.
+The Xavante source includes a file called <code>t_xavante_start.lua</code>, a
+template for the Xavante startup file (<code>xavante_start.lua</code>).
+The <code>xavante_start.lua</code> file is responsible for making sure the Lua Paths
+and CPaths are defined, setting the location of the <code>XAVANTE_WEB</code>
+global (corresponding to the <code>$WEB</code> directory) and starting the server itself.
+<p>
+
+<p>
+The Xavante distribution assumes the Kepler file structure by default. If you
+want to use a diferent directory structure you'll have to edit the
+<code>xavante_start.lua</code> accordingly.
+</p>
+
+<p>
+Note that the Kepler installation creates a separate directory for
+configuration files (<code>$CONF</code>) and adjusts the Lua Path
+accordingly to make sure that the files present on <code>$CONF</code>
+are found first. That allows the upgrade of Xavante and other components
+without overwriting the user configuration.
+</p>
+
+<p>
+The examples below show the startup file <code>xavante_start.lua</code>
+for a Kepler installation in both Windows and Unix using the optional
+environment variable <code>KEPLER_INIT</code> to define the Lua Path
+and CPath.
+</p>
+
+<p>
+For more information on the use of <code>KEPLER_INIT</code> please check the
+Kepler documentation.
+</p>
+
+<p>
+The startup file executes the <code>kepler_init.lua</code> configuration file
+to set the paths and the libray extension name (<code>dll</code> or <code>so</code>
+for example).
 </p>
 
 <h3>Windows Installation Example</h3>
 
 <p>
-If you are using Lua 5.0, an example of a Windows LuaBinaries 5.0 Release 2
-Xavante installation is the one used by
-<a href="http://www.keplerproject.org/">Kepler</a>. It is shown below with the
+If you are using Lua 5.0, an example of a Windows LuaBinaries 5.0.2 Release 2
+Xavante installation is the one used by Kepler. It is shown below with the
 list of included files and where those files can be found in
 <a href="http://luaforge.net">LuaForge</a>.
 </p>
@@ -162,53 +190,46 @@ $HOME
 </pre>
 
 <p>
-Note that the Kepler installation creates a separate directory for
-configuration files (<code>$CONF</code>) and adjusts the Lua Path
-accordingly to make sure that the files present on <code>$CONF</code>
-are found first. That allows the upgrade of Xavante and other components
-without overwriting the user configuration.
-</p>
-
-<p>
-Also note that the Lua Path can also include other directories
-in order to allow a different Xavante configuration to be determined for
-each user for example.
-</p>
-
-<p>
-The example below shows the startup file <code>xavante_start.lua</code>
-for a Kepler installation using the environment variable <code>KEPLER_INIT</code>
-to define the Lua Path and CPath.
+The <code>xavante_start.lua</code> for Windows would be something like:
 </p>
 
 <pre class="example">
--- KEPLER_INIT points to kepler_init.lua
--- kepler_init.lua defines package.path, package.cpath and XAVANTE_WEB
-dofile(os.getenv("KEPLER_INIT"))
+-- Kepler bootstrap
+local bootstrap, err = loadfile(os.getenv("KEPLER_INIT") or [[c:\Program Files\kepler\1.0]])
+if bootstrap then
+  bootstrap()
+else
+  io.stderr:write(tostring(err))
+  return nil
+end
 
+XAVANTE_WEB = [[c:\Program Files\kepler\1.0\web]]
 require "xavante"
 xavante.start()
 </pre>
 
 <p>
-For more information on the use of <code>KEPLER_INIT</code> please check the
-Kepler documentation.
+The <code>kepler_init.lua</code> file in Windows would be something like:
 </p>
 
-<h3>Linux Installation Example</h3>
+<pre class="example">
+-- Lua 5.0 paths 
+local conf50    = [[c:\Program Files\kepler\1.0\conf]]
+local luabase50 = [[c:\Program Files\kepler\1.0\lua]]
+local libbase50 = [[c:\Program Files\kepler\1.0\lib]]
+</pre>
 
-<p>An example of a Linux Xavante installation for Lua 5.0 is the one used by Kepler.
-It puts the <code>$HOME</code> directory at <code>/usr/local/kepler</code>,
+<h3>Unix Installation Example</h3>
+
+<p>An example of a Unix Xavante installation for Lua 5.0 is the one used by Kepler.
+It puts the <code>$HOME</code> directory at <code>/usr/local/kepler/1.0</code>,
 the <code>$LIB</code> directory at <code>/usr/local/lib/lua/5.0</code>,
 with a symbolic link at <code>$HOME/lib</code>, the <code>$LUA</code> directory at
 <code>/usr/local/share/lua/5.0</code>, with a symbolic link at <code>$HOME/lua</code>.
 It also assumes that the Lua executable and <code>xavante_start.lua</code>
 are located in the system path (usually <code>/usr/local/bin</code>).</p>
 
-<p>The Linux Makefile uses <code>sed</code> to build a <code>xavante_start.lua</code>
-that conforms to the above Kepler installation directories.</p>
-
-<p>The Linux Xavante installation would differ basically only in the contents of
+<p>The Unix Xavante installation would differ basically only in the contents of
 the <code>$LIB</code> directories</p>
 
 <pre class="example">
@@ -221,22 +242,37 @@ $LIB
         core.so
 </pre>
 
-<p>
-The Kepler initialization file handles the path setting, so <code>xavante_start.lua</code>
-is the same one used by Windows:
-</p>
+<p>The Unix Makefile uses <code>sed</code> to build a <code>xavante_start.lua</code>
+that conforms to the above Kepler installation directories:</p>
 
 <pre class="example">
--- KEPLER_INIT points to kepler_init.lua
--- kepler_init.lua defines package.path, package.cpath and XAVANTE_WEB
-dofile(os.getenv("KEPLER_INIT"))
+-- Kepler bootstrap
+local bootstrap, err = loadfile(os.getenv("KEPLER_INIT") or [[/usr/local/kepler/1.0]])
+if bootstrap then
+  bootstrap()
+else
+  io.stderr:write(tostring(err))
+  return nil
+end
 
+XAVANTE_WEB = [[/usr/local/kepler/1.0/web]]
 require "xavante"
 xavante.start()
 </pre>
 
 <p>
-To install Xavante from the distribution source in a Linux enviroment, simply
+The <code>kepler_init.lua</code> file in Unix would be something like:
+</p>
+
+<pre class="example">
+-- Lua 5.0 paths 
+local conf50    = [[/usr/local/kepler/1.0/conf]]
+local luabase50 = [[/usr/local/share/lua/5.0]]
+local libbase50 = [[/usr/local/lib/lua/5.0]]
+</pre>
+
+<p>
+To install Xavante from the distribution source in a Unix enviroment, simply
 edit the <code>config</code> file to use the correct paths for your system and do:
 </p>
 
@@ -244,6 +280,37 @@ edit the <code>config</code> file to use the correct paths for your system and d
 make
 make install
 </pre>
+
+<p>
+An example of a <code>config</code> file for Unix would be:
+</p>
+
+<pre class="example">
+# System's libraries directory (where binary libraries are installed)
+LUA_LIBDIR= /usr/local/lib/lua/5.0
+
+# System's lua directory (where Lua libraries are installed)
+LUA_DIR= /usr/local/share/lua/5.0
+
+# System's executables directory (where binary or script executables are installed)
+SYS_BINDIR= /usr/local/bin
+
+# Complete path to Lua command line interpreter
+LUA_INTERPRETER= /usr/local/bin/lua50
+
+# Xavante default directory for HTTP documents
+XAVANTE_HOME= /usr/local/kepler/1.0
+
+# Kepler initialization file
+KEPLER_INIT= /usr/local/kepler/kepler_init.lua
+</pre>
+
+<p>
+Note that this <code>config</code> is not related to the
+<code>$LUA/xavante/config.lua</code>. The first is the configuration for the
+Unix installation, the latter is the configuration file for Xavante
+and is detailed in the next section.
+</p>
 
 <h2><a name="config"></a>Configuring</h2>
 
@@ -338,7 +405,7 @@ xavante.HTTP{
 Running Xavante requires the execution of the correctly set
 <code>xavante_start.lua</code>. This can be done through a 
 <code>xavante.bat</code> file in Windows, or by giving execution rights to
-the <code>xavante_start.lua</code> on Linux.
+the <code>xavante_start.lua</code> on Unix.
 </p>
 
 <p>
@@ -382,7 +449,7 @@ control.
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">
     <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>$Id: manual.html,v 1.37 2006/08/11 19:29:30 carregal Exp $</small></p>
+	<p><small>$Id: manual.html,v 1.38 2006/08/11 21:28:13 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
