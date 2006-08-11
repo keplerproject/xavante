@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.24 2006/08/11 19:07:30 carregal Exp $
+# $Id: Makefile,v 1.25 2006/08/11 21:27:22 carregal Exp $
 
 CONFIG= ./config
 
@@ -17,7 +17,7 @@ DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html
 IMGS= web/img/test.jpg web/img/xavante.gif
 
 $(KEPLER_INIT): $(T_KEPLER_INIT)
-	sed -e "s|\[\[LUABASE\]\]|\[\[$(LUA_DIR)\]\]|" -e "s|\[\[LIBBASE\]\]|\[\[$(LUA_LIBDIR)\]\]|" -e "s|\[\[XAVANTE_CONF\]\]|\[\[$(XAVANTE_CONF)\]\]|" -e "s|\[\[LIB_EXT\]\]|\[\[so\]\]|" < $(T_INIT) > $(INIT)
+	sed -e "s|\[\[LUABASE50\]\]|\[\[$(LUA_DIR)\]\]|" -e "s|\[\[LIBBASE50\]\]|\[\[$(LUA_LIBDIR)\]\]|" -e "s|\[\[XAVANTE_CONF\]\]|\[\[$(XAVANTE_CONF)\]\]|" -e "s|\[\[LIB_EXT\]\]|\[\[so\]\]|" < $(T_INIT) > $(INIT)
 
 $(XAVANTE_START) build: $(T_START) $(KEPLER_INIT)
 	sed -e "s|\[\[KEPLER_INIT\]\]|\[\[$(KEPLER_INIT)\]\]|" < $(T_START) > $(XAVANTE_START)
@@ -62,7 +62,7 @@ install: $(XAVANTE_START) $(KEPLER_INIT)
 	mkdir -p $(XAVANTE_WEB)/doc
 	cp $(DOCS) $(XAVANTE_WEB)/doc
 	ln -sf $(LUA_DIR) $(XAVANTE_LUA)
-	cp $(INIT) $(KEPLER_INIT)
+    if [ ! -e $(KEPLER_INIT) ] ; then cp $(INIT) $(KEPLER_INIT); fi
 
 clean:
 	rm -f $(XAVANTE_START)
