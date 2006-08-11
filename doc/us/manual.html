@@ -65,6 +65,12 @@ in a Lua 5.0 environment.
 </p>
 
 <p>
+You can learn more about the Lua 5.1 package model in
+<a href="http://www.inf.puc-rio.br/~roberto/pil2/chapter15.pdf">chapter 15</a>
+of Programming in Lua (second edition).
+</p>
+
+<p>
 Windows users can use the pre-compiled version of Xavante's binary components
 (LuaSocket, LuaFileSystem and Rings) available at
 <a href="http://luaforge.net">LuaForge</a>.</p>
@@ -181,14 +187,9 @@ to define the Lua Path and CPath.
 </p>
 
 <pre class="example">
-KEPLER_INIT = KEPLER_INIT or os.getenv("KEPLER_INIT")
-
-if KEPLER_INIT then
-    -- defines package.path and package.cpath
-    dofile(KEPLER_INIT)
-end
-
-XAVANTE_WEB = KEPLER_WEB
+-- KEPLER_INIT points to kepler_init.lua
+-- kepler_init.lua defines package.path, package.cpath and XAVANTE_WEB
+dofile(os.getenv("KEPLER_INIT"))
 
 require "xavante"
 xavante.start()
@@ -231,14 +232,9 @@ is the same one used by Windows:
 </p>
 
 <pre class="example">
-KEPLER_INIT = KEPLER_INIT or os.getenv("KEPLER_INIT")
-
-if KEPLER_INIT then
-    -- defines package.path and package.cpath
-    dofile(KEPLER_INIT)
-end
-
-XAVANTE_WEB = KEPLER_WEB
+-- KEPLER_INIT points to kepler_init.lua
+-- kepler_init.lua defines package.path, package.cpath and XAVANTE_WEB
+dofile(os.getenv("KEPLER_INIT"))
 
 require "xavante"
 xavante.start()
@@ -396,7 +392,7 @@ control.
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">
     <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>$Id: manual.html,v 1.35 2006/08/09 02:52:08 carregal Exp $</small></p>
+	<p><small>$Id: manual.html,v 1.36 2006/08/11 00:57:11 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
