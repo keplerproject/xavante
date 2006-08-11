@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.23 2006/08/10 21:23:19 mascarenhas Exp $
+# $Id: Makefile,v 1.24 2006/08/11 19:07:30 carregal Exp $
 
 CONFIG= ./config
 
@@ -10,7 +10,7 @@ T_INIT= src/t_kepler_init.lua
 INIT= src/kepler_init.lua
 COXPCALL_LUAS = src/coxpcall/coxpcall.lua
 SAJAX_LUAS = src/sajax/sajax.lua
-XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/config.lua src/xavante/filehandler.lua src/xavante/httpd.lua src/xavante/mime.lua src/xavante/redirecthandler.lua src/xavante/server.lua
+XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/config.lua src/xavante/filehandler.lua src/xavante/httpd.lua src/xavante/mime.lua src/xavante/redirecthandler.lua src/xavante/xavante.lua
 XAVANTE_CONFIG = src/xavante/config.lua
 WEBS= web/index.lp web/test.lp
 DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html doc/us/xavante.gif
