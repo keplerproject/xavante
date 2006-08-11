@@ -1,4 +1,4 @@
-# $Id: config,v 1.9 2006/08/10 21:23:19 mascarenhas Exp $
+# $Id: config,v 1.10 2006/08/11 19:07:07 carregal Exp $
 
 # System's libraries directory (where binary libraries are installed)
 LUA_LIBDIR= /usr/local/lib/lua/5.0
@@ -18,7 +18,7 @@ XAVANTE_LUA = $(XAVANTE_HOME)/lua
 XAVANTE_CONF = $(XAVANTE_HOME)/conf
 XAVANTE_WEB = $(XAVANTE_HOME)/web
 
-VERSION= 1.1
+VERSION= 1.2
 PKG = xavante-$(VERSION)
 DIST_DIR= $(PKG)
 TAR_FILE= $(PKG).tar.gz
