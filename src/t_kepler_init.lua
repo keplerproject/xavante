@@ -7,7 +7,7 @@
 --
 -- (the paths should not end in /)
 --
--- $Id: t_kepler_init.lua,v 1.2 2006/08/11 21:27:36 carregal Exp $
+-- $Id: t_kepler_init.lua,v 1.3 2006/08/15 21:14:05 mascarenhas Exp $
 
 -- Lua 5.0 paths 
 local conf50    = [[XAVANTE_CONF]]
@@ -21,6 +21,9 @@ local libbase51 = [[LIBBASE51]]
 
 -- Library extension used in the system (dll, so etc)
 local libext = [[LIB_EXT]]
+
+
+XAVANTE_WEB = [[XAVANTE_WEB]]
 
 --------- end of parameters ------------
 

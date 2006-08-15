@@ -7,7 +7,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: t_xavante_start.lua,v 1.20 2006/08/11 21:27:36 carregal Exp $
+-- $Id: t_xavante_start.lua,v 1.21 2006/08/15 21:14:05 mascarenhas Exp $
 -------------------------------------------------------------------------------
 
 -- Kepler bootstrap
@@ -18,8 +18,6 @@ else
   io.stderr:write(tostring(err))
   return nil
 end
-
-XAVANTE_WEB = [[XAVANTE_WEB]]
 
 require "xavante"
 
