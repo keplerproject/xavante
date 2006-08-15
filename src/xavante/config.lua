@@ -14,17 +14,17 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 ---
--- $Id: config.lua,v 1.21 2006/08/02 13:30:07 carregal Exp $
+-- $Id: config.lua,v 1.22 2006/08/15 02:56:36 carregal Exp $
 ------------------------------------------------------------------------------
 require "xavante.filehandler"
 require "xavante.cgiluahandler"
 require "xavante.redirecthandler"
 
--- Define here where HTML and CGILua scripts are located
+-- Define here where Xavante HTTP documents scripts are located
 local webDir = XAVANTE_WEB
 
 local simplerules = {
-    { -- URL remapping example
+    { -- URI remapping example
     match = "/",
     with = xavante.redirecthandler,
     params = {"index.lp"}
@@ -43,6 +43,7 @@ local simplerules = {
     },
 }
 
+-- Displays a message in the console with the used ports
 xavante.start_message(function (ports)
     local date = os.date("[%Y-%m-%d %H:%M:%S]")
     print(string.format("%s Xavante started on port(s) %s",
