@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.26 2006/08/15 21:14:05 mascarenhas Exp $
+# $Id: Makefile,v 1.27 2006/08/16 19:37:04 mascarenhas Exp $
 
 CONFIG= ./config
 
@@ -62,7 +62,7 @@ install: $(XAVANTE_START) $(KEPLER_INIT)
 	mkdir -p $(XAVANTE_WEB)/doc
 	cp $(DOCS) $(XAVANTE_WEB)/doc
 	ln -sf $(LUA_DIR) $(XAVANTE_LUA)
-    if [ ! -e $(KEPLER_INIT) ] ; then cp $(INIT) $(KEPLER_INIT); fi
+	if [ ! -e $(KEPLER_INIT) ] ; then cp $(INIT) $(KEPLER_INIT); fi
 
 clean:
 	rm -f $(XAVANTE_START)
