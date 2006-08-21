@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: httpd.lua,v 1.30 2006/08/05 04:28:04 carregal Exp $
+-- $Id: httpd.lua,v 1.31 2006/08/21 22:38:05 carregal Exp $
 -----------------------------------------------------------------------------
 local url = require "socket.url"
 require "coxpcall"
@@ -82,7 +82,9 @@ function read_method (req)
 	
 	if not req.cmdline then return nil end
 	req.cmd_mth, req.cmd_url, req.cmd_version = unpack (strsplit (req.cmdline))
-	req.cmd_mth = string.upper (req.cmd_mth)
+	req.cmd_mth = string.upper (req.cmd_mth or 'GET')
+    req.cmd_url = req.cmd_url or '/'
+    
 	return true
 end
 
@@ -102,7 +104,7 @@ function read_headers (req)
 			return
 		end
 		local _,_, name, value = string.find (l, "^([^: ]+)%s*:%s*(.+)")
-		name = string.lower (name)
+		name = string.lower (name or '')
 		if name then
 			prevval = headers [name]
 			if prevval then
@@ -165,7 +167,7 @@ function parse_url (req)
 	local hosthandlers = vhosts [req.headers.host] or vhosts ["_"]
 	local def_url = string.format ("http://%s%s", req.headers.host or "", req.cmd_url or "")
 	
-	req.parsed_url = url.parse (def_url)
+	req.parsed_url = url.parse (def_url or '')
 	req.parsed_url.port = req.parsed_url.port or req.port
 	req.built_url = url.build (req.parsed_url)
 	
@@ -279,9 +281,12 @@ function make_response (req)
 		send_data = send_res_data,
 	}
 	
-	res.chunked = true
-	res:add_header ("Transfer-Encoding", "chunked")
-	
+	if req.cmd_version == "HTTP/1.1" then
+        res.chunked = true
+    	res:add_header ("Transfer-Encoding", "chunked")
+    else
+        res.chunked = false
+    end
 	return res
 end
 
