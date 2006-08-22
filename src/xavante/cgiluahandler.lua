@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.20 2006/08/08 22:51:02 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.21 2006/08/22 22:01:38 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -128,6 +128,9 @@ local function cgiluahandler (req, res, diskpath)
 			coro_arg = req.socket:receive(arg)
 		end
 	until not op
+	-- release resources
+	new_state:close()
+	requests[tostring(req)] = nil
 end
 
 -------------------------------------------------------------------------------
