@@ -98,8 +98,9 @@ and starting the server itself.
 </p>
 
 <p>
-The Xavante distribution assumes the Kepler file structure by default. If you
-want to use a diferent directory structure you'll have to edit the
+The Xavante distribution assumes the
+<a href="http://www.keplerproject.org">Kepler</a> file structure by default.
+If you want to use a diferent directory structure you'll have to edit the
 <code>xavante_start.lua</code> accordingly.
 </p>
 
@@ -195,14 +196,14 @@ $HOME
 
 <p>
 Assuming a Windows installation where <code>$HOME</code> is located in
-<code>c:\Program Files\Kepler\1.0</code>, the <code>xavante_start.lua</code> would
+<code>c:\Kepler\1.0</code>, the <code>xavante_start.lua</code> would
 be something like:
 </p>
 
 <pre class="example">
 -- Kepler bootstrap
 local bootstrap, err = loadfile(os.getenv("KEPLER_INIT") or
-                                [[c:\Program Files\kepler\1.0]])
+                                [[c:\kepler\kepler_init.lua]])
 if bootstrap then
   bootstrap()
 else
@@ -210,7 +211,7 @@ else
   return nil
 end
 
-XAVANTE_WEB = [[c:\Program Files\kepler\1.0\web]]
+XAVANTE_WEB = [[c:\Kepler\1.0\web]]
 require "xavante"
 xavante.start()
 </pre>
@@ -223,9 +224,9 @@ like:
 <pre class="example">
 ...
 -- Lua 5.0 paths 
-local conf50    = [[c:\Program Files\kepler\1.0\conf]] -- $CONF
-local luabase50 = [[c:\Program Files\kepler\1.0\lua]]  -- $LUA
-local libbase50 = [[c:\Program Files\kepler\1.0\lib]]  -- $LIB
+local conf50    = [[c:\kepler\1.0\conf]] -- $CONF
+local luabase50 = [[c:\kepler\1.0\lua]]  -- $LUA
+local libbase50 = [[c:\kepler\1.0\lib]]  -- $LIB
 ...
 </pre>
 
@@ -309,8 +310,8 @@ The Kepler installer also assumes that the Lua executable and
 
 <pre class="example">
 $BIN
-	lua50
-	xavante_start
+	lua50			-- from LuaBinaries
+	xavante_start	-- from Xavante
 </pre>
 
 <p>
@@ -320,7 +321,7 @@ It is also assumed that the Lua library can be found in the system path
 
 <pre class="example">
 $BINLIB
-	liblua50.so
+	liblua50.so		-- from LuaBinaries
 </pre>
 
 <p>
@@ -333,7 +334,7 @@ generated <code>xavante_start.lua</code> would be:
 #!/usr/bin/env lua50
 -- Kepler bootstrap
 local bootstrap, err = loadfile(os.getenv("KEPLER_INIT") or
-                                [[/usr/local/kepler/1.0]])
+                                [[/usr/local/kepler/kepler_init.lua]])
 if bootstrap then
   bootstrap()
 else
@@ -479,8 +480,8 @@ xavante.HTTP{
 </pre>
 
 <p>Note the use of <code>webDir</code> both to set the base directory
-for the file handler and for the CGILua scripts. This path should be edited for
-the desired directory if you are not using the Kepler structure.</p>
+for the file handler and for the CGILua scripts. These paths should contain the
+desired directories if you are not using the Kepler structure.</p>
 
 <p>To use virtual hosts with Xavante, the call to <code>xavante.HTTP</code>
 would be changed to something like</p>
@@ -548,7 +549,7 @@ detail consult the Kepler documentation.
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">
     <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>$Id: manual.html,v 1.40 2006/08/19 12:50:58 carregal Exp $</small></p>
+	<p><small>$Id: manual.html,v 1.41 2006/08/24 02:10:33 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
