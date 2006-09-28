@@ -4,20 +4,19 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: httpd.lua,v 1.31 2006/08/21 22:38:05 carregal Exp $
+-- $Id: httpd.lua,v 1.32 2006/09/28 16:54:44 jguerra Exp $
 -----------------------------------------------------------------------------
+
 local url = require "socket.url"
-require "coxpcall"
-pcall  = copcall
-xpcall = coxpcall
+--require "coxpcall"
+--pcall  = copcall
+--xpcall = coxpcall
 
 module ("xavante.httpd", package.seeall)
 
 local _serversoftware = ""
 
 local _serverports = {}
-
-local vhosts = {}
 
 -- handles the change of string.find in 5.1 to string.match
 string.gmatch = string.gmatch or string.gfind
@@ -38,6 +37,8 @@ end
 --		skt : client socket
 
 function connection (skt)
+	copas.setErrorHandler (errorhandler)
+	
 	skt:setoption ("tcp-nodelay", true)
 	local srv, port = skt:getsockname ()
 	local req = {
@@ -66,6 +67,17 @@ function connection (skt)
 	end
 end
 
+
+function errorhandler (msg, co, skt)
+	print ("xavante error:", msg, co, skt)
+	skt:send ("HTTP/1.0 200 OK\r\n")
+	skt:send (string.format ("Date: %s\r\n\r\n", os.date ("!%a, %d %b %Y %H:%M:%S GMT")))
+	skt:send (string.format ([[
+<H1>ERROR</H1>
+<p>%s</p>
+]], string.gsub (msg, "\n", "<br/>\n")))
+end
+
 -- gets and parses the request line
 -- params:
 --		req: request object
@@ -83,8 +95,8 @@ function read_method (req)
 	if not req.cmdline then return nil end
 	req.cmd_mth, req.cmd_url, req.cmd_version = unpack (strsplit (req.cmdline))
 	req.cmd_mth = string.upper (req.cmd_mth or 'GET')
-    req.cmd_url = req.cmd_url or '/'
-    
+	req.cmd_url = req.cmd_url or '/'
+	
 	return true
 end
 
@@ -118,84 +130,16 @@ function read_headers (req)
 	end
 end
 
--- this is a coroutine-based iterator:
--- path_perputer takes a path and yields once for each handler key to try
---		first is the full path
---		next, anything with the same extension on the same directory
---		next, anything on the directory
---		strips the last subdirectory from the path, and repeats the last two patterns
---		for example, if the query was /first/second/file.ext , tries:
---			/first/second/file.ext
---			/first/second/*.ext
---			/first/second/*
---			/first/*.ext
---			/first/*
---			/*.ext
---			/*
---		and, if the query was for a directory like /first/second/last/ , it tries:
---			/first/second/last/
---			/first/second/
---			/first/
---			/
-function path_permuter (path)
-	coroutine.yield (path)
-	local _,_,ext = string.find (path, "%.([^./]*)$")
-	local notdir = (string.sub (path, -1) ~= "/")
-	
-	while path ~= "" do
-		path = string.gsub (path, "/[^/]*$", "")
-		if notdir then
-			if ext then
-				coroutine.yield (path .."/*."..ext)
-			end
-			coroutine.yield (path .."/*")
-		else
-			coroutine.yield (path.."/")
-		end
-	end
-end
-
--- given a path, returns an iterator to traverse all permutations
-function path_iterator (path)
-	return coroutine.wrap (function () path_permuter (path) end)
-end
-
--- parses the url, and gets the appropiate handler function
--- starts with the full path, and goes up to the root
--- until it finds a handler for the request method
 function parse_url (req)
-	local hosthandlers = vhosts [req.headers.host] or vhosts ["_"]
 	local def_url = string.format ("http://%s%s", req.headers.host or "", req.cmd_url or "")
 	
 	req.parsed_url = url.parse (def_url or '')
 	req.parsed_url.port = req.parsed_url.port or req.port
 	req.built_url = url.build (req.parsed_url)
 	
-	local path = url.unescape (req.parsed_url.path)
-	local h, set
-	for p in path_iterator (path) do
-		h = hosthandlers [p]
-		if h then
-			req.match = p
-			break
-		end
-	end
-	
-	if req.match then
-		local _,_,pfx = string.find (req.match, "^(.*/)[^/]-$")
-		assert (string.sub (path, 1, string.len (pfx)) == pfx)
-		req.relpath = string.sub (path, string.len (pfx)+1)
-	end
-	req.handler = h
+	req.relpath = url.unescape (req.parsed_url.path)
 end
 
--- calls the handler set up by http_read_method()
--- returns:
---		response object
-function handle_request (req, res)
-	h = req.handler or err_404
-	return h (req, res)
-end
 
 -- sets the default response headers
 function default_headers (req)
@@ -282,11 +226,11 @@ function make_response (req)
 	}
 	
 	if req.cmd_version == "HTTP/1.1" then
-        res.chunked = true
-    	res:add_header ("Transfer-Encoding", "chunked")
-    else
-        res.chunked = false
-    end
+		res.chunked = true
+		res:add_header ("Transfer-Encoding", "chunked")
+	else
+		res.chunked = false
+	end
 	return res
 end
 
@@ -303,10 +247,10 @@ function send_response (req, res)
 
 	if res.content then
 		if not res.sent_headers then
-			if (type (res.content) == "table") then
+			if (type (res.content) == "table" and not res.chunked) then
 				res.content = table.concat (res.content)
 			end
-			if (type (res.content) == "string") then
+			if type (res.content) == "string" then
 				res.headers["Content-Length"] = string.len (res.content)
 			end
 		end
@@ -328,7 +272,11 @@ function send_response (req, res)
 	end
 	
 	if res.content then
-		res:send_data (res.content)
+		if type (res.content) == "table" then
+			for _,v in ipairs (res.content) do res:send_data (v) end
+		else
+			res:send_data (res.content)
+		end
 	else
 		res:send_headers ()
 	end
@@ -336,6 +284,31 @@ function send_response (req, res)
 	if res.chunked then
 		res.socket:send ("0\r\n\r\n")
 	end
+end
+
+function getparams (req)
+	if not req.parsed_url.query then return nil end
+	if req.params then return req.params end
+	
+	local params = {}
+	req.params = params
+	
+	for parm in string.gmatch (req.parsed_url.query, "([^&]+)") do
+		k,v = string.match (parm, "(.*)=(.*)")
+		k = url.unescape (k)
+		v = url.unescape (v)
+		if k ~= nil then
+			if params[k] == nil then
+				params[k] = v
+			elseif type (params[k]) == "table" then
+				table.insert (params[k], v)
+			else
+				params[k] = {params[k], v}
+			end
+		end
+	end
+	
+	return params
 end
 
 function err_404 (req, res)
@@ -383,13 +356,5 @@ function get_ports()
     table.insert(ports, tostring(k))
   end
   return ports
-end
-
-function addHandler (host, urlpath, f)
-	host = host or "_"
-	if not vhosts [host] then
-		vhosts [host] = {}
-	end
-	vhosts [host] [urlpath] = f
 end
 
