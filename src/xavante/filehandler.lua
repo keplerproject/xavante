@@ -4,25 +4,20 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: filehandler.lua,v 1.12 2006/08/05 04:27:20 carregal Exp $
+-- $Id: filehandler.lua,v 1.13 2006/09/28 16:49:36 jguerra Exp $
 ----------------------------------------------------------------------------
 
-require "lfs"
-require "socket.url"
-local url = socket.url
-
-module ("xavante.filehandler", package.seeall)
-
+local lfs = require "lfs"
+local url = require "socket.url"
 require "xavante.mime"
 
-local function filehandler (req, res, params)
+local function filehandler (req, res, baseDir)
 
 	if req.cmd_mth ~= "GET" and req.cmd_mth ~= "HEAD" then
 		return httpd.err_405 (req, res)
 	end
 
-	params = params or {}
-	local path = params.baseDir .."/".. req.relpath
+	local path = baseDir .."/".. req.relpath
 	
 	local _,_,exten = string.find (path, "%.([^.]*)$")
 	exten = exten or ""
@@ -66,12 +61,8 @@ local function filehandler (req, res, params)
 end
 
 
-function makeHandler (params)
+function xavante.filehandler (baseDir)
 	return function (req, res)
-		return filehandler (req, res, params)
+		return filehandler (req, res, baseDir)
 	end
 end
-
---function mimetypes (types)
---    _mimetypes = types
---end
