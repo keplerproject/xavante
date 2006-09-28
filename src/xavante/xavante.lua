@@ -9,7 +9,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: xavante.lua,v 1.1 2006/08/09 02:00:29 carregal Exp $
+-- $Id: xavante.lua,v 1.2 2006/09/28 16:47:58 jguerra Exp $
 -------------------------------------------------------------------------------
 module ("xavante", package.seeall)
 
@@ -77,7 +77,7 @@ end
 function start(isFinished, timeout)
     local res, err = pcall(require, "xavante.config")
     if not res then
-        error("Error loading config.lua", err)
+        error("Error loading config.lua" .. err)
     end
     _startmessage(xavante.httpd.get_ports())
     while true do
