@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: filehandler.lua,v 1.14 2006/10/01 18:38:48 jguerra Exp $
+-- $Id: filehandler.lua,v 1.15 2006/10/01 18:59:34 jguerra Exp $
 ----------------------------------------------------------------------------
 
 local lfs = require "lfs"
@@ -38,7 +38,7 @@ local function getrange (req, f)
 			f:seek ("set", r_A)
 			if r_B then return r_B + 1 - r_A end
 		else
-			if r_B then f:seek ("end", r_B) end
+			if r_B then f:seek ("end", - r_B) end
 		end
 	end
 	
@@ -54,6 +54,8 @@ local function sendfile (f, res, numbytes)
 	local whole = not numbytes
 	local left = numbytes
 	local blocksize = 8192
+	
+	if not whole then blocksize = math.min (blocksize, left) end
 	
 	while whole or left > 0 do
 		block = f:read (blocksize)
