@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: filehandler.lua,v 1.15 2006/10/01 18:59:34 jguerra Exp $
+-- $Id: filehandler.lua,v 1.16 2006/10/06 02:29:21 jguerra Exp $
 ----------------------------------------------------------------------------
 
 local lfs = require "lfs"
@@ -109,6 +109,9 @@ local function filehandler (req, res, baseDir)
 		
 		sendfile (f, res, range_len)
 		f:close ()
+	else
+		res.content = ""
+		res:send_headers ()
 	end
 	
 	return res
