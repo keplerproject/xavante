@@ -1,4 +1,4 @@
--- Lua 5.0/5.1 init file for Xavante
+-- Lua 5.1 init file for Xavante
 --
 -- Prepares the paths for Lua and C modules using three parameters:
 --    conf    - configuration files (optional, checked before the Lua modules)
@@ -7,12 +7,7 @@
 --
 -- (the paths should not end in /)
 --
--- $Id: t_kepler_init.lua,v 1.3 2006/08/15 21:14:05 mascarenhas Exp $
-
--- Lua 5.0 paths 
-local conf50    = [[XAVANTE_CONF]]
-local luabase50 = [[LUABASE50]]
-local libbase50 = [[LIBBASE50]]
+-- $Id: t_kepler_init.lua,v 1.4 2006/12/04 16:52:30 mascarenhas Exp $
 
 -- Lua 5.1 paths
 local conf51    = [[XAVANTE_CONF]]
@@ -40,16 +35,9 @@ local function expandCPath(base)
   return base..[[/?.]]..libext..[[;]]..base..[[/l?.]]..libext..[[;]]..base..[[/?/l?.]]..libext
 end
 
-if string.find (_VERSION, "Lua 5.0") then
-  LUA_PATH =  LUA_PATH or os.getenv("LUA_PATH") or expandPath(luabase50, conf50)
-  if not _COMPAT51 then
-    require"compat-5.1"
-  end
-  package.cpath = expandCPath(libbase50)
-elseif string.find (_VERSION, "Lua 5.1") then
+if string.find (_VERSION, "Lua 5.1") then
   package.path = expandPath(luabase51, conf51)
   package.cpath = expandCPath(libbase51)
 else
   error("This init file works only with Lua 5.0 or Lua 5.1")
 end
-

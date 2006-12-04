@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.27 2006/08/16 19:37:04 mascarenhas Exp $
+# $Id: Makefile,v 1.28 2006/12/04 16:52:30 mascarenhas Exp $
 
 CONFIG= ./config
 
@@ -10,14 +10,14 @@ T_INIT= src/t_kepler_init.lua
 INIT= src/kepler_init.lua
 COXPCALL_LUAS = src/coxpcall/coxpcall.lua
 SAJAX_LUAS = src/sajax/sajax.lua
-XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/config.lua src/xavante/filehandler.lua src/xavante/httpd.lua src/xavante/mime.lua src/xavante/redirecthandler.lua src/xavante/xavante.lua
+XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/config.lua src/xavante/filehandler.lua src/xavante/httpd.lua src/xavante/mime.lua src/xavante/redirecthandler.lua src/xavante/xavante.lua src/xavante/vhostshandler.lua src/xavante/indexhandler.lua src/xavante/urlhandler.lua
 XAVANTE_CONFIG = src/xavante/config.lua
 WEBS= web/index.lp web/test.lp
 DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html doc/us/xavante.gif
 IMGS= web/img/test.jpg web/img/xavante.gif
 
 $(KEPLER_INIT): $(T_KEPLER_INIT)
-	sed -e "s|\[\[LUABASE50\]\]|\[\[$(LUA_DIR)\]\]|" -e "s|\[\[LIBBASE50\]\]|\[\[$(LUA_LIBDIR)\]\]|" -e "s|\[\[XAVANTE_CONF\]\]|\[\[$(XAVANTE_CONF)\]\]|" -e "s|\[\[LIB_EXT\]\]|\[\[so\]\]|" -e "s|\[\[XAVANTE_WEB\]\]|\[\[$(XAVANTE_WEB)\]\]|" < $(T_INIT) > $(INIT)
+	sed -e "s|\[\[LUABASE51\]\]|\[\[$(LUA_DIR)\]\]|" -e "s|\[\[LIBBASE51\]\]|\[\[$(LUA_LIBDIR)\]\]|" -e "s|\[\[XAVANTE_CONF\]\]|\[\[$(XAVANTE_CONF)\]\]|" -e "s|\[\[LIB_EXT\]\]|\[\[so\]\]|" -e "s|\[\[XAVANTE_WEB\]\]|\[\[$(XAVANTE_WEB)\]\]|" < $(T_INIT) > $(INIT)
 
 $(XAVANTE_START) build: $(T_START) $(KEPLER_INIT)
 	sed -e "s|\[\[KEPLER_INIT\]\]|\[\[$(KEPLER_INIT)\]\]|" < $(T_START) > $(XAVANTE_START)

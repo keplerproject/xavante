@@ -1,4 +1,4 @@
-#!/usr/bin/env lua50
+#!/usr/bin/env lua
 -------------------------------------------------------------------------------
 -- Starts the Xavante Web server.
 --
@@ -7,7 +7,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: t_xavante_start.lua,v 1.22 2006/08/19 12:49:36 carregal Exp $
+-- $Id: t_xavante_start.lua,v 1.23 2006/12/04 16:52:30 mascarenhas Exp $
 -------------------------------------------------------------------------------
 
 -- Kepler bootstrap
