@@ -1,0 +1,30 @@
+# $Id: config.win,v 1.1 2006/12/04 19:38:03 mascarenhas Exp $
+
+# System's libraries directory (where binary libraries are installed)
+LUA_LIBDIR= c:\lua51\lib
+
+# System's lua directory (where Lua libraries are installed)
+LUA_DIR= c:\lua51\lua
+
+# System's executables directory (where binary or script executables are installed)
+SYS_BINDIR= c:\lua51\bin
+
+# Complete path to Lua command line interpreter
+LUA_INTERPRETER= c:\lua51\bin\lua5.1
+
+# Xavante default directory for HTTP documents
+XAVANTE_HOME= c:\lua51\xavante
+
+# Kepler initialization file
+KEPLER_INIT= c:\lua51\xavante\kepler_init.lua
+
+XAVANTE_LUA = $(XAVANTE_HOME)\lua
+XAVANTE_CONF = $(XAVANTE_HOME)\conf
+XAVANTE_WEB = $(XAVANTE_HOME)\web
+
+VERSION= 1.2
+PKG = xavante-$(VERSION)
+DIST_DIR= $(PKG)
+TAR_FILE= $(PKG).tar.gz
+ZIP_FILE= $(PKG).zip
+
