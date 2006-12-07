@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: httpd.lua,v 1.32 2006/09/28 16:54:44 jguerra Exp $
+-- $Id: httpd.lua,v 1.33 2006/12/07 23:39:31 carregal Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"
@@ -313,6 +313,7 @@ end
 
 function err_404 (req, res)
 	res.statusline = "HTTP/1.1 404 Not Found\r\n"
+	res.headers ["Content-Type"] = "text/html"
 	res.content = string.format ([[
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <HTML><HEAD>
