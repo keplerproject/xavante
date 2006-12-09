@@ -9,13 +9,15 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: xavante.lua,v 1.2 2006/09/28 16:47:58 jguerra Exp $
+-- $Id: xavante.lua,v 1.3 2006/12/09 03:09:58 mascarenhas Exp $
 -------------------------------------------------------------------------------
 module ("xavante", package.seeall)
 
 require "copas"
 require "xavante.httpd"
 require "string"
+require "xavante.ruleshandler"
+require "xavante.vhostshandler"
 
 -- Meta information is public even begining with an "_"
 _COPYRIGHT   = "Copyright (C) 2004-2006 Kepler Project"
@@ -26,24 +28,30 @@ local _startmessage = function (ports)
   print(string.format("Xavante started on port(s) %s", table.concat(ports, ", ")))
 end
 
-local function _addRules(rules, hostname)
+local function _buildRules(rules)
+    local rules_table = {}
     for _, rule in ipairs(rules) do
         local handler
         if type (rule.with) == "function" then
-            handler = rule.with
+	    if rule.params then
+	      handler = rule.with(unpack_rule.params)
+	    else
+	      handler = rule.with
+	    end
         elseif type (rule.with) == "table" then
-            handler = rule.with.makeHandler(rule.params)
+            handler = rule.with.makeHandler(unpack(rule.params))
         else
             error("Error on config.lua. The rule has an invalid 'with' field.")
         end
         local match = rule.match
         if type(match) == "string" then
             match = {rule.match}
-        end
+	end
         for _, mask in ipairs(match) do
-            httpd.addHandler (hostname, mask, handler)
+	    rules_table[mask] = handler
         end
     end
+    return rules_table
 end
 
 -------------------------------------------------------------------------------
@@ -60,15 +68,20 @@ function HTTP(config)
     -- normalizes the configuration
     config.server = config.server or {host = "*", port = 80}
     
-    xavante.httpd.register(config.server.host, config.server.port, _VERSION)
+    local vhosts_table = {}
+
     if config.defaultHost then
-        _addRules(config.defaultHost.rules, "_")
+        vhosts_table[""] = xavante.ruleshandler(_buildRules(config.defaultHost.rules))
     end
+
     if type(config.virtualhosts) == "table" then
         for hostname, host in pairs(config.virtualhosts) do
-            _addRules(host.rules, hostname)
+	    vhosts_table[hostname] = xavante.ruleshandler(_buildRules(host.rules))
         end
     end
+
+    xavante.httpd.handle_request = xavante.vhostshandler(vhosts_table)
+    xavante.httpd.register(config.server.host, config.server.port, _VERSION)
 end
 
 -------------------------------------------------------------------------------
