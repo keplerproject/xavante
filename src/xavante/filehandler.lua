@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: filehandler.lua,v 1.17 2006/12/09 03:23:48 mascarenhas Exp $
+-- $Id: filehandler.lua,v 1.18 2006/12/09 03:32:18 mascarenhas Exp $
 ----------------------------------------------------------------------------
 
 local lfs = require "lfs"
@@ -90,6 +90,7 @@ local function filehandler (req, res, baseDir)
 		req.parsed_url.path = req.parsed_url.path .. "/"
 		res.statusline = "HTTP/1.1 301 Moved Permanently\r\n"
 		res.headers["Location"] = url.build (req.parsed_url)
+		res.content = "redirect"
 		return res
 	end
 	

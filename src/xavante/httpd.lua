@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: httpd.lua,v 1.33 2006/12/07 23:39:31 carregal Exp $
+-- $Id: httpd.lua,v 1.34 2006/12/09 03:32:18 mascarenhas Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"
@@ -341,7 +341,7 @@ end
 function redirect (res, d)
 	res.headers ["Location"] = d
 	res.statusline = "HTTP/1.1 302 Found\r\n"
-	res.content = ""
+	res.content = "redirect"
 end
 
 function register (host, port, serversoftware)
