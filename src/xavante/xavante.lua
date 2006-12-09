@@ -9,7 +9,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: xavante.lua,v 1.3 2006/12/09 03:09:58 mascarenhas Exp $
+-- $Id: xavante.lua,v 1.4 2006/12/09 03:23:48 mascarenhas Exp $
 -------------------------------------------------------------------------------
 module ("xavante", package.seeall)
 
@@ -34,12 +34,12 @@ local function _buildRules(rules)
         local handler
         if type (rule.with) == "function" then
 	    if rule.params then
-	      handler = rule.with(unpack_rule.params)
+	      handler = rule.with(rule.params)
 	    else
 	      handler = rule.with
 	    end
         elseif type (rule.with) == "table" then
-            handler = rule.with.makeHandler(unpack(rule.params))
+            handler = rule.with.makeHandler(rule.params)
         else
             error("Error on config.lua. The rule has an invalid 'with' field.")
         end
