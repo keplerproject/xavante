@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.28 2006/12/04 16:52:30 mascarenhas Exp $
+# $Id: Makefile,v 1.29 2006/12/10 00:52:23 mascarenhas Exp $
 
 CONFIG= ./config
 
@@ -16,10 +16,12 @@ WEBS= web/index.lp web/test.lp
 DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html doc/us/xavante.gif
 IMGS= web/img/test.jpg web/img/xavante.gif
 
-$(KEPLER_INIT): $(T_KEPLER_INIT)
+all: $(INIT) $(XAVANTE_START)
+
+$(INIT): $(T_INIT)
 	sed -e "s|\[\[LUABASE51\]\]|\[\[$(LUA_DIR)\]\]|" -e "s|\[\[LIBBASE51\]\]|\[\[$(LUA_LIBDIR)\]\]|" -e "s|\[\[XAVANTE_CONF\]\]|\[\[$(XAVANTE_CONF)\]\]|" -e "s|\[\[LIB_EXT\]\]|\[\[so\]\]|" -e "s|\[\[XAVANTE_WEB\]\]|\[\[$(XAVANTE_WEB)\]\]|" < $(T_INIT) > $(INIT)
 
-$(XAVANTE_START) build: $(T_START) $(KEPLER_INIT)
+$(XAVANTE_START) build: $(T_START) $(INIT)
 	sed -e "s|\[\[KEPLER_INIT\]\]|\[\[$(KEPLER_INIT)\]\]|" < $(T_START) > $(XAVANTE_START)
 	chmod +x $(XAVANTE_START)
 
@@ -46,7 +48,16 @@ dist_dir:
 	mkdir -p $(DIST_DIR)/web/img
 	cp $(IMGS) $(DIST_DIR)/web/img
 
-install: $(XAVANTE_START) $(KEPLER_INIT)
+install:
+	mkdir -p $(LUA_DIR)
+	mkdir -p $(LUA_DIR)/coxpcall
+	cp $(COXPCALL_LUAS) $(LUA_DIR)/coxpcall
+	mkdir -p $(LUA_DIR)/sajax
+	cp $(SAJAX_LUAS) $(LUA_DIR)/sajax
+	mkdir -p $(LUA_DIR)/xavante
+	cp $(XAVANTE_LUAS) $(LUA_DIR)/xavante
+
+standalone: $(XAVANTE_START) $(INIT)
 	mkdir -p $(LUA_DIR)
 	mkdir -p $(LUA_DIR)/coxpcall
 	cp $(COXPCALL_LUAS) $(LUA_DIR)/coxpcall
