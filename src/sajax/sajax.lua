@@ -1,4 +1,8 @@
--- $Id: sajax.lua,v 1.2 2006/08/02 13:30:07 carregal Exp $
+-- $Id: sajax.lua,v 1.3 2006/12/11 19:19:26 carregal Exp $
+
+local cgi, cgilua = cgi, cgilua
+local table, string, os = table, string, os
+local pairs, type, unpack, tostring, xpcall = pairs, type, unpack, tostring, xpcall
 
 module ("sajax")
 
