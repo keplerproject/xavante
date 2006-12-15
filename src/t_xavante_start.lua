@@ -7,11 +7,11 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: t_xavante_start.lua,v 1.23 2006/12/04 16:52:30 mascarenhas Exp $
+-- $Id: t_xavante_start.lua,v 1.24 2006/12/15 18:03:52 mascarenhas Exp $
 -------------------------------------------------------------------------------
 
 -- Kepler bootstrap
-local bootstrap, err = loadfile(os.getenv("KEPLER_INIT") or [[KEPLER_INIT]])
+local bootstrap, err = loadfile(os.getenv("XAVANTE_INIT") or [[XAVANTE_INIT]])
 if bootstrap then
   bootstrap()
 else

@@ -1,4 +1,4 @@
-# $Id: config,v 1.12 2006/12/04 16:52:30 mascarenhas Exp $
+# $Id: config,v 1.13 2006/12/15 18:03:52 mascarenhas Exp $
 
 # System's libraries directory (where binary libraries are installed)
 LUA_LIBDIR= /usr/local/lib/lua/5.1
@@ -10,13 +10,13 @@ LUA_DIR= /usr/local/share/lua/5.1
 SYS_BINDIR= /usr/local/bin
 
 # Complete path to Lua command line interpreter
-LUA_INTERPRETER= /usr/bin/lua
+LUA_INTERPRETER= /usr/local/bin/lua
 
 # Xavante default directory for HTTP documents
-XAVANTE_HOME= /usr/local/kepler/1.0
+XAVANTE_HOME= /usr/local/xavante
 
 # Kepler initialization file
-KEPLER_INIT= /usr/local/kepler/kepler_init.lua
+KEPLER_INIT= /usr/local/xavante/xavante_init.lua
 
 XAVANTE_LUA = $(XAVANTE_HOME)/lua
 XAVANTE_CONF = $(XAVANTE_HOME)/conf
