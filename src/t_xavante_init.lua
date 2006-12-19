@@ -7,7 +7,7 @@
 --
 -- (the paths should not end in /)
 --
--- $Id: t_xavante_init.lua,v 1.1 2006/12/15 18:03:52 mascarenhas Exp $
+-- $Id: t_xavante_init.lua,v 1.2 2006/12/19 22:00:55 carregal Exp $
 
 -- Lua 5.1 paths
 local conf51    = [[XAVANTE_CONF]]
@@ -38,5 +38,5 @@ if string.find (_VERSION, "Lua 5.1") then
   package.path = expandPath(luabase51, conf51)
   package.cpath = expandCPath(libbase51)
 else
-  error("This init file works only with Lua 5.0 or Lua 5.1")
+  error("This init file works only with Lua 5.1")
 end
