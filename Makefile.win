@@ -1,4 +1,4 @@
-# $Id: Makefile.win,v 1.5 2007/01/02 22:14:09 mascarenhas Exp $
+# $Id: Makefile.win,v 1.6 2007/01/03 17:43:39 carregal Exp $
 
 include config.win
 
@@ -52,7 +52,7 @@ standalone: $(XAVANTE_START) $(INIT)
 	xcopy /E web $(XAVANTE_WEB)
 	IF NOT EXIST $(XAVANTE_WEB)\doc mkdir $(XAVANTE_WEB)\doc
 	FOR %i in ($(DOCS)) DO copy %i $(XAVANTE_WEB)\doc 
-	IF NOT EXIST $(KEPLER_INIT) copy $(INIT) $(KEPLER_INIT)
+	IF NOT EXIST $(XAVANTE_INIT) copy $(INIT) $(XAVANTE_INIT)
 
 clean:
 	del $(XAVANTE_START)
