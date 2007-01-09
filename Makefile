@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.31 2006/12/15 18:03:52 mascarenhas Exp $
+# $Id: Makefile,v 1.32 2007/01/09 17:57:54 mascarenhas Exp $
 
 CONFIG= ./config
 
@@ -57,23 +57,28 @@ install:
 	mkdir -p $(LUA_DIR)/xavante
 	cp $(XAVANTE_LUAS) $(LUA_DIR)/xavante
 
-standalone: $(XAVANTE_START) $(INIT)
-	mkdir -p $(LUA_DIR)
-	mkdir -p $(LUA_DIR)/coxpcall
-	cp $(COXPCALL_LUAS) $(LUA_DIR)/coxpcall
-	mkdir -p $(LUA_DIR)/sajax
-	cp $(SAJAX_LUAS) $(LUA_DIR)/sajax
-	mkdir -p $(LUA_DIR)/xavante
-	cp $(XAVANTE_LUAS) $(LUA_DIR)/xavante
+install-start: $(XAVANTE_START) 
 	mkdir -p $(SYS_BINDIR)
 	cp $(XAVANTE_START) $(SYS_BINDIR)
+
+install-config:
 	mkdir -p $(XAVANTE_CONF)/xavante
 	if [ ! -e $(XAVANTE_CONF)/xavante/$(XAVANTE_CONFIG) ] ; then cp $(XAVANTE_CONFIG) $(XAVANTE_CONF)/xavante; fi
+	ln -sf $(LUA_DIR) $(XAVANTE_LUA)
+
+install-init: $(INIT)
+	if [ ! -e $(XAVANTE_INIT) ] ; then cp $(INIT) $(XAVANTE_INIT); fi
+
+install-web:
 	cp -r web/ $(XAVANTE_WEB)
 	mkdir -p $(XAVANTE_WEB)/doc
 	cp $(DOCS) $(XAVANTE_WEB)/doc
-	ln -sf $(LUA_DIR) $(XAVANTE_LUA)
-	if [ ! -e $(XAVANTE_INIT) ] ; then cp $(INIT) $(XAVANTE_INIT); fi
+
+standalone: install \
+            install-start \
+            install-config \
+            install-init \
+            install-web
 
 clean:
 	rm -f $(XAVANTE_START)
