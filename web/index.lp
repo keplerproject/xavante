@@ -7,7 +7,7 @@
 
 <body>
 <center>
-<img src = "img/xavante.gif" />
+<img src = "/img/xavante.gif" />
 <h1>Welcome to Xavante!</h1>
 If you are reading this page, <strong><%= cgilua.servervariable("SERVER_SOFTWARE") %></strong>
 has been successfully installed on your system.<br />

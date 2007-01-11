@@ -58,7 +58,7 @@ Username = <%= cgilua.cookies.get("Xavante") or "" %><br />
 <b>Date</b>:<br />
 <%= os.date() %><br />
 <br />
-<b>Image test</b>:<img src="img/test.jpg"><br />
+<b>Image test</b>:<img src="/img/test.jpg"><br />
 <br />
 <b>Dir library</b>:<br />
 <%
