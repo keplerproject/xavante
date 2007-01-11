@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: mime.lua,v 1.5 2006/08/02 13:30:07 carregal Exp $
+-- $Id: mime.lua,v 1.6 2007/01/11 17:51:00 carregal Exp $
 -----------------------------------------------------------------------------
 
 -- Extracted from Apache's mime.types
@@ -124,6 +124,7 @@ xavante.mimetypes = {
   jpe = "image/jpeg",
   png = "image/png",
   svg = "image/svg+xml",
+  svgz = "image/svg+xml",
   tiff = "image/tiff",
   tif = "image/tiff",
   djvu = "image/vnd.djvu",

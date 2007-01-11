@@ -4,18 +4,32 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: filehandler.lua,v 1.18 2006/12/09 03:32:18 mascarenhas Exp $
+-- $Id: filehandler.lua,v 1.19 2007/01/11 17:51:00 carregal Exp $
 ----------------------------------------------------------------------------
 
 local lfs = require "lfs"
 local url = require "socket.url"
 require "xavante.mime"
+require "xavante.encoding"
+
+xavante.mimetypes = xavante.mimetypes or {}
+xavante.encodings = xavante.encodings or {}
 
 -- gets the mimetype from the filename's extension
 local function mimefrompath (path)
 	local _,_,exten = string.find (path, "%.([^.]*)$")
 	if exten then
 		return xavante.mimetypes [exten]
+	else
+		return nil
+	end
+end
+
+-- gets the encoding from the filename's extension
+local function encodingfrompath (path)
+	local _,_,exten = string.find (path, "%.([^.]*)$")
+	if exten then
+		return xavante.encodings [exten]
 	else
 		return nil
 	end
@@ -79,7 +93,8 @@ local function filehandler (req, res, baseDir)
 	local path = baseDir .."/".. req.relpath
 	
 	res.headers ["Content-Type"] = mimefrompath (path)
-	
+	res.headers ["Content-Encoding"] = encodingfrompath (path)
+    
 	local attr = lfs.attributes (path)
 	if not attr then
 		return xavante.httpd.err_404 (req, res)
