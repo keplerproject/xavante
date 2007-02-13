@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: filehandler.lua,v 1.19 2007/01/11 17:51:00 carregal Exp $
+-- $Id: filehandler.lua,v 1.20 2007/02/13 19:30:55 carregal Exp $
 ----------------------------------------------------------------------------
 
 local lfs = require "lfs"
@@ -87,7 +87,7 @@ end
 local function filehandler (req, res, baseDir)
 
 	if req.cmd_mth ~= "GET" and req.cmd_mth ~= "HEAD" then
-		return httpd.err_405 (req, res)
+		return xavante.httpd.err_405 (req, res)
 	end
 
 	local path = baseDir .."/".. req.relpath
@@ -113,7 +113,7 @@ local function filehandler (req, res, baseDir)
 	
 	local f = io.open (path, "rb")
 	if not f then
-		return httpd.err_404 (req, res)
+		return xavante.httpd.err_404 (req, res)
 	end
 		
 	if req.cmd_mth == "GET" then
