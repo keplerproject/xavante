@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.33 2007/01/11 17:51:28 carregal Exp $
+# $Id: Makefile,v 1.34 2007/05/17 22:46:50 hisham Exp $
 
 CONFIG= ./config
 
@@ -10,7 +10,8 @@ T_INIT= src/t_xavante_init.lua
 INIT= src/xavante_init.lua
 COXPCALL_LUAS = src/coxpcall/coxpcall.lua
 SAJAX_LUAS = src/sajax/sajax.lua
-XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/config.lua src/xavante/encoding.lua src/xavante/filehandler.lua src/xavante/httpd.lua src/xavante/mime.lua src/xavante/redirecthandler.lua src/xavante/xavante.lua src/xavante/vhostshandler.lua src/xavante/indexhandler.lua src/xavante/urlhandler.lua src/xavante/ruleshandler.lua
+ROOT_LUAS = src/xavante/xavante.lua 
+XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/config.lua src/xavante/encoding.lua src/xavante/filehandler.lua src/xavante/httpd.lua src/xavante/mime.lua src/xavante/redirecthandler.lua src/xavante/vhostshandler.lua src/xavante/indexhandler.lua src/xavante/urlhandler.lua src/xavante/ruleshandler.lua
 XAVANTE_CONFIG = src/xavante/config.lua
 WEBS= web/index.lp web/test.lp
 DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html doc/us/xavante.gif
@@ -40,7 +41,7 @@ dist_dir:
 	mkdir -p $(DIST_DIR)/src/sajax
 	cp $(SAJAX_LUAS) $(DIST_DIR)/src/sajax
 	mkdir -p $(DIST_DIR)/src/xavante
-	cp $(XAVANTE_LUAS) $(DIST_DIR)/src/xavante
+	cp $(ROOT_LUAS) $(XAVANTE_LUAS) $(DIST_DIR)/src/xavante
 	mkdir -p $(DIST_DIR)/web
 	cp $(WEBS) $(DIST_DIR)/web
 	mkdir -p $(DIST_DIR)/web/doc
@@ -50,11 +51,7 @@ dist_dir:
 
 install:
 	mkdir -p $(LUA_DIR)
-	mkdir -p $(LUA_DIR)/coxpcall
-	cp $(COXPCALL_LUAS) $(LUA_DIR)/coxpcall
-	mkdir -p $(LUA_DIR)/sajax
-	cp $(SAJAX_LUAS) $(LUA_DIR)/sajax
-	mkdir -p $(LUA_DIR)/xavante
+	cp $(ROOT_LUAS) $(COXPCALL_LUAS) $(SAJAX_LUAS) $(LUA_DIR)
 	cp $(XAVANTE_LUAS) $(LUA_DIR)/xavante
 
 install-start: $(XAVANTE_START) 
