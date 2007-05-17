@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.34 2007/05/17 22:46:50 hisham Exp $
+# $Id: Makefile,v 1.35 2007/05/17 23:06:43 hisham Exp $
 
 CONFIG= ./config
 
@@ -50,7 +50,7 @@ dist_dir:
 	cp $(IMGS) $(DIST_DIR)/web/img
 
 install:
-	mkdir -p $(LUA_DIR)
+	mkdir -p $(LUA_DIR)/xavante
 	cp $(ROOT_LUAS) $(COXPCALL_LUAS) $(SAJAX_LUAS) $(LUA_DIR)
 	cp $(XAVANTE_LUAS) $(LUA_DIR)/xavante
 
