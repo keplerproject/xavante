@@ -1,16 +1,16 @@
-# $Id: config.win,v 1.4 2007/03/15 21:28:00 carregal Exp $
+# $Id: config.win,v 1.5 2007/05/18 19:52:55 carregal Exp $
 
 # System's libraries directory (where binary libraries are installed)
-LUA_LIBDIR= c:\lua5.1\lib
+LUA_LIBDIR= c:\lua5.1
 
 # System's lua directory (where Lua libraries are installed)
 LUA_DIR= c:\lua5.1\lua
 
 # System's executables directory (where binary or script executables are installed)
-SYS_BINDIR= c:\lua5.1\bin
+SYS_BINDIR= c:\lua5.1
 
 # Complete path to Lua command line interpreter
-LUA_INTERPRETER= c:\lua5.1\bin\lua5.1
+LUA_INTERPRETER= c:\lua5.1\lua5.1
 
 # Xavante default directory for HTTP documents
 XAVANTE_HOME= c:\lua5.1
