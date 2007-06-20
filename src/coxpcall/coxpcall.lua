@@ -9,33 +9,37 @@
 --
 -- Copyright 2005-2006 - Kepler Project (www.keplerproject.org)
 --
--- $Id: coxpcall.lua,v 1.7 2006/08/02 13:30:07 carregal Exp $
+-- $Id: coxpcall.lua,v 1.8 2007/06/20 22:24:35 carregal Exp $
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
 -- Implements xpcall with coroutines
 -------------------------------------------------------------------------------
-function coxpcall(f, err)
-  local co = coroutine.create(f)
-  local arg = {}
-  while true do
-    local results = {coroutine.resume(co, unpack(arg))}
-    local status = results[1]
-    table.remove (results, 1) -- remove status of coroutine.resume
+local performResume, handleReturnValue
+
+function handleReturnValue(err, co, status, ...)
     if not status then
-      return false, err(unpack(results))
+        return false, err(...)
     end
-    if coroutine.status(co) == "suspended" then
-      arg = {coroutine.yield(unpack(results))}
+    if coroutine.status(co) == 'suspended' then
+        return performResume(err, co, coroutine.yield(...))
     else
-      return true, unpack(results)
+        return true, ...
     end
-  end
+end
+
+function performResume(err, co, ...)
+    return handleReturnValue(err, co, coroutine.resume(co, ...))
+end    
+
+function coxpcall(f, err, ...)
+    local co = coroutine.create(f)
+    return performResume(err, co, ...)
 end
 
 -------------------------------------------------------------------------------
 -- Implements pcall with coroutines
 -------------------------------------------------------------------------------
 function copcall(f, ...)
-  return coxpcall(function() return f(unpack(arg)) end, error) 
+    return coxpcall(f, error, ...)
 end
