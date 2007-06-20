@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: httpd.lua,v 1.34 2006/12/09 03:32:18 mascarenhas Exp $
+-- $Id: httpd.lua,v 1.35 2007/06/20 21:52:28 carregal Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"
@@ -69,7 +69,7 @@ end
 
 
 function errorhandler (msg, co, skt)
-	print ("xavante error:", msg, co, skt)
+	io.stderr:write("xavante error:", msg, co, skt)
 	skt:send ("HTTP/1.0 200 OK\r\n")
 	skt:send (string.format ("Date: %s\r\n\r\n", os.date ("!%a, %d %b %Y %H:%M:%S GMT")))
 	skt:send (string.format ([[
