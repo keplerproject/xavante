@@ -1,4 +1,4 @@
-# $Id: Makefile.win,v 1.8 2007/06/20 19:23:21 mascarenhas Exp $
+# $Id: Makefile.win,v 1.9 2007/06/20 21:25:58 mascarenhas Exp $
 
 include config.win
 
@@ -30,8 +30,7 @@ $(XAVANTE_START): $(T_START) $(INIT)
 
 install:
 	IF NOT EXIST $(LUA_DIR) mkdir $(LUA_DIR)
-	IF NOT EXIST $(LUA_DIR)\coxpcall mkdir $(LUA_DIR)\coxpcall
-	copy $(COXPCALL_LUAS) $(LUA_DIR)\coxpcall
+	copy $(COXPCALL_LUAS) $(LUA_DIR)\
 	IF NOT EXIST $(LUA_DIR)\sajax mkdir $(LUA_DIR)\sajax
 	copy $(SAJAX_LUAS) $(LUA_DIR)\sajax
 	IF NOT EXIST $(LUA_DIR)\xavante mkdir $(LUA_DIR)\xavante
@@ -40,8 +39,7 @@ install:
 
 standalone: $(XAVANTE_START) $(INIT)
 	IF NOT EXIST $(LUA_DIR) mkdir $(LUA_DIR)
-	IF NOT EXIST $(LUA_DIR)\coxpcall mkdir $(LUA_DIR)\coxpcall
-	copy $(COXPCALL_LUAS) $(LUA_DIR)\coxpcall
+	copy $(COXPCALL_LUAS) $(LUA_DIR)\
 	IF NOT EXIST $(LUA_DIR)\sajax mkdir $(LUA_DIR)\sajax
 	copy $(SAJAX_LUAS) $(LUA_DIR)\sajax
 	IF NOT EXIST $(LUA_DIR)\xavante mkdir $(LUA_DIR)\xavante
