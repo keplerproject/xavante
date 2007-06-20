@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.21 2006/08/22 22:01:38 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.22 2007/06/20 21:48:19 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -79,6 +79,9 @@ _, package.cpath = remotedostring("return package.cpath")
 require"coxpcall"
 pcall = copcall
 xpcall = coxpcall
+
+_, CGILUA_APPS = remotedostring("return CGILUA_APPS")
+
 require"cgilua"
 main_coro = coroutine.wrap(function () cgilua.main() end)
 
@@ -113,15 +116,18 @@ local function cgiluahandler (req, res, diskpath)
 	if not lfs.attributes (diskpath .. "/"..req.relpath) then
 		return xavante.httpd.err_404 (req, res)
 	end
- 
+  
 	requests[tostring(req)] = { req = req, res = res }	
 
 	set_cgivars (req, diskpath)
 	local new_state = rings.new()
-	new_state:dostring(state_init, tostring(req))
+	assert(new_state:dostring(state_init, tostring(req)))
 	local coro_arg, status, op, arg
 	repeat
 		status, op, arg = new_state:dostring("return main_coro("..argument(1)..")", coro_arg)
+        if not status then
+            error(op)
+        end
 		if op == "SEND_DATA" then
 			res:send_data(arg)
 		elseif op == "RECEIVE" then
