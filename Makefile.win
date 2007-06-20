@@ -1,4 +1,4 @@
-# $Id: Makefile.win,v 1.7 2007/01/11 17:51:28 carregal Exp $
+# $Id: Makefile.win,v 1.8 2007/06/20 19:23:21 mascarenhas Exp $
 
 include config.win
 
@@ -8,7 +8,7 @@ T_INIT= src\t_xavante_init.lua
 INIT= src\xavante_init.lua
 COXPCALL_LUAS = src\coxpcall\coxpcall.lua
 SAJAX_LUAS = src\sajax\sajax.lua
-XAVANTE_LUAS= src\xavante\cgiluahandler.lua src\xavante\config.lua src\xavante\encoding.lua src\xavante\filehandler.lua src\xavante\httpd.lua src\xavante\mime.lua src\xavante\redirecthandler.lua  src\xavante\ruleshandler.lua src\xavante\xavante.lua src\xavante\vhostshandler.lua src\xavante\indexhandler.lua src\xavante\urlhandler.lua
+XAVANTE_LUAS= src\xavante\cgiluahandler.lua src\xavante\config.lua src\xavante\encoding.lua src\xavante\filehandler.lua src\xavante\httpd.lua src\xavante\mime.lua src\xavante\redirecthandler.lua  src\xavante\ruleshandler.lua src\xavante\vhostshandler.lua src\xavante\indexhandler.lua src\xavante\urlhandler.lua
 XAVANTE_CONFIG = src\xavante\config.lua
 WEBS= web\index.lp web\test.lp
 DOCS= doc\us\index.html doc\us\license.html doc\us\manual.html doc\us\sajax.html doc\us\xavante.gif
@@ -36,6 +36,7 @@ install:
 	copy $(SAJAX_LUAS) $(LUA_DIR)\sajax
 	IF NOT EXIST $(LUA_DIR)\xavante mkdir $(LUA_DIR)\xavante
 	FOR %i IN ($(XAVANTE_LUAS)) DO copy %i $(LUA_DIR)\xavante 
+	copy src\xavante\xavante.lua $(LUA_DIR)\
 
 standalone: $(XAVANTE_START) $(INIT)
 	IF NOT EXIST $(LUA_DIR) mkdir $(LUA_DIR)
@@ -45,6 +46,7 @@ standalone: $(XAVANTE_START) $(INIT)
 	copy $(SAJAX_LUAS) $(LUA_DIR)\sajax
 	IF NOT EXIST $(LUA_DIR)\xavante mkdir $(LUA_DIR)\xavante
 	FOR %i IN ($(XAVANTE_LUAS)) DO copy %i $(LUA_DIR)\xavante 
+	copy src\xavante\xavante.lua $(LUA_DIR)\
 	IF NOT EXIST $(SYS_BINDIR) mkdir $(SYS_BINDIR)
 	copy $(XAVANTE_START) $(SYS_BINDIR) 
 	IF NOT EXIST $(XAVANTE_CONF)\xavante mkdir $(XAVANTE_CONF)\xavante
