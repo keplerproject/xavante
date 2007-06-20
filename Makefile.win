@@ -1,4 +1,4 @@
-# $Id: Makefile.win,v 1.9 2007/06/20 21:25:58 mascarenhas Exp $
+# $Id: Makefile.win,v 1.10 2007/06/20 22:26:47 carregal Exp $
 
 include config.win
 
@@ -41,7 +41,7 @@ standalone: $(XAVANTE_START) $(INIT)
 	IF NOT EXIST $(LUA_DIR) mkdir $(LUA_DIR)
 	copy $(COXPCALL_LUAS) $(LUA_DIR)\
 	IF NOT EXIST $(LUA_DIR)\sajax mkdir $(LUA_DIR)\sajax
-	copy $(SAJAX_LUAS) $(LUA_DIR)\sajax
+	copy $(SAJAX_LUAS) $(LUA_DIR)\
 	IF NOT EXIST $(LUA_DIR)\xavante mkdir $(LUA_DIR)\xavante
 	FOR %i IN ($(XAVANTE_LUAS)) DO copy %i $(LUA_DIR)\xavante 
 	copy src\xavante\xavante.lua $(LUA_DIR)\
