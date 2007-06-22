@@ -6,10 +6,11 @@
 -- yielding inside the call to pcall or xpcall.
 --
 -- Authors: Roberto Ierusalimschy and Andre Carregal 
+-- Contributors: Thomas Harning Jr. 
 --
--- Copyright 2005-2006 - Kepler Project (www.keplerproject.org)
+-- Copyright 2005-2007 - Kepler Project (www.keplerproject.org)
 --
--- $Id: coxpcall.lua,v 1.8 2007/06/20 22:24:35 carregal Exp $
+-- $Id: coxpcall.lua,v 1.9 2007/06/22 22:39:51 carregal Exp $
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
