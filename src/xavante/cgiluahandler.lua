@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.22 2007/06/20 21:48:19 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.23 2007/06/22 23:50:45 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -96,7 +96,7 @@ local function set_cgivars (req, diskpath)
 		SERVER_PROTOCOL = "HTTP/1.1",
 		SERVER_PORT = req.parsed_url.port,
 		REQUEST_METHOD = req.cmd_mth,
-		PATH_INFO = "",
+		PATH_INFO = "/"..req.relpath,
 		PATH_TRANSLATED = diskpath .. "/"..req.relpath,
 		SCRIPT_NAME = req.parsed_url.path,
 		QUERY_STRING = req.parsed_url.query,
