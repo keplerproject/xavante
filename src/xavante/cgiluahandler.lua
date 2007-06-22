@@ -2,9 +2,9 @@
 -- Xavante CGILua handler
 --
 -- Authors: Javier Guerra and Andre Carregal
--- Copyright (c) 2004-2006 Kepler Project
+-- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.23 2007/06/22 23:50:45 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.24 2007/06/22 23:56:08 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -12,7 +12,6 @@ requests = requests or {}
 module ("xavante.cgiluahandler", package.seeall)
 
 require "rings"
-require "lfs"
 
 -------------------------------------------------------------------------------
 -- Implements SAPI
@@ -113,10 +112,6 @@ local function set_cgivars (req, diskpath)
 end
 
 local function cgiluahandler (req, res, diskpath)
-	if not lfs.attributes (diskpath .. "/"..req.relpath) then
-		return xavante.httpd.err_404 (req, res)
-	end
-  
 	requests[tostring(req)] = { req = req, res = res }	
 
 	set_cgivars (req, diskpath)
