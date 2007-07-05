@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: httpd.lua,v 1.35 2007/06/20 21:52:28 carregal Exp $
+-- $Id: httpd.lua,v 1.36 2007/07/05 17:54:57 mascarenhas Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"
@@ -181,8 +181,13 @@ local function send_res_headers (res)
 	
 	res.socket:send (res.statusline)
 	for name, value in pairs (res.headers) do
-		if type(value) == "table" then vale = table.concat (value, ", ") end
-		res.socket:send (string.format ("%s: %s\r\n", name, value))
+                if type(value) == "table" then
+                  for _, value in ipairs(value) do
+                    res.socket:send (string.format ("%s: %s\r\n", name, value))
+                  end
+                else
+                  res.socket:send (string.format ("%s: %s\r\n", name, value))
+                end
 	end
 	res.socket:send ("\r\n")
 	
