@@ -2,9 +2,9 @@
 -- Xavante URL rules handler
 --
 -- Authors: Javier Guerra and Fabio Mascarenhas
--- Copyright (c) 2006 Kepler Project
+-- Copyright (c) 2006-2007 Kepler Project
 --
--- $Id: ruleshandler.lua,v 1.1 2006/12/09 03:09:58 mascarenhas Exp $
+-- $Id: ruleshandler.lua,v 1.2 2007/08/20 22:20:44 carregal Exp $
 -----------------------------------------------------------------------------
 
 -- this is a coroutine-based iterator:

@@ -2,9 +2,9 @@
 -- Xavante File handler
 --
 -- Authors: Javier Guerra and Andre Carregal
--- Copyright (c) 2004-2006 Kepler Project
+-- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: filehandler.lua,v 1.21 2007/08/20 22:13:58 carregal Exp $
+-- $Id: filehandler.lua,v 1.22 2007/08/20 22:20:44 carregal Exp $
 ----------------------------------------------------------------------------
 
 local lfs = require "lfs"

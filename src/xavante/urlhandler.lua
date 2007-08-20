@@ -2,9 +2,9 @@
 -- Xavante URL paths handler
 --
 -- Authors: Javier Guerra
--- Copyright (c) 2006 Kepler Project
+-- Copyright (c) 2006-2007 Kepler Project
 --
--- $Id: urlhandler.lua,v 1.2 2006/09/28 17:00:10 jguerra Exp $
+-- $Id: urlhandler.lua,v 1.3 2007/08/20 22:20:44 carregal Exp $
 -----------------------------------------------------------------------------
 
 local function path_p (s, p)

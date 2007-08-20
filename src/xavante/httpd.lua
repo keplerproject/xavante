@@ -2,9 +2,9 @@
 -- Xavante HTTP handler
 --
 -- Authors: Javier Guerra and Andre Carregal
--- Copyright (c) 2004-2006 Kepler Project
+-- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: httpd.lua,v 1.36 2007/07/05 17:54:57 mascarenhas Exp $
+-- $Id: httpd.lua,v 1.37 2007/08/20 22:20:44 carregal Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"

@@ -3,9 +3,9 @@
 --
 --
 -- Authors: Javier Guerra and Andre Carregal
--- Copyright (c) 2004-2006 Kepler Project
+-- Copyright (c) 2004-2007 Kepler Project
 ---
--- $Id: config.lua,v 1.23 2006/09/28 17:03:14 jguerra Exp $
+-- $Id: config.lua,v 1.24 2007/08/20 22:20:44 carregal Exp $
 ------------------------------------------------------------------------------
 
 require "xavante.httpd"
@@ -25,4 +25,4 @@ xavante.httpd.handle_request = xavante.vhostshandler {
 	}
 }
 
-xavante.httpd.register ("*", 8080, "Xavante 1.2")
+xavante.httpd.register ("*", 8080, "Xavante 1.3")
