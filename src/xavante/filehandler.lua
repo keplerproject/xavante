@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2006 Kepler Project
 --
--- $Id: filehandler.lua,v 1.20 2007/02/13 19:30:55 carregal Exp $
+-- $Id: filehandler.lua,v 1.21 2007/08/20 22:13:58 carregal Exp $
 ----------------------------------------------------------------------------
 
 local lfs = require "lfs"
@@ -115,7 +115,20 @@ local function filehandler (req, res, baseDir)
 	if not f then
 		return xavante.httpd.err_404 (req, res)
 	end
-		
+	
+	res.headers["last-modified"] = os.date ("!%a, %d %b %Y %H:%M:%S GMT",
+					attr.modification)
+
+	local lms = req.headers["if-modified-since"] or 0
+	local lm = res.headers["last-modified"] or 1
+	if lms == lm then
+		res.headers ["Content-Type"] = "text/html"
+		res.statusline = "HTTP/1.1 304 Not Modified\r\n"
+		res.content = ""
+		return res
+	end
+
+	
 	if req.cmd_mth == "GET" then
 		local range_len = getrange (req, f)
 		if range_len then
