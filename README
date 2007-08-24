@@ -1,0 +1,50 @@
+Xavante 1.3
+http://keplerproject.org/xavante/
+
+Xavante is a Lua HTTP 1.1 Web server that uses a modular architecture
+based on URI mapped handlers. Xavante currently offers a file handler,
+a redirect handler and a CGILua handler. Those are used for general files,
+URI remapping and CGILua scripts respectively.
+
+Xavante is free software and uses the same license as Lua. 
+
+Xavante dependencies can be separated by the used handlers:
+
+Xavante Core
+* Lua 5.1.x
+* Copas 1.1.1
+* LuaSocket 2.0.1
+
+File Handler (optional)
+* LuaFileSystem 1.2.1
+
+CGILua handler (optional)
+* CGILua 5.1
+* LuaFileSystem 1.2.1
+* Rings 1.1.0
+
+The portability of Xavante is determined by its binary components
+(LuaSocket, LuaFileSystem and Rings) and Lua itself.
+The other components are written in Lua and are as portable as Lua itself.
+
+Xavante follows the package model for Lua 5.1, therefore it should be
+"installed" in your package.path.
+
+History
+
+Xavante 1.3 [24/Aug/2007]
+* Uses Lua 5.1
+* Fixed headers to send the header twice if it's defined twice,
+  instead of concat'ing with commas (previous behavior was broken
+  when sending cookies)
+* Removed the restriction of only handling URLs that corresponded
+  to files in the filesystem. Now cgilua.dispatcher can map URLs
+  like /apps/wiki/... into whatever it needs. Patch by Mauricio Bomfim.
+* Corrected the PATH_INFO handling for cgilua.dispatcher
+* Code refactoring by Thomas Harning (Bug [#767])
+* Better error handling, using io.stderr instead of print
+* Added the correct prefix to error codes (by Zachary P. Landau)
+* Support for caching based on last-modified implemented by Zachary P. Landau, based on the desing of HTTP.lua (by PA)
+* Content Encoding handling using encoding.lua as a configuration file, added svgz encoding and content-type
+* Fixed bug [#510] filehandler does not send correct headers for 404 error (found by Matthew Burke)
+
