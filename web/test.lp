@@ -1,8 +1,8 @@
 <html>
 <head>
   <% require"cgilua.cookies"
-     if cgi.user then
-       cgilua.cookies.sethtml("Xavante", cgi.user)
+     if cgilua.POST.user then
+       cgilua.cookies.sethtml("Xavante", cgilua.POST.user)
      end
   %>
 </head>
@@ -27,7 +27,7 @@ Password: <input name="pass" type="password" maxlength="20" size="20">
 <input type="submit" value="Post it">
 <input type="reset" value="Reset">
 </form>
-Values: Username = <%= cgi.user or ""%>, Password = <%= cgi.pass or ""%>
+Values: Username = <%= cgilua.POST.user or ""%>, Password = <%= cgilua.POST.pass or ""%>
 <br />
 <br />
 <b>Cookies</b>:<br />

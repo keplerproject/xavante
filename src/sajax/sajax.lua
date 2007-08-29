@@ -1,6 +1,6 @@
--- $Id: sajax.lua,v 1.3 2006/12/11 19:19:26 carregal Exp $
+-- $Id: sajax.lua,v 1.4 2007/08/29 18:56:57 carregal Exp $
 
-local cgi, cgilua = cgi, cgilua
+local cgilua = cgilua
 local table, string, os = table, string, os
 local pairs, type, unpack, tostring, xpcall = pairs, type, unpack, tostring, xpcall
 
@@ -69,7 +69,7 @@ else
 
 	function handle_client_request ()
 	
-		if not cgi.rs then return end
+		if not cgilua.QUERY.rs then return end
 		
 		-- Bust cache in the head
 		cgilua.header ("Expires", "Mon, 26 Jul 1997 05:00:00 GMT")    -- Date in the past
@@ -78,13 +78,13 @@ else
 		cgilua.header ("Cache-Control", "no-cache, must-revalidate")	-- HTTP/1.1
 		cgilua.header ("Pragma", "no-cache")							-- HTTP/1.0
 		
-		local funcname = cgi.rs
+		local funcname = cgilua.QUERY.rs
 		
 		if not export_list[funcname] then
 			cgilua.put (string.format ("-:%s not callable", funcname))
 		else
 			local func = export_list[funcname]
-			local rsargs = cgi["rsargs[]"]
+			local rsargs = cgilua.QUERY["rsargs[]"]
 			local result
 			
 			if not rsargs then
