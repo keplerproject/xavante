@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.35 2007/05/17 23:06:43 hisham Exp $
+# $Id: Makefile,v 1.36 2007/08/29 19:13:53 carregal Exp $
 
 CONFIG= ./config
 
@@ -15,7 +15,7 @@ XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/config.lua src/xavante/e
 XAVANTE_CONFIG = src/xavante/config.lua
 WEBS= web/index.lp web/test.lp
 DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html doc/us/xavante.gif
-IMGS= web/img/test.jpg web/img/xavante.gif
+IMGS= web/img/test.jpg web/img/keplerproject.gif
 
 all: install
 

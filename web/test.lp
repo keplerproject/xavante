@@ -8,9 +8,12 @@
 </head>
 <body>
 <title>CGILua test</title>
+<img src = "/img/keplerproject.gif" />
+<p>
 <b>Containment</b>:<br />
 <% if (x == nil) then x = 1 else x = x + 1 end %>
 Expected value = 1
+</p>
 <table>
   <tr>
     <td<% if x ~= 1 then cgilua.put([[ bgcolor="red"]]) end %>>
