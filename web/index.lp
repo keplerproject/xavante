@@ -7,10 +7,10 @@
 
 <body>
 <center>
-<img src = "/img/keplerproject.gif" />
+<img src = "img/keplerproject.gif" />
 <h1>Welcome!</h1>
 If you are reading this page, <strong><%= cgilua.servervariable("SERVER_SOFTWARE") %></strong>
-has been successfully configured to use CGILua on your system.<br />
+has been successfully installed on your system.<br />
 <br />
 From here you can run some <a href="test.lp">tests</a>. <br />
 <br />
