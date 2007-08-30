@@ -6,17 +6,18 @@
 -- yielding inside the call to pcall or xpcall.
 --
 -- Authors: Roberto Ierusalimschy and Andre Carregal 
--- Contributors: Thomas Harning Jr. 
+-- Contributors: Thomas Harning Jr., Ignacio Burgueño 
 --
 -- Copyright 2005-2007 - Kepler Project (www.keplerproject.org)
 --
--- $Id: coxpcall.lua,v 1.9 2007/06/22 22:39:51 carregal Exp $
+-- $Id: coxpcall.lua,v 1.10 2007/08/30 21:57:33 carregal Exp $
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
 -- Implements xpcall with coroutines
 -------------------------------------------------------------------------------
 local performResume, handleReturnValue
+local oldpcall, oldxpcall = pcall, xpcall
 
 function handleReturnValue(err, co, status, ...)
     if not status then
@@ -34,7 +35,12 @@ function performResume(err, co, ...)
 end    
 
 function coxpcall(f, err, ...)
-    local co = coroutine.create(f)
+    local res, co = oldpcall(coroutine.create, f)
+    if not res then
+        local params = {...}
+        local newf = function() return f(unpack(params)) end
+        co = coroutine.create(newf)
+    end
     return performResume(err, co, ...)
 end
 
