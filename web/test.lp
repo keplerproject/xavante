@@ -1,3 +1,5 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
   <% require"cgilua.cookies"
@@ -5,10 +7,10 @@
        cgilua.cookies.sethtml("Xavante", cgilua.POST.user)
      end
   %>
+<title>CGILua Test</title>
 </head>
 <body>
-<title>CGILua test</title>
-<img src = "img/keplerproject.gif" />
+<img src = "img/keplerproject.gif" alt="Kepler Project logo" />
 <p>
 <b>Containment</b>:<br />
 <% if (x == nil) then x = 1 else x = x + 1 end %>
@@ -61,7 +63,8 @@ Username = <%= cgilua.cookies.get("Xavante") or "" %><br />
 <b>Date</b>:<br />
 <%= os.date() %><br />
 <br />
-<b>Image test</b>:<img src="img/test.jpg"><br />
+<b>Image test</b>:
+<img src="img/test.jpg" alt="a small photograph" /><br />
 <br />
 <b>Dir library</b>:<br />
 <%
