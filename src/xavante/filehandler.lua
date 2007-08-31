@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: filehandler.lua,v 1.22 2007/08/20 22:20:44 carregal Exp $
+-- $Id: filehandler.lua,v 1.23 2007/08/31 21:20:04 carregal Exp $
 ----------------------------------------------------------------------------
 
 local lfs = require "lfs"
@@ -122,9 +122,12 @@ local function filehandler (req, res, baseDir)
 	local lms = req.headers["if-modified-since"] or 0
 	local lm = res.headers["last-modified"] or 1
 	if lms == lm then
-		res.headers ["Content-Type"] = "text/html"
+		res.headers["Content-Length"] = 0
 		res.statusline = "HTTP/1.1 304 Not Modified\r\n"
 		res.content = ""
+        res.chunked = false
+        res:send_headers()
+        f:close()
 		return res
 	end
 
@@ -137,12 +140,11 @@ local function filehandler (req, res, baseDir)
 		end
 		
 		sendfile (f, res, range_len)
-		f:close ()
 	else
 		res.content = ""
 		res:send_headers ()
-	end
-	
+    end
+    f:close ()
 	return res
 end
 

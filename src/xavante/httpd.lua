@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: httpd.lua,v 1.37 2007/08/20 22:20:44 carregal Exp $
+-- $Id: httpd.lua,v 1.38 2007/08/31 21:20:04 carregal Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"
@@ -230,12 +230,6 @@ function make_response (req)
 		send_data = send_res_data,
 	}
 	
-	if req.cmd_version == "HTTP/1.1" then
-		res.chunked = true
-		res:add_header ("Transfer-Encoding", "chunked")
-	else
-		res.chunked = false
-	end
 	return res
 end
 
@@ -266,6 +260,10 @@ function send_response (req, res)
 		end
 	end
 	
+    if res.chunked then
+        res:add_header ("Transfer-Encoding", "chunked")
+    end
+    
 	if res.chunked or 
 		((res.headers ["Content-Length"]) and
 		req.headers ["connection"] == "Keep-Alive")
