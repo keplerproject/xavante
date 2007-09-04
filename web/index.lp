@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>Welcome to Kepler!</title>
-    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+    <link rel="stylesheet" href="css/doc.css" type="text/css"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 
@@ -15,32 +15,43 @@
 	<div id="product_logo"><a href="http://www.keplerproject.org">
 		<img src="img/keplerproject.gif" alt="Kepler Project logo" /></a>
     </div>
-	<div id="product_name"><big><strong>Welcome!</strong></big></div>
-	<div id="product_description">Kepler modules and their documentation</div>
+	<div id="product_name"><big><strong></strong></big></div>
+	<div id="product_description">Welcome page</div>
 </div> <!-- id="product" -->
 
 <div id="main">
 
 <div id="navigation">
-<h1>Modules</h1>
+<% 
+local mods = {}
+for file in lfs.dir("doc") do
+    local attr = lfs.attributes ("doc/"..file)
+    if attr.mode == "directory" and file ~= "." and file ~= ".." then
+        table.insert(mods, file)
+    end
+end
+table.sort(mods)
+%>
+
+<h1>Kepler</h1>
 	<ul>
-        <%  local count = 0
-            for file in lfs.dir("doc") do
-                local attr = lfs.attributes ("doc/"..file)
-                if attr.mode == "directory" and file ~= "." and file ~= ".." then
-                    count = count + 1
-        %>
-        <li><strong><a href="doc/<%= file %>/index.html"><%= file %></a></strong></li>
-        <%
+        <li><strong>Documentation</strong>
+            <ul>
+                <%
+                for _,file in ipairs(mods) do
+                %>
+                <li><strong><a href="doc/<%= file %>/index.html"><%= file %></a></strong></li>
+                <%
                 end
-            end
-            if count == 0 then
-        %>
-        <li><strong>(None)</strong></li>
-        <%
-            end
-        %>
-		
+                if not next(mods) then
+                %>
+                <li><strong>(None)</strong></li>
+                <%
+                end
+                %>
+            </ul>
+        </li>
+        <li><a href="/test.lp">Tests</a></li>
 	</ul>
 </div> <!-- id="navigation" -->
 
@@ -62,7 +73,7 @@ It serves both as a documentation index and as a simple example of a dynamic Lua
 
 <h2>What now?</h2>
 <p>
-From here you can also run some <a href="test.lp">CGILua tests</a>.
+From here you can also run some <a href="test.lp">tests</a>.
 </p>
 
 <h2>Contact us</h2>
@@ -89,7 +100,7 @@ Copyright 2004-2007 - <a href="http://www.keplerproject.org">Kepler Project</a>
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">
     <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>$Id: index.lp,v 1.10 2007/08/31 23:26:47 carregal Exp $</small></p>
+	<p><small>$Id: index.lp,v 1.11 2007/09/04 19:49:49 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
