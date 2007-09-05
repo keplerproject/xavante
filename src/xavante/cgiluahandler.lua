@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.24 2007/06/22 23:56:08 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.25 2007/09/05 20:09:30 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -114,6 +114,7 @@ end
 local function cgiluahandler (req, res, diskpath)
 	requests[tostring(req)] = { req = req, res = res }	
 
+    res:add_header("Connection", "close")
 	set_cgivars (req, diskpath)
 	local new_state = rings.new()
 	assert(new_state:dostring(state_init, tostring(req)))
