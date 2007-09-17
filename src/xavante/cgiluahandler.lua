@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.25 2007/09/05 20:09:30 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.26 2007/09/17 19:23:24 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -111,8 +111,13 @@ local function set_cgivars (req, diskpath)
 	end
 end
 
-local function cgiluahandler (req, res, diskpath)
-	requests[tostring(req)] = { req = req, res = res }	
+local function cgiluahandler (req, res, diskpath, options)
+    if options.checkFiles then
+        if not lfs.attributes (diskpath .. "/"..req.relpath) then
+            return options[404] (req, res)
+        end
+    end
+	requests[tostring(req)] = { req = req, res = res }
 
     res:add_header("Connection", "close")
 	set_cgivars (req, diskpath)
@@ -138,8 +143,11 @@ end
 -------------------------------------------------------------------------------
 -- Returns the CGILua handler
 -------------------------------------------------------------------------------
-function makeHandler (diskpath)
+function makeHandler (diskpath, options)
+    options = options or {}
+    options.checkFiles = options.checkFiles or true
+    options[404] = options[404] or xavante.httpd.err_404
 	return function (req, res)
-		return cgiluahandler (req, res, diskpath)
+		return cgiluahandler (req, res, diskpath, options)
 	end
 end

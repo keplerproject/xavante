@@ -9,7 +9,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: xavante.lua,v 1.6 2007/09/01 00:10:35 carregal Exp $
+-- $Id: xavante.lua,v 1.7 2007/09/17 19:23:24 carregal Exp $
 -------------------------------------------------------------------------------
 module ("xavante", package.seeall)
 
@@ -22,7 +22,7 @@ require "xavante.vhostshandler"
 -- Meta information is public even begining with an "_"
 _COPYRIGHT   = "Copyright (C) 2004-2007 Kepler Project"
 _DESCRIPTION = "A Copas based Lua Web server with CGILua support"
-_VERSION     = "Xavante 1.3.1"
+_VERSION     = "Xavante 1.3.2 (work)"
 
 local _startmessage = function (ports)
   print(string.format("Xavante started on port(s) %s", table.concat(ports, ", ")))
