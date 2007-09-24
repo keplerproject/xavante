@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.26 2007/09/17 19:23:24 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.27 2007/09/24 22:12:01 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -36,6 +36,12 @@ local function set_api ()
 	local SAPI = {
 		Response = {},
 		Request = {},
+        Info = {
+            _COPYRIGHT = "Copyright (C) 2004-2007 Kepler Project",
+		    _DESCRIPTION = "Xavante SAPI implementation",
+		    _VERSION = "Xavante SAPI 1.3",
+		    ispersistent = false,
+        }
 	}
 	-- Headers
 	SAPI.Response.contenttype = function (s)
@@ -79,7 +85,10 @@ require"coxpcall"
 pcall = copcall
 xpcall = coxpcall
 
-_, CGILUA_APPS = remotedostring("return CGILUA_APPS")
+_, KEPLER_APPS = remotedostring("return KEPLER_APPS")
+_, KEPLER_LOG = remotedostring("return KEPLER_LOG")
+_, KEPLER_TMP = remotedostring("return KEPLER_TMP")
+_, KEPLER_WEB = remotedostring("return KEPLER_WEB")
 
 require"cgilua"
 main_coro = coroutine.wrap(function () cgilua.main() end)
