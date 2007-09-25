@@ -63,7 +63,7 @@ table.sort(mods)
 If you are reading this page,
 <strong><%= cgilua.servervariable("SERVER_SOFTWARE") %></strong>
 has been successfully configured for CGILua on your system using
-<strong><%= _VERSION %></strong>.
+<strong><%= SAPI.Info._VERSION %></strong> and <strong><%= _VERSION %></strong>.
 </p>
 
 <p>
@@ -100,7 +100,7 @@ Copyright 2004-2007 - <a href="http://www.keplerproject.org">Kepler Project</a>
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">
     <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>$Id: index.lp,v 1.11 2007/09/04 19:49:49 carregal Exp $</small></p>
+	<p><small>$Id: index.lp,v 1.12 2007/09/25 22:28:53 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
