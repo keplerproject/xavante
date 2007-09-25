@@ -98,9 +98,8 @@ Copyright 2004-2007 - <a href="http://www.keplerproject.org">Kepler Project</a>
 </div> <!-- id="main" -->
 
 <div id="about">
-	<p><a href="http://validator.w3.org/check?uri=referer">
-    <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>$Id: index.lp,v 1.12 2007/09/25 22:28:53 carregal Exp $</small></p>
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0</a></p>
+	<p><small>$Id: index.lp,v 1.13 2007/09/25 23:12:58 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
