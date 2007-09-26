@@ -1,4 +1,4 @@
--- $Id: sajax.lua,v 1.4 2007/08/29 18:56:57 carregal Exp $
+-- $Id: sajax.lua,v 1.5 2007/09/26 00:08:35 carregal Exp $
 
 local cgilua = cgilua
 local table, string, os = table, string, os
@@ -114,6 +114,7 @@ end
 local function get_common_js ()
 	return [[
 		// remote scripting library
+        // released under BSD license
 		// (c) copyright 2005 modernmethod, inc
 		var sajax_debug_mode = false;
 		

@@ -6,7 +6,9 @@ based on URI mapped handlers. Xavante currently offers a file handler,
 a redirect handler and a CGILua handler. Those are used for general files,
 URI remapping and CGILua scripts respectively.
 
-Xavante is free software and uses the same license as Lua. 
+Xavante is free software and uses the same license as Lua.
+
+Xavante includes JavaScript code under BSD license from modernmethod, inc in the sajax.lua module.
 
 Xavante dependencies can be separated by the used handlers:
 
