@@ -72,10 +72,10 @@ and as a cookie in the next submission
 </p>
 
 <form method="post" action="test.lp">
-<label>User name: </label><input name="user" maxlength="20" size="20">
-<label>Password: </label><input name="pass" type="password" maxlength="20" size="20">
-<input type="submit" value="Post it">
-<input type="reset" value="Reset">
+    <label>User name: </label><input name="user" maxlength="20" size="20">
+    <label>Password: </label><input name="pass" type="password" maxlength="20" size="20">
+    <input type="submit" value="Post it">
+    <input type="reset" value="Reset">
 </form>
 
 <p>
@@ -96,7 +96,43 @@ Here you should see the values posted before the ones shown above
 cookie_kepler = <%= cgilua.cookies.get("cookie_kepler") or "(not set)" %>
 </p>
 
+<h2>File Upload</h2>
+
+<p>Choose a file to upload, press "Upload" and a link to the file should
+appear below with the corresponding "Remove" button.</a>
+<form method="POST" enctype="multipart/form-data" action="test.lp">
+    <input type="file" name="file">
+    <input type="submit" value="Upload">
+</form>
+
+<% 
+    local f = cgilua.POST.file
+    if f and next(f) then
+        local name = f.filename
+        local file = f.file
+        local dest = io.open(name, "wb")
+        if dest then
+            local bytes = file:read("*a")
+            dest:write(bytes)
+            dest:close()
+            cgilua.print("<a href='"..name.."'>"..name.."</a>\n")
+            cgilua.print([[<form method="POST" enctype="multipart/form-data" action="test.lp">]])
+            cgilua.print([[<input type="hidden" name="filename" value="]]..name..[[">]])
+            cgilua.print([[<input type="submit" name="remove" value="Remove">]])
+            cgilua.print([[</form>]])
+        end
+    end
+%>
+
+<%
+    if cgilua.POST.remove then
+        os.remove(cgilua.POST.filename)
+    end
+%>
+
+
 <h2>Server Variables</h2>
+
 <table border="1" cellpadding="5">
   <tr><td>SERVER_SOFTWARE</td><td><%= tostring(cgilua.servervariable("SERVER_SOFTWARE")) %></td></tr>
   <tr><td>SERVER_NAME</td><td><%= tostring(cgilua.servervariable("SERVER_NAME")) %></td></tr>
@@ -110,7 +146,6 @@ cookie_kepler = <%= cgilua.cookies.get("cookie_kepler") or "(not set)" %>
   <tr><td>QUERY_STRING</td><td><%= tostring(cgilua.servervariable("QUERY_STRING")) %></td></tr>
   <tr><td>REMOTE_HOST</td><td><%= tostring(cgilua.servervariable("REMOTE_HOST")) %></td></tr>
   <tr><td>REMOTE_ADDR</td><td><%= tostring(cgilua.servervariable("REMOTE_ADDR")) %></td></tr>
-  <tr><td>REMOTE_PORT</td><td><%= tostring(cgilua.servervariable("REMOTE_PORT")) %></td></tr>
   <tr><td>AUTH_TYPE</td><td><%= tostring(cgilua.servervariable("AUTH_TYPE")) %></td></tr>
   <tr><td>REMOTE_USER</td><td><%= tostring(cgilua.servervariable("REMOTE_USER")) %></td></tr>
   <tr><td>REMOTE_IDENT</td><td><%= tostring(cgilua.servervariable("REMOTE_IDENT")) %></td></tr>
@@ -150,7 +185,7 @@ Expected value: 1, actual value: <%= x %>.
 
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0</a></p>
-	<p><small>$Id: test.lp,v 1.9 2007/09/25 23:12:58 carregal Exp $</small></p>
+	<p><small>$Id: test.lp,v 1.10 2007/10/02 23:47:52 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
