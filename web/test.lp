@@ -130,27 +130,67 @@ appear below with the corresponding "Remove" button.</a>
     end
 %>
 
+<h2>CGILua Request Parameters</h2>
+
+<%
+cgilua.put("<p><strong>cgilua.QUERY</strong> = {")
+for i,v in pairs (cgilua.QUERY) do
+    cgilua.put("<br />\n")
+	if type(v) == "table" then
+		local vv = "{<br />\n"
+		for a,b in pairs(v) do
+			vv = string.format ("&nbsp;&nbsp;%s%s = [[%s]],<br />\n", vv, a, tostring(b))
+		end
+		v = vv.."}<br />\n"
+	    cgilua.put (string.format ("&nbsp;%s = %s,", i, tostring(v)))
+	else
+	    cgilua.put (string.format ("&nbsp;%s = [[%s]],", i, tostring(v)))
+    end
+end
+if next(cgilua.QUERY) then
+    cgilua.put "<br />\n"
+end
+cgilua.put "}</p>\n"
+%>
+
+<br />
+
+<%
+cgilua.put("<p><strong>cgilua.POST</strong> = {")
+for i,v in pairs (cgilua.POST) do
+    cgilua.put("<br />\n")
+	if type(v) == "table" then
+		local vv = "{<br />\n"
+		for a,b in pairs(v) do
+			vv = string.format ("&nbsp;&nbsp;%s%s = [[%s]],<br />\n", vv, a, tostring(b))
+		end
+		v = vv.."}<br />\n"
+	    cgilua.put (string.format ("&nbsp;%s = %s,", i, tostring(v)))
+	else
+	    cgilua.put (string.format ("&nbsp;%s = [[%s]],", i, tostring(v)))
+    end
+end
+if next(cgilua.POST) then
+    cgilua.put "<br />\n"
+end
+cgilua.put "}</p>\n"
+%>
 
 <h2>Server Variables</h2>
 
-<table border="1" cellpadding="5">
-  <tr><td>SERVER_SOFTWARE</td><td><%= tostring(cgilua.servervariable("SERVER_SOFTWARE")) %></td></tr>
-  <tr><td>SERVER_NAME</td><td><%= tostring(cgilua.servervariable("SERVER_NAME")) %></td></tr>
-  <tr><td>GATEWAY_INTERFACE</td><td><%= tostring(cgilua.servervariable("GATEWAY_INTERFACE")) %></td></tr>
-  <tr><td>SERVER_PROTOCOL</td><td><%= tostring(cgilua.servervariable("SERVER_PROTOCOL")) %></td></tr>
-  <tr><td>SERVER_PORT</td><td><%= tostring(cgilua.servervariable("SERVER_PORT")) %></td></tr>
-  <tr><td>REQUEST_METHOD</td><td><%= tostring(cgilua.servervariable("REQUEST_METHOD")) %></td></tr>
-  <tr><td>PATH_INFO</td><td><%= tostring(cgilua.servervariable("PATH_INFO")) %></td></tr>
-  <tr><td>PATH_TRANSLATED</td><td><%= tostring(cgilua.servervariable("PATH_TRANSLATED")) %></td></tr>
-  <tr><td>SCRIPT_NAME</td><td><%= tostring(cgilua.servervariable("SCRIPT_NAME")) %></td></tr>
-  <tr><td>QUERY_STRING</td><td><%= tostring(cgilua.servervariable("QUERY_STRING")) %></td></tr>
-  <tr><td>REMOTE_HOST</td><td><%= tostring(cgilua.servervariable("REMOTE_HOST")) %></td></tr>
-  <tr><td>REMOTE_ADDR</td><td><%= tostring(cgilua.servervariable("REMOTE_ADDR")) %></td></tr>
-  <tr><td>AUTH_TYPE</td><td><%= tostring(cgilua.servervariable("AUTH_TYPE")) %></td></tr>
-  <tr><td>REMOTE_USER</td><td><%= tostring(cgilua.servervariable("REMOTE_USER")) %></td></tr>
-  <tr><td>REMOTE_IDENT</td><td><%= tostring(cgilua.servervariable("REMOTE_IDENT")) %></td></tr>
-  <tr><td>CONTENT_TYPE</td><td><%= tostring(cgilua.servervariable("CONTENT_TYPE")) %></td></tr>
-  <tr><td>CONTENT_LENGTH</td><td><%= tostring(cgilua.servervariable("CONTENT_LENGTH")) %></td></tr>
+<table border="1">
+<%
+local vars = {
+    "SERVER_SOFTWARE", "SERVER_NAME", "SERVER_PROTOCOL", "SERVER_PORT",
+    "GATEWAY_INTERFACE", "REQUEST_METHOD",
+    "SCRIPT_NAME", "PATH_INFO", "PATH_TRANSLATED",
+    "CONTENT_TYPE", "CONTENT_LENGTH", "QUERY_STRING",
+    "REMOTE_HOST", "REMOTE_ADDR", "REMOTE_USER",
+    "REMOTE_IDENT",
+}
+for _, v in ipairs(vars) do %>
+  <tr><td><%= v %></td><td><%= tostring(cgilua.servervariable(v)) %></td></tr>
+<% end %>
 </table>
 
 <h2>Date</h2>
@@ -185,7 +225,7 @@ Expected value: 1, actual value: <%= x %>.
 
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0</a></p>
-	<p><small>$Id: test.lp,v 1.10 2007/10/02 23:47:52 carregal Exp $</small></p>
+	<p><small>$Id: test.lp,v 1.11 2007/10/03 22:37:45 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
