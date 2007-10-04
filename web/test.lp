@@ -130,51 +130,39 @@ appear below with the corresponding "Remove" button.</a>
     end
 %>
 
-<h2>CGILua Request Parameters</h2>
-
 <%
-cgilua.put("<p><strong>cgilua.QUERY</strong> = {")
-for i,v in pairs (cgilua.QUERY) do
-    cgilua.put("<br />\n")
-	if type(v) == "table" then
-		local vv = "{<br />\n"
-		for a,b in pairs(v) do
-			vv = string.format ("&nbsp;&nbsp;%s%s = [[%s]],<br />\n", vv, a, tostring(b))
-		end
-		v = vv.."}<br />\n"
-	    cgilua.put (string.format ("&nbsp;%s = %s,", i, tostring(v)))
-	else
-	    cgilua.put (string.format ("&nbsp;%s = [[%s]],", i, tostring(v)))
+local function showtable(t)
+    cgilua.put "{"
+    for i,v in pairs (t) do
+        cgilua.put("\n")
+        if type(v) == "table" then
+            local vv = "{\n"
+            for a,b in pairs(v) do
+                vv = string.format ("%s  %s = [[%s]],\n", vv, a, tostring(b))
+            end
+            v = vv.." },"
+            cgilua.put (string.format (" %s = %s", i, tostring(v)))
+        else
+            cgilua.put (string.format (" %s = [[%s]],", i, tostring(v)))
+        end
     end
+    if next(t) then
+        cgilua.put "\n"
+    end
+    cgilua.put "}\n"
 end
-if next(cgilua.QUERY) then
-    cgilua.put "<br />\n"
-end
-cgilua.put "}</p>\n"
 %>
 
-<br />
+<h2>cgilua.QUERY</h2>
 
-<%
-cgilua.put("<p><strong>cgilua.POST</strong> = {")
-for i,v in pairs (cgilua.POST) do
-    cgilua.put("<br />\n")
-	if type(v) == "table" then
-		local vv = "{<br />\n"
-		for a,b in pairs(v) do
-			vv = string.format ("&nbsp;&nbsp;%s%s = [[%s]],<br />\n", vv, a, tostring(b))
-		end
-		v = vv.."}<br />\n"
-	    cgilua.put (string.format ("&nbsp;%s = %s,", i, tostring(v)))
-	else
-	    cgilua.put (string.format ("&nbsp;%s = [[%s]],", i, tostring(v)))
-    end
-end
-if next(cgilua.POST) then
-    cgilua.put "<br />\n"
-end
-cgilua.put "}</p>\n"
-%>
+<pre class="example">
+<% showtable (cgilua.QUERY) %>
+</pre>
+
+<h2>cgilua.POST</h2>
+<pre class="example">
+<% showtable (cgilua.POST) %>
+</pre>
 
 <h2>Server Variables</h2>
 
@@ -225,7 +213,7 @@ Expected value: 1, actual value: <%= x %>.
 
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0</a></p>
-	<p><small>$Id: test.lp,v 1.11 2007/10/03 22:37:45 carregal Exp $</small></p>
+	<p><small>$Id: test.lp,v 1.12 2007/10/04 20:14:15 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
