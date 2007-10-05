@@ -41,7 +41,7 @@ table.sort(mods)
 
 <h1>Kepler</h1>
 	<ul>
-        <li><a href="/">Documentation</a>
+        <li><a href="index.lp">Documentation</a>
             <ul>
                 <%
                 for _,file in ipairs(mods) do
@@ -222,7 +222,7 @@ Expected value: 1, actual value: <%= x %>.
 
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0</a></p>
-	<p><small>$Id: test.lp,v 1.13 2007/10/05 00:55:17 carregal Exp $</small></p>
+	<p><small>$Id: test.lp,v 1.14 2007/10/05 02:45:58 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
