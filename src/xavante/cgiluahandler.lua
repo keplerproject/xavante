@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.27 2007/09/24 22:12:01 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.28 2007/10/05 00:54:35 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -54,8 +54,11 @@ local function set_api ()
 		remotedostring(id_string .. ".res:add_header (]]..argument(1)..[[, ]]..argument(2)..[[)", h, v)
 	end
 	-- Contents
-	SAPI.Response.write = function (s)
-		coroutine.yield("SEND_DATA", s)
+	SAPI.Response.write = function (...)
+        local args = { ... }
+        for i = 1, select("#",...) do
+            coroutine.yield("SEND_DATA", tostring(args[i]))
+        end
 	end
 	SAPI.Response.errorlog = function (s) 
 		remotedostring('io.stderr:write(]]..argument(1)..[[)', s)
