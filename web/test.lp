@@ -164,6 +164,19 @@ end
 <% showtable (cgilua.POST) %>
 </pre>
 
+<h2>CGILua Variables</h2>
+
+<table border="1">
+<%
+local vars = {
+    "script_file", "script_path", "script_pdir", "script_vdir", "script_vpath", "urlpath",
+}
+for _, v in ipairs(vars) do %>
+  <tr><td>cgilua.<%= v %></td><td><%= tostring(cgilua[v]) %></td></tr>
+<% end %>
+</table>
+
+
 <h2>Server Variables</h2>
 
 <table border="1">
@@ -171,10 +184,10 @@ end
 local vars = {
     "SERVER_SOFTWARE", "SERVER_NAME", "SERVER_PROTOCOL", "SERVER_PORT",
     "GATEWAY_INTERFACE", "REQUEST_METHOD",
-    "SCRIPT_NAME", "PATH_INFO", "PATH_TRANSLATED",
-    "CONTENT_TYPE", "CONTENT_LENGTH", "QUERY_STRING",
-    "REMOTE_HOST", "REMOTE_ADDR", "REMOTE_USER",
-    "REMOTE_IDENT",
+    "SCRIPT_NAME", "PATH_INFO", "PATH_TRANSLATED", "QUERY_STRING",
+    "CONTENT_TYPE", "CONTENT_LENGTH", 
+    "REMOTE_ADDR", "REMOTE_HOST", "REMOTE_USER", "REMOTE_IDENT",
+    "AUTH_TYPE",
 }
 for _, v in ipairs(vars) do %>
   <tr><td><%= v %></td><td><%= tostring(cgilua.servervariable(v)) %></td></tr>
@@ -222,7 +235,7 @@ Expected value: 1, actual value: <%= x %>.
 
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0</a></p>
-	<p><small>$Id: test.lp,v 1.14 2007/10/05 02:45:58 carregal Exp $</small></p>
+	<p><small>$Id: test.lp,v 1.15 2007/10/05 22:40:07 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
