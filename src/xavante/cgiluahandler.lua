@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.28 2007/10/05 00:54:35 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.29 2007/10/08 23:03:57 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -98,8 +98,25 @@ main_coro = coroutine.wrap(function () cgilua.main() end)
 
 ]]
 
-local function set_cgivars (req, diskpath)
-	
+local function cgiluahandler (req, res, diskpath, options)
+    -- gets the script name without any path
+	local name = string.match(req.relpath, "/([^/]+%.[^/]+)")
+    local name = string.gsub(name, "%.", "%%%.")
+    -- gets the script name with path (SCRIPT_NAME)
+    local script_name = string.match(req.relpath, "^(.-"..name..")")
+    -- the remaining is the PATH_INFO
+    local path_info = string.match(req.relpath, name.."(.*)")
+    script_name = script_name or ""
+    path_info = path_info or ""
+    if options.checkFiles then
+        if not lfs.attributes (diskpath .. "/"..script_name) then
+            return options[404] (req, res)
+        end
+    end
+	requests[tostring(req)] = { req = req, res = res }
+
+    res:add_header("Connection", "close")
+
 	req.cgivars = {
 		SERVER_SOFTWARE = req.serversoftware,
 		SERVER_NAME = req.parsed_url.host,
@@ -107,9 +124,10 @@ local function set_cgivars (req, diskpath)
 		SERVER_PROTOCOL = "HTTP/1.1",
 		SERVER_PORT = req.parsed_url.port,
 		REQUEST_METHOD = req.cmd_mth,
-		PATH_INFO = "/"..req.relpath,
-		PATH_TRANSLATED = diskpath .. "/"..req.relpath,
-		SCRIPT_NAME = req.parsed_url.path,
+        DOCUMENT_ROOT = diskpath,
+		PATH_INFO = path_info,
+		PATH_TRANSLATED = diskpath..script_name,
+		SCRIPT_NAME = script_name,
 		QUERY_STRING = req.parsed_url.query,
 		REMOTE_HOST = nil,
 		REMOTE_ADDR = string.gsub (req.rawskt:getpeername (), ":%d*$", ""),
@@ -121,18 +139,7 @@ local function set_cgivars (req, diskpath)
 	for n,v in pairs (req.headers) do
 		req.cgivars ["HTTP_"..string.gsub (string.upper (n), "-", "_")] = v
 	end
-end
-
-local function cgiluahandler (req, res, diskpath, options)
-    if options.checkFiles then
-        if not lfs.attributes (diskpath .. "/"..req.relpath) then
-            return options[404] (req, res)
-        end
-    end
-	requests[tostring(req)] = { req = req, res = res }
-
-    res:add_header("Connection", "close")
-	set_cgivars (req, diskpath)
+    
 	local new_state = rings.new()
 	assert(new_state:dostring(state_init, tostring(req)))
 	local coro_arg, status, op, arg

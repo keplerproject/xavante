@@ -9,14 +9,14 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: xavante.lua,v 1.7 2007/09/17 19:23:24 carregal Exp $
+-- $Id: xavante.lua,v 1.8 2007/10/08 23:03:57 carregal Exp $
 -------------------------------------------------------------------------------
 module ("xavante", package.seeall)
 
 require "copas"
 require "xavante.httpd"
 require "string"
-require "xavante.ruleshandler"
+require "xavante.patternhandler"
 require "xavante.vhostshandler"
 
 -- Meta information is public even begining with an "_"
@@ -30,7 +30,7 @@ end
 
 local function _buildRules(rules)
     local rules_table = {}
-    for _, rule in ipairs(rules) do
+    for rule_n, rule in ipairs(rules) do
         local handler
         if type (rule.with) == "function" then
 	    if rule.params then
@@ -46,9 +46,10 @@ local function _buildRules(rules)
         local match = rule.match
         if type(match) == "string" then
             match = {rule.match}
-	end
-        for _, mask in ipairs(match) do
-	    rules_table[mask] = handler
+        end
+        rules_table[rule_n] = { pattern = {}, handler = handler }
+        for pat_n, pat in ipairs(match) do
+        rules_table[rule_n].pattern[pat_n] = pat
         end
     end
     return rules_table
@@ -71,12 +72,12 @@ function HTTP(config)
     local vhosts_table = {}
 
     if config.defaultHost then
-        vhosts_table[""] = xavante.ruleshandler(_buildRules(config.defaultHost.rules))
+        vhosts_table[""] = xavante.patternhandler(_buildRules(config.defaultHost.rules))
     end
 
     if type(config.virtualhosts) == "table" then
         for hostname, host in pairs(config.virtualhosts) do
-	    vhosts_table[hostname] = xavante.ruleshandler(_buildRules(host.rules))
+	    vhosts_table[hostname] = xavante.patternhandler(_buildRules(host.rules))
         end
     end
 
