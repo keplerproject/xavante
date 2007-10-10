@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.37 2007/08/31 23:26:59 carregal Exp $
+# $Id: Makefile,v 1.38 2007/10/10 19:19:08 carregal Exp $
 
 CONFIG= ./config
 
@@ -11,7 +11,7 @@ INIT= src/xavante_init.lua
 COXPCALL_LUAS = src/coxpcall/coxpcall.lua
 SAJAX_LUAS = src/sajax/sajax.lua
 ROOT_LUAS = src/xavante/xavante.lua 
-XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/config.lua src/xavante/encoding.lua src/xavante/filehandler.lua src/xavante/httpd.lua src/xavante/mime.lua src/xavante/redirecthandler.lua src/xavante/vhostshandler.lua src/xavante/indexhandler.lua src/xavante/urlhandler.lua src/xavante/ruleshandler.lua
+XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/config.lua src/xavante/encoding.lua src/xavante/filehandler.lua src/xavante/httpd.lua src/xavante/mime.lua src/xavante/patternhandler.lua src/xavante/redirecthandler.lua src/xavante/vhostshandler.lua src/xavante/indexhandler.lua src/xavante/urlhandler.lua src/xavante/ruleshandler.lua
 XAVANTE_CONFIG = src/xavante/config.lua
 WEBS= web/index.lp web/test.lp web\loop.lp web\calculator.lp
 DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html doc/us/xavante.gif
