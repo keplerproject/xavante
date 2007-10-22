@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: httpd.lua,v 1.38 2007/08/31 21:20:04 carregal Exp $
+-- $Id: httpd.lua,v 1.39 2007/10/22 15:33:13 carregal Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"
@@ -150,14 +150,18 @@ function default_headers (req)
 end
 
 function add_res_header (res, h, v)
-	local prevval = res.headers [h]
-	if (prevval  == nil) then
-		res.headers[h] = v
-	elseif type (prevval) == "table" then
-		table.insert (prevval, v)
-	else
-		res.headers[h] = {prevval, v}
-	end
+    if string.lower(h) == "status" then
+        res.statusline = "HTTP/1.1 "..v.."\r\n"
+    else
+        local prevval = res.headers [h]
+        if (prevval  == nil) then
+            res.headers[h] = v
+        elseif type (prevval) == "table" then
+            table.insert (prevval, v)
+        else
+            res.headers[h] = {prevval, v}
+        end
+    end
 end
 
 
