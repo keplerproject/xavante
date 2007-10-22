@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.30 2007/10/22 15:30:55 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.31 2007/10/22 16:45:20 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -91,7 +91,7 @@ xpcall = coxpcall
 
 -- Alow the listed globals
 for _, v in ipairs (options.globals) do
-    init = init..[[_, ]]..v..[[ = remotedostring("return ]]..v..[[")\n]]
+    init = init..[[_, ]]..v..[[ = remotedostring("return ]]..v..[[")]].."\n"
 end
 
     init = init..[[
