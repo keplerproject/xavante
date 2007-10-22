@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.29 2007/10/08 23:03:57 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.30 2007/10/22 15:30:55 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -25,8 +25,8 @@ local function argument(n)
     end
 end
 
-local state_init = [[
-
+local function state_init(options)
+    local init = [[
 local select = select or function (n, ...) return arg[n] end
 
 
@@ -87,16 +87,21 @@ _, package.cpath = remotedostring("return package.cpath")
 require"coxpcall"
 pcall = copcall
 xpcall = coxpcall
+]]
 
-_, KEPLER_APPS = remotedostring("return KEPLER_APPS")
-_, KEPLER_LOG = remotedostring("return KEPLER_LOG")
-_, KEPLER_TMP = remotedostring("return KEPLER_TMP")
-_, KEPLER_WEB = remotedostring("return KEPLER_WEB")
+-- Alow the listed globals
+for _, v in ipairs (options.globals) do
+    init = init..[[_, ]]..v..[[ = remotedostring("return ]]..v..[[")\n]]
+end
 
+    init = init..[[
 require"cgilua"
 main_coro = coroutine.wrap(function () cgilua.main() end)
 
 ]]
+
+    return init
+end
 
 local function cgiluahandler (req, res, diskpath, options)
     -- gets the script name without any path
@@ -141,7 +146,7 @@ local function cgiluahandler (req, res, diskpath, options)
 	end
     
 	local new_state = rings.new()
-	assert(new_state:dostring(state_init, tostring(req)))
+	assert(new_state:dostring(state_init(options), tostring(req)))
 	local coro_arg, status, op, arg
 	repeat
 		status, op, arg = new_state:dostring("return main_coro("..argument(1)..")", coro_arg)
@@ -165,6 +170,7 @@ end
 function makeHandler (diskpath, options)
     options = options or {}
     options.checkFiles = options.checkFiles or true
+    options.globals = options.globals or RINGS_CGILUA_GLOBALS or {}
     options[404] = options[404] or xavante.httpd.err_404
 	return function (req, res)
 		return cgiluahandler (req, res, diskpath, options)
