@@ -1,11 +1,11 @@
-# $Id: Makefile,v 1.39 2007/10/31 17:50:13 carregal Exp $
+# $Id: Makefile,v 1.40 2007/10/31 20:15:02 carregal Exp $
 
 CONFIG= ./config
 
 include $(CONFIG)
 
-T_START= src/t_xavante_start.lua
-XAVANTE_START= src/xavante_start.lua
+T_START= src/t_xavante_start
+XAVANTE_START= src/xavante_start
 T_INIT= src/t_xavante_init.lua
 INIT= src/xavante_init.lua
 COXPCALL_LUAS = src/coxpcall/coxpcall.lua
