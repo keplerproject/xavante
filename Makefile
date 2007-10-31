@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.38 2007/10/10 19:19:08 carregal Exp $
+# $Id: Makefile,v 1.39 2007/10/31 17:50:13 carregal Exp $
 
 CONFIG= ./config
 
@@ -11,8 +11,7 @@ INIT= src/xavante_init.lua
 COXPCALL_LUAS = src/coxpcall/coxpcall.lua
 SAJAX_LUAS = src/sajax/sajax.lua
 ROOT_LUAS = src/xavante/xavante.lua 
-XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/config.lua src/xavante/encoding.lua src/xavante/filehandler.lua src/xavante/httpd.lua src/xavante/mime.lua src/xavante/patternhandler.lua src/xavante/redirecthandler.lua src/xavante/vhostshandler.lua src/xavante/indexhandler.lua src/xavante/urlhandler.lua src/xavante/ruleshandler.lua
-XAVANTE_CONFIG = src/xavante/config.lua
+XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/encoding.lua src/xavante/filehandler.lua src/xavante/httpd.lua src/xavante/mime.lua src/xavante/patternhandler.lua src/xavante/redirecthandler.lua src/xavante/vhostshandler.lua src/xavante/indexhandler.lua src/xavante/urlhandler.lua src/xavante/ruleshandler.lua
 WEBS= web/index.lp web/test.lp web\loop.lp web\calculator.lp
 DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html doc/us/xavante.gif
 IMGS= web/img/test.jpg web/img/keplerproject.gif
@@ -58,11 +57,6 @@ install-start: $(XAVANTE_START)
 	mkdir -p $(SYS_BINDIR)
 	cp $(XAVANTE_START) $(SYS_BINDIR)
 
-install-config:
-	mkdir -p $(XAVANTE_CONF)/xavante
-	if [ ! -e $(XAVANTE_CONF)/xavante/$(XAVANTE_CONFIG) ] ; then cp $(XAVANTE_CONFIG) $(XAVANTE_CONF)/xavante; fi
-	ln -sf $(LUA_DIR) $(XAVANTE_LUA)
-
 install-init: $(INIT)
 	if [ ! -e $(XAVANTE_INIT) ] ; then cp $(INIT) $(XAVANTE_INIT); fi
 
@@ -73,7 +67,6 @@ install-web:
 
 standalone: install \
             install-start \
-            install-config \
             install-init \
             install-web
 

@@ -5,7 +5,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 ---
--- $Id: config.lua,v 1.24 2007/08/20 22:20:44 carregal Exp $
+-- $Id: config.lua,v 1.1 2007/10/31 17:50:13 carregal Exp $
 ------------------------------------------------------------------------------
 
 require "xavante.httpd"

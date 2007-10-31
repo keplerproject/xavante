@@ -120,6 +120,22 @@ and are as portable as Lua itself.
 
 <h2><a name="history"></a>History</h2>
 <dl>
+    <dt><strong>Xavante 1.4</strong> [??/Oct/2007]</dt>
+    <dd>
+    <ul>
+        <li>Allows the definition of the HTTP status by using a "Status" header</li>
+        <li>Adding the <code>Connection: close</code> header to every CGILua request
+        in order to avoid confusions on the content size (patch by Ignacio Burgueño)</li>
+        <li><strong>cgiluahandler</strong> now accepts an optional table with global
+        names to be passed to the Ring where the request is processed. If this option
+        is not present it looks for a <code>RINGS_CGILUA_GLOBALS</code> global and uses it.</li>
+        <li>Fixed bug
+        <a href="http://luaforge.net/tracker/?group_id=6&amp;atid=105&amp;func=detail&amp;aid=1812">[#1812]</a> -
+        <code>SAPI.Response.Write</code> was not sending all its arguments but the first one
+        (bug found by Ignacio Burgueño)</li>
+    </ul>
+    </dd>
+    
     <dt><strong>Xavante 1.3.1</strong> [31/Aug/2007]</dt>
     <dd>
     <ul>
@@ -146,11 +162,12 @@ and are as portable as Lua itself.
         <li>Better error handling, using <code>io.stderr</code> instead of <code>print</code></li>
         <li>Added the correct prefix to error codes (by Zachary P. Landau)</li>
         <li>Support for caching based on last-modified implemented by Zachary P. Landau,
-        based on the desing of HTTP.lua (by PA)</li>
+        based on the design of HTTP.lua (by PA)</li>
         <li>Content Encoding handling using <code>encoding.lua</code> as a configuration
         file, added svgz encoding and content-type</li>
-        <li>Fixed bug [#510] filehandler does not send correct headers for 404
-        error (found by Matthew Burke)</li>
+        <li>Fixed bug
+        <a href="http://luaforge.net/tracker/?group_id=6&amp;atid=105&amp;func=detail&amp;aid=510">[#510]</a>
+        filehandler does not send correct headers for a 404 error (found by Matthew Burke)</li>
     </ul>
     </dd>
     <dt><strong><a href="http://www.keplerproject.org/xavante/1.2">Xavante 1.2</a></strong> [20/Sep/2006]</dt>
@@ -246,7 +263,7 @@ Project <a href="http://luaforge.net/mail/?group_id=104">mailing list</a>.
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">
     <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>$Id: index.html,v 1.39 2007/09/01 00:10:35 carregal Exp $</small></p>
+	<p><small>$Id: index.html,v 1.40 2007/10/31 17:50:13 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
