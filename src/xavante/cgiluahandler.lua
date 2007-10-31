@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.31 2007/10/22 16:45:20 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.32 2007/10/31 20:22:00 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -39,7 +39,7 @@ local function set_api ()
         Info = {
             _COPYRIGHT = "Copyright (C) 2004-2007 Kepler Project",
 		    _DESCRIPTION = "Xavante SAPI implementation",
-		    _VERSION = "Xavante SAPI 1.3",
+		    _VERSION = "Xavante SAPI 1.4",
 		    ispersistent = false,
         }
 	}

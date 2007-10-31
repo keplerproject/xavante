@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.40 2007/10/31 20:15:02 carregal Exp $
+# $Id: Makefile,v 1.41 2007/10/31 20:22:00 carregal Exp $
 
 CONFIG= ./config
 
@@ -12,9 +12,7 @@ COXPCALL_LUAS = src/coxpcall/coxpcall.lua
 SAJAX_LUAS = src/sajax/sajax.lua
 ROOT_LUAS = src/xavante/xavante.lua 
 XAVANTE_LUAS= src/xavante/cgiluahandler.lua src/xavante/encoding.lua src/xavante/filehandler.lua src/xavante/httpd.lua src/xavante/mime.lua src/xavante/patternhandler.lua src/xavante/redirecthandler.lua src/xavante/vhostshandler.lua src/xavante/indexhandler.lua src/xavante/urlhandler.lua src/xavante/ruleshandler.lua
-WEBS= web/index.lp web/test.lp web\loop.lp web\calculator.lp
 DOCS= doc/us/index.html doc/us/license.html doc/us/manual.html doc/us/sajax.html doc/us/xavante.gif
-IMGS= web/img/test.jpg web/img/keplerproject.gif
 
 all: install
 
@@ -41,12 +39,6 @@ dist_dir:
 	cp $(SAJAX_LUAS) $(DIST_DIR)/src/sajax
 	mkdir -p $(DIST_DIR)/src/xavante
 	cp $(ROOT_LUAS) $(XAVANTE_LUAS) $(DIST_DIR)/src/xavante
-	mkdir -p $(DIST_DIR)/web
-	cp $(WEBS) $(DIST_DIR)/web
-	mkdir -p $(DIST_DIR)/web/doc
-	cp $(DOCS) $(DIST_DIR)/web/doc
-	mkdir -p $(DIST_DIR)/web/img
-	cp $(IMGS) $(DIST_DIR)/web/img
 
 install:
 	mkdir -p $(LUA_DIR)/xavante

@@ -1,4 +1,4 @@
-# $Id: config.win,v 1.5 2007/05/18 19:52:55 carregal Exp $
+# $Id: config.win,v 1.6 2007/10/31 20:22:00 carregal Exp $
 
 # System's libraries directory (where binary libraries are installed)
 LUA_LIBDIR= c:\lua5.1
@@ -21,10 +21,4 @@ XAVANTE_INIT= c:\lua5.1\xavante_init.lua
 XAVANTE_LUA = $(XAVANTE_HOME)\lua
 XAVANTE_CONF = $(XAVANTE_HOME)\conf
 XAVANTE_WEB = $(XAVANTE_HOME)\web
-
-VERSION= 1.2
-PKG = xavante-$(VERSION)
-DIST_DIR= $(PKG)
-TAR_FILE= $(PKG).tar.gz
-ZIP_FILE= $(PKG).zip
 

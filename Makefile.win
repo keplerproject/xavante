@@ -1,4 +1,4 @@
-# $Id: Makefile.win,v 1.17 2007/10/31 20:15:02 carregal Exp $
+# $Id: Makefile.win,v 1.18 2007/10/31 20:22:00 carregal Exp $
 
 include config.win
 
@@ -9,9 +9,7 @@ INIT= src\xavante_init.lua
 COXPCALL_LUAS = src\coxpcall\coxpcall.lua
 SAJAX_LUAS = src\sajax\sajax.lua
 XAVANTE_LUAS= src\xavante\cgiluahandler.lua src\xavante\encoding.lua src\xavante\filehandler.lua src\xavante\httpd.lua src\xavante\mime.lua src\xavante\patternhandler.lua src\xavante\redirecthandler.lua  src\xavante\ruleshandler.lua src\xavante\vhostshandler.lua src\xavante\indexhandler.lua src\xavante\urlhandler.lua
-WEBS= web\index.lp web\test.lp web\loop.lp web\calculator.lp
 DOCS= doc\us\index.html doc\us\license.html doc\us\manual.html doc\us\sajax.html doc\us\xavante.gif
-IMGS= web\img\test.jpg web\img\keplerproject.gif
 
 all:
 
@@ -45,13 +43,9 @@ standalone: $(XAVANTE_START) $(INIT)
 	IF NOT EXIST $(SYS_BINDIR) mkdir $(SYS_BINDIR)
 	copy $(XAVANTE_START) $(SYS_BINDIR) 
 	IF NOT EXIST $(XAVANTE_CONF)\xavante mkdir $(XAVANTE_CONF)\xavante
-	IF NOT EXIST $(XAVANTE_WEB) mkdir $(XAVANTE_WEB)
-    FOR %i in ($(WEBS)) DO copy %i $(XAVANTE_WEB)
     IF NOT EXIST $(XAVANTE_WEB)\doc mkdir $(XAVANTE_WEB)\doc
     IF NOT EXIST $(XAVANTE_WEB)\doc\xavante mkdir $(XAVANTE_WEB)\doc\xavante
 	FOR %i in ($(DOCS)) DO copy %i $(XAVANTE_WEB)\doc\xavante
-    IF NOT EXIST $(XAVANTE_WEB)\img mkdir $(XAVANTE_WEB)\img
-   	FOR %i in ($(IMGS)) DO copy %i $(XAVANTE_WEB)\img
 	IF NOT EXIST $(XAVANTE_INIT) copy $(INIT) $(XAVANTE_INIT)
 
 clean:

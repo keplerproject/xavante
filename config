@@ -1,4 +1,4 @@
-# $Id: config,v 1.14 2007/10/29 22:54:43 carregal Exp $
+# $Id: config,v 1.15 2007/10/31 20:22:00 carregal Exp $
 
 # Default prefix
 PREFIX = /usr/local
@@ -27,10 +27,3 @@ KEPLER_INIT= $(PREFIX)/xavante/xavante_init.lua
 XAVANTE_LUA = $(XAVANTE_HOME)/lua
 XAVANTE_CONF = $(XAVANTE_HOME)/conf
 XAVANTE_WEB = $(XAVANTE_HOME)/web
-
-VERSION= 1.2
-PKG = xavante-$(VERSION)
-DIST_DIR= $(PKG)
-TAR_FILE= $(PKG).tar.gz
-ZIP_FILE= $(PKG).zip
-
