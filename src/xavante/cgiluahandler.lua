@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.32 2007/10/31 20:22:00 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.33 2007/11/01 23:57:34 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -169,7 +169,9 @@ end
 -------------------------------------------------------------------------------
 function makeHandler (diskpath, options)
     options = options or {}
-    options.checkFiles = options.checkFiles or true
+    if options.checkFiles == nil then
+        options.checkFiles = true
+    end
     options.globals = options.globals or RINGS_CGILUA_GLOBALS or {}
     options[404] = options[404] or xavante.httpd.err_404
 	return function (req, res)
