@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: httpd.lua,v 1.39 2007/10/22 15:33:13 carregal Exp $
+-- $Id: httpd.lua,v 1.40 2007/11/05 23:01:20 carregal Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"
@@ -69,12 +69,16 @@ end
 
 
 function errorhandler (msg, co, skt)
-	io.stderr:write("xavante error:", msg, co, skt)
+    msg = tostring(msg)
+	io.stderr:write("  Xavante Error: "..msg.."\n", "  "..tostring(co).."\n", "  "..tostring(skt).."\n")
 	skt:send ("HTTP/1.0 200 OK\r\n")
 	skt:send (string.format ("Date: %s\r\n\r\n", os.date ("!%a, %d %b %Y %H:%M:%S GMT")))
 	skt:send (string.format ([[
-<H1>ERROR</H1>
+<html><head><title>Xavante Error!</title></head>
+<body>
+<h1>Xavante Error!</h1>
 <p>%s</p>
+</body></html>
 ]], string.gsub (msg, "\n", "<br/>\n")))
 end
 
