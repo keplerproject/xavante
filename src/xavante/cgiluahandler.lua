@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.33 2007/11/01 23:57:34 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.34 2007/11/05 23:00:36 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -18,11 +18,7 @@ require "rings"
 -------------------------------------------------------------------------------
 -- returns the correct argument selector for Lua 5.0 or 5.1
 local function argument(n)
-    if string.find (_VERSION, "Lua 5.0") then
-        return "arg["..tostring(n).."]"
-    else
-        return "select("..tostring(n)..", ...)"
-    end
+    return "select("..tostring(n)..", ...)"
 end
 
 local function state_init(options)
@@ -76,13 +72,7 @@ local function set_api ()
 end
 
 SAPI = set_api ()
-if string.find (_VERSION, "Lua 5.0") and not _COMPAT51 then
-    _, LUA_PATH = remotedostring("return package.path")
-    require"compat-5.1"
-else
-    _, package.path = remotedostring("return package.path")
-end
-
+_, package.path = remotedostring("return package.path")
 _, package.cpath = remotedostring("return package.cpath")
 require"coxpcall"
 pcall = copcall
