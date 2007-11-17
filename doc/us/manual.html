@@ -64,125 +64,28 @@ for Lua 5.1, therefore it should be "installed" in your <code>package.path</code
 </p>
 
 <p>
-Windows users can use the pre-compiled version of Xavante's binary components
-(LuaSocket, LuaFileSystem and Rings) available at
-<a href="http://luaforge.net">LuaForge</a>.</p>
-
-<p>Xavante installation is very flexible and is based on three directories:</p>
-
-<p><code>$BIN</code> - System executables</p>
-
-<p><code>$LIB</code> - Lua binary libraries</p>
-
-<p><code>$LUA</code> - Lua libraries</p>
-
-<p><code>$WEB</code> - Xavante HTTP documents.</p>
-
-<p>
-The <code>$LUA</code> directory should be part of your <code>package.path</code>
-and the <code>$LIB</code> directory should be part of your <code>package.cpath</code>.
-Those directories can be even under the same upper directory if this is
-convenient, as the following Windows example show.
+This will add Xavante as a module to your system so you can <code>require</code> it as part of your application. If you want to use Xavante as a standalone web server please check the Kepler distribution. Kepler offers Xavante launchers for Unix and Windows both on the command line and as a Windows Tray application.
 </p>
-
-<p>
-The typical Unix installation assumes that Lua 5.1 and all the Xavante's dependencies
-are already installed in the system and uses the command sequence:
-</p>
-
-<pre class="example">
-./configure
-sudo make standalone
-</pre>
-
-<p>
-This copies the Xavante files to the <code>$LUA</code> based directories and
-the startup file <code>xavante_start.lua</code> to the <code>$BIN</code> directory.
-The startup file looks for an optional environment variable <code>XAVANTE_INIT</code>
-ir a <code>xavante_init.lua</code> configuration file to define the Lua Path,
-the C Path and the system libray extension name
-(<code>dll</code> or <code>so</code> for example).
-</p>
-
-<h3>Unix Installation Example</h3>
-
-<p>
-An example of a Unix Xavante installation is shown below with the list of
-included files and where the source for those files can be found in
-<a href="http://luaforge.net">LuaForge</a>. Please check each module documentation
-for details on how to install it.
-</p>
-
-<pre class="example">
-$BIN -- /usr/local/bin by default
-    xavante_start.lua
-
-$LIB  -- /usr/local/lib/lua/5.1 by default
-	lfs.so            -- <a href="http://luaforge.net/projects/luafilesystem/files">LuaFileSystem</a>
-	/mime
-	    core.so       -- <a href="http://luaforge.net/projects/luasocket/files">LuaSocket</a>
-	rings.so          -- <a href="http://luaforge.net/projects/rings/files">Rings</a>
-	/socket
-	    core.so       -- <a href="http://luaforge.net/projects/luasocket/files">LuaSocket</a>
-
-$LUA  -- /usr/local/share/lua/5.1 by default
-	/cgilua           -- <a href="http://luaforge.net/projects/cgilua/files">CGILua</a>
-	cgilua.lua        -- <a href="http://luaforge.net/projects/cgilua/files">CGILua</a>        
-	copas.lua         -- <a href="http://luaforge.net/projects/copas/files">Copas</a>
-	coxpcall.lua      -- <a href="http://luaforge.net/projects/xavante/files">Xavante</a>
-	ltn12.lua         -- <a href="http://luaforge.net/projects/luasocket/files">LuaSocket</a>
-	mime.lua          -- <a href="http://luaforge.net/projects/luasocket/files">LuaSocket</a>
-	sajax.lua         -- <a href="http://luaforge.net/projects/xavante/files">Xavante</a>
-	/socket           -- <a href="http://luaforge.net/projects/luasocket/files">LuaSocket</a>
-	socket.lua        -- <a href="http://luaforge.net/projects/luasocket/files">LuaSocket</a>
-	stable.lua        -- <a href="http://luaforge.net/projects/rings/files">Rings</a>
-	/xavante          -- <a href="http://luaforge.net/projects/xavante/files">Xavante</a>
-	xavante.lua       -- <a href="http://luaforge.net/projects/xavante/files">Xavante</a>
-</pre>
 
 <h2><a name="config"></a>Configuring</h2>
 
 <p>
-The file <code>$LUA/xavante/config.lua</code> defines the
-Xavante default configuration using the <code>xavante.httpd.handle_request</code>
-to chain a series of handlers.
+After the Xavante module is loaded, it needs to be configured before being able to serve requests. If you are using Kepler this is done in the <code>KEPLER_CONF/xavante/config.lua</code> file, but if you are using Xavante as a module you need to register the handlers using the
+<code>xavante.HTTP</code> constructor.
 </p>
 
-<p> A typical <code>config.lua</code> using <code>xavante.httpd.handle_request</code> uses the format below</p>
-
-<pre class="example">
-require "xavante.httpd"
-
-require "xavante.vhostshandler"
-require "xavante.urlhandler"
-require "xavante.indexhandler"
-require "xavante.filehandler"
-require "xavante.cgiluahandler"
-
-
-xavante.httpd.handle_request = xavante.vhostshandler {
-	[""] = xavante.urlhandler {
-		["/"] = xavante.indexhandler ("/cgi/index.lp"),
-		["/cgi/"] = xavante.cgiluahandler.makeHandler (XAVANTE_WEB),
-		["/img/"] = xavante.filehandler (XAVANTE_WEB.."/img"),
-	}
-}
-
-xavante.httpd.register ("*", 8080, "Xavante 1.3")
-</pre>
-
 <p>
-Another approach for Xavante configuration is to use the <code>xavante.HTTP</code>
-constructor. It defines <em>virtualhosts</em> for each site
-that it is running. Each virtualhost can define a set of <em>rules</em> for it.
-Each rule matches a <em>URL pattern</em> with a handler.
+<code>xavante.HTTP</code> defines <em>virtualhosts</em> for each site
+that will be served. Each virtualhost can define a set of <em>rules</em>
+for it.
+Each rule matches a <em>URL Lua pattern</em> with a handler.
 Xavante currently offers a <strong>file handler</strong>,
 a <strong>redirect handler</strong> and
 a <strong>CGILua handler</strong> for general files, URL
 remapping and CGILua scripts respectively.
 </p>
 
-<p>A typical <code>config.lua</code> using <code>xavante.HTTP</code> uses the format below</p>
+<p>A typical use would be (assuming the Xavante module is already loaded):</p>
 
 <pre class="example">
 require "xavante.filehandler"
@@ -193,31 +96,24 @@ require "xavante.redirecthandler"
 local webDir = XAVANTE_WEB
 
 local simplerules = {
+
     { -- URI remapping example
-    match = "/",
-    with = xavante.redirecthandler,
-    params = {"index.lp"}
+      match = "^[^%./]*/$",
+      with = xavante.redirecthandler,
+      params = {"index.lp"}
     }, 
 
+    { -- cgiluahandler example
+      match = {"%.lp$", "%.lp/.*$", "%.lua$", "%.lua/.*$" },
+      with = xavante.cgiluahandler.makeHandler (webDir)
+    },
     
     { -- filehandler example
-    match = "/*",
-    with = xavante.filehandler,
-    params = {baseDir = webDir}
+      match = ".",
+      with = xavante.filehandler,
+      params = {baseDir = webDir}
     },
-     
-    { -- cgiluahandler example
-    match = {"/*.lp", "/*.lua"},
-    with = xavante.cgiluahandler.makeHandler (webDir)
-    },
-}
-
--- Displays a message in the console with the used ports
-xavante.start_message(function (ports)
-    local date = os.date("[%Y-%m-%d %H:%M:%S]")
-    print(string.format("%s Xavante started on port(s) %s",
-      date, table.concat(ports, ", ")))
-  end)
+} 
 
 xavante.HTTP{
     server = {host = "*", port = 8080},
@@ -230,7 +126,7 @@ xavante.HTTP{
 
 <p>Note the use of <code>webDir</code> both to set the base directory
 for the file handler and for the CGILua scripts. These paths should contain the
-desired directories if you are not using the Kepler structure.</p>
+desired directories in your structure.</p>
 
 <p>To use virtual hosts with Xavante, the call to <code>xavante.HTTP</code>
 would be changed to something like</p>
@@ -244,45 +140,25 @@ xavante.HTTP{
     virtualhosts = {
         ["www.sitename.com"] = simplerules
     }
-}</pre>
+}
+</pre>
 
 
 <h2><a name="running"></a>Running</h2>
 
 <p>
-Running Xavante requires the execution of the correctly set
-<code>xavante_start.lua</code>. This can be done through a 
-<code>xavante.bat</code> file in Windows, or by giving execution rights to
-the <code>xavante_start.lua</code> on Unix.
+If you are using Xavante as part of the Kepler distribution, please refer to
+the Kepler documentation for details on how to execute Xavante from the
+command line or the Windows Tray bar.
 </p>
 
 <p>
-The example below is a <code>xavante.bat</code> that can be used to start
-Xavante on Windows using the same configuration as the above examples.
-</p>
-
-<pre class="example">
-@c:\kepler\lua5.1.exe c:\kepler\xavante_start.lua
-</pre>
-
-<p>
-After Xavante is started, opening the URL
-<code>http://localhost:8080</code> on your browser should show the Xavante welcome page.
-If you changed the port number on <code>config.lua</code> you should also use this
-port number in the URL.
-</p>
-
-<p>
-The welcome page presents the Xavante version and links to the documentation and
-to a simple set of tests.
-</p>
-
-<p>
-As a final note, if you start Xavante like this example showed, you will have to
-kill the process to stop Xavante since there is no "<code>xavante_stop.lua</code>".
-Kepler allows greater Xavante control in Windows by using a Xavante tray bar
-application that offers options to start and stop Xavante at will. For more
-detail consult the Kepler documentation.
+If you are using Xavante as a module, then to start it you need to call
+<code>xavante.start([checkfunction[, timeout]])</code> passing an optional
+checking function and connection timeout value. The checking function, if
+present, will be called periodically to check if Xavante should continue to
+run. This function can be also used for maintenance tasks or as a callback to
+your application.
 </p>
 
 </div> <!-- id="content" -->
@@ -290,9 +166,8 @@ detail consult the Kepler documentation.
 </div> <!-- id="main" -->
 
 <div id="about">
-	<p><a href="http://validator.w3.org/check?uri=referer">
-    <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
-	<p><small>$Id: manual.html,v 1.44 2007/08/24 20:13:16 carregal Exp $</small></p>
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+	<p><small>$Id: manual.html,v 1.45 2007/11/17 16:09:41 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
