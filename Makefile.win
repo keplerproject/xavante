@@ -1,29 +1,14 @@
-# $Id: Makefile.win,v 1.18 2007/10/31 20:22:00 carregal Exp $
+# $Id: Makefile.win,v 1.19 2007/11/17 14:15:23 carregal Exp $
 
 include config.win
 
-T_START= src\t_xavante_start
 XAVANTE_START= src\xavante_start
-T_INIT= src\t_xavante_init.lua
-INIT= src\xavante_init.lua
 COXPCALL_LUAS = src\coxpcall\coxpcall.lua
 SAJAX_LUAS = src\sajax\sajax.lua
 XAVANTE_LUAS= src\xavante\cgiluahandler.lua src\xavante\encoding.lua src\xavante\filehandler.lua src\xavante\httpd.lua src\xavante\mime.lua src\xavante\patternhandler.lua src\xavante\redirecthandler.lua  src\xavante\ruleshandler.lua src\xavante\vhostshandler.lua src\xavante\indexhandler.lua src\xavante\urlhandler.lua
 DOCS= doc\us\index.html doc\us\license.html doc\us\manual.html doc\us\sajax.html doc\us\xavante.gif
 
 all:
-
-$(INIT): $(T_INIT)
-	$(LUA_INTERPRETER) -e"s=io.read('*all')" -e"s=string.gsub(s,'%[%[LUABASE51%]%]',[=[[[$(LUA_DIR)]]]=])" \
-		-e"s=string.gsub(s,'%[%[LIBBASE51%]%]',[=[[[$(LUA_LIBDIR)]]]=])" \
-		-e"s=string.gsub(s,'%[%[XAVANTE_CONF%]%]',[=[[[$(XAVANTE_CONF)]]]=])" \
-		-e"s=string.gsub(s,'%[%[LIB_EXT%]%]','[[dll]]')" \
-		-e"s=string.gsub(s,'%[%[XAVANTE_WEB%]%]',[=[[[$(XAVANTE_WEB)]]]=])" \
-		-e "print(s)" < $(T_INIT) > $(INIT)
-
-$(XAVANTE_START): $(T_START) $(INIT)
-	$(LUA_INTERPRETER) -e"s=io.read('*all')" -e"s=string.gsub(s,'%[%[XAVANTE_INIT%]%]',[=[[[$(XAVANTE_INIT)]]]=])" \
-		-e "print(s)" < $(T_START) > $(XAVANTE_START)
 
 install:
 	IF NOT EXIST $(LUA_DIR) mkdir $(LUA_DIR)
@@ -33,22 +18,4 @@ install:
 	FOR %i IN ($(XAVANTE_LUAS)) DO copy %i $(LUA_DIR)\xavante 
 	copy src\xavante\xavante.lua $(LUA_DIR)\
 
-standalone: $(XAVANTE_START) $(INIT)
-	IF NOT EXIST $(LUA_DIR) mkdir $(LUA_DIR)
-	copy $(COXPCALL_LUAS) $(LUA_DIR)\coxpcall.lua
-	copy $(SAJAX_LUAS) $(LUA_DIR)\sajax.lua
-	IF NOT EXIST $(LUA_DIR)\xavante mkdir $(LUA_DIR)\xavante
-	FOR %i IN ($(XAVANTE_LUAS)) DO copy %i $(LUA_DIR)\xavante 
-	copy src\xavante\xavante.lua $(LUA_DIR)
-	IF NOT EXIST $(SYS_BINDIR) mkdir $(SYS_BINDIR)
-	copy $(XAVANTE_START) $(SYS_BINDIR) 
-	IF NOT EXIST $(XAVANTE_CONF)\xavante mkdir $(XAVANTE_CONF)\xavante
-    IF NOT EXIST $(XAVANTE_WEB)\doc mkdir $(XAVANTE_WEB)\doc
-    IF NOT EXIST $(XAVANTE_WEB)\doc\xavante mkdir $(XAVANTE_WEB)\doc\xavante
-	FOR %i in ($(DOCS)) DO copy %i $(XAVANTE_WEB)\doc\xavante
-	IF NOT EXIST $(XAVANTE_INIT) copy $(INIT) $(XAVANTE_INIT)
-
 clean:
-	del $(XAVANTE_START)
-	del $(INIT)
-

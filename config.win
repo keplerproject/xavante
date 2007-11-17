@@ -1,24 +1,4 @@
-# $Id: config.win,v 1.6 2007/10/31 20:22:00 carregal Exp $
-
-# System's libraries directory (where binary libraries are installed)
-LUA_LIBDIR= c:\lua5.1
+# $Id: config.win,v 1.7 2007/11/17 14:15:23 carregal Exp $
 
 # System's lua directory (where Lua libraries are installed)
 LUA_DIR= c:\lua5.1\lua
-
-# System's executables directory (where binary or script executables are installed)
-SYS_BINDIR= c:\lua5.1
-
-# Complete path to Lua command line interpreter
-LUA_INTERPRETER= c:\lua5.1\lua5.1
-
-# Xavante default directory for HTTP documents
-XAVANTE_HOME= c:\lua5.1
-
-# Kepler initialization file
-XAVANTE_INIT= c:\lua5.1\xavante_init.lua
-
-XAVANTE_LUA = $(XAVANTE_HOME)\lua
-XAVANTE_CONF = $(XAVANTE_HOME)\conf
-XAVANTE_WEB = $(XAVANTE_HOME)\web
-
