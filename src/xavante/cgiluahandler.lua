@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.35 2007/11/11 20:30:18 carregal Exp $
+-- $Id: cgiluahandler.lua,v 1.36 2007/11/27 15:49:55 carregal Exp $
 -----------------------------------------------------------------------------
 
 requests = requests or {}
@@ -47,6 +47,8 @@ local function set_api ()
 	end
 	SAPI.Response.redirect = function (s)
 		remotedostring(id_string .. '.res.headers["Location"] = ]]..argument(1)..[[', s)
+		remotedostring(id_string .. [=[.res.statusline = "HTTP/1.1 302 Found\r\n"]=])
+		remotedostring(id_string .. '.res.content = "redirect"')
 	end
 	SAPI.Response.header = function (h, v)
 		remotedostring(id_string .. ".res:add_header (]]..argument(1)..[[, ]]..argument(2)..[[)", h, v)
