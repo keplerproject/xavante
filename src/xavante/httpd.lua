@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: httpd.lua,v 1.40 2007/11/05 23:01:20 carregal Exp $
+-- $Id: httpd.lua,v 1.41 2007/11/27 15:57:05 carregal Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"
@@ -155,7 +155,7 @@ end
 
 function add_res_header (res, h, v)
     if string.lower(h) == "status" then
-        res.statusline = "HTTP/1.1 "..v.."\r\n"
+        res.statusline = "HTTP/1.1 "..v
     else
         local prevval = res.headers [h]
         if (prevval  == nil) then
@@ -184,10 +184,10 @@ local function send_res_headers (res)
 	if xavante.cookies then
 		xavante.cookies.set_res_cookies (res)
 	end
-		
-	res.statusline = res.statusline or "HTTP/1.1 200 OK\r\n"
+    
+	res.statusline = res.statusline or "HTTP/1.1 200 OK"
 	
-	res.socket:send (res.statusline)
+	res.socket:send (res.statusline.."\r\n")
 	for name, value in pairs (res.headers) do
                 if type(value) == "table" then
                   for _, value in ipairs(value) do
@@ -263,7 +263,7 @@ function send_response (req, res)
 		end
 	else
 		if not res.sent_headers then
-			res.statusline = "HTTP/1.1 204 No Content\r\n"
+			res.statusline = "HTTP/1.1 204 No Content"
 			res.headers["Content-Length"] = 0
 		end
 	end
@@ -272,9 +272,7 @@ function send_response (req, res)
         res:add_header ("Transfer-Encoding", "chunked")
     end
     
-	if res.chunked or 
-		((res.headers ["Content-Length"]) and
-		req.headers ["connection"] == "Keep-Alive")
+	if res.chunked or ((res.headers ["Content-Length"]) and req.headers ["connection"] == "Keep-Alive")
 	then
 		res.headers ["Connection"] = "Keep-Alive"
 		res.keep_alive = true
@@ -323,7 +321,7 @@ function getparams (req)
 end
 
 function err_404 (req, res)
-	res.statusline = "HTTP/1.1 404 Not Found\r\n"
+	res.statusline = "HTTP/1.1 404 Not Found"
 	res.headers ["Content-Type"] = "text/html"
 	res.content = string.format ([[
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
@@ -337,7 +335,7 @@ The requested URL %s was not found on this server.<P>
 end
 
 function err_405 (req, res)
-	res.statusline = "HTTP/1.1 405 Method Not Allowed\r\n"
+	res.statusline = "HTTP/1.1 405 Method Not Allowed"
 	res.content = string.format ([[
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <HTML><HEAD>
@@ -351,7 +349,7 @@ end
 
 function redirect (res, d)
 	res.headers ["Location"] = d
-	res.statusline = "HTTP/1.1 302 Found\r\n"
+	res.statusline = "HTTP/1.1 302 Found"
 	res.content = "redirect"
 end
 

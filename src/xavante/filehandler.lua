@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: filehandler.lua,v 1.23 2007/08/31 21:20:04 carregal Exp $
+-- $Id: filehandler.lua,v 1.24 2007/11/27 15:57:05 carregal Exp $
 ----------------------------------------------------------------------------
 
 local lfs = require "lfs"
@@ -103,7 +103,7 @@ local function filehandler (req, res, baseDir)
 	
 	if attr.mode == "directory" then
 		req.parsed_url.path = req.parsed_url.path .. "/"
-		res.statusline = "HTTP/1.1 301 Moved Permanently\r\n"
+		res.statusline = "HTTP/1.1 301 Moved Permanently"
 		res.headers["Location"] = url.build (req.parsed_url)
 		res.content = "redirect"
 		return res
@@ -123,7 +123,7 @@ local function filehandler (req, res, baseDir)
 	local lm = res.headers["last-modified"] or 1
 	if lms == lm then
 		res.headers["Content-Length"] = 0
-		res.statusline = "HTTP/1.1 304 Not Modified\r\n"
+		res.statusline = "HTTP/1.1 304 Not Modified"
 		res.content = ""
         res.chunked = false
         res:send_headers()
@@ -135,7 +135,7 @@ local function filehandler (req, res, baseDir)
 	if req.cmd_mth == "GET" then
 		local range_len = getrange (req, f)
 		if range_len then
-			res.statusline = "HTTP/1.1 206 Partial Content\r\n"
+			res.statusline = "HTTP/1.1 206 Partial Content"
 			res.headers["Content-Length"] = range_len
 		end
 		
