@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.39 2007/12/12 17:22:50 mascarenhas Exp $
+-- $Id: cgiluahandler.lua,v 1.40 2007/12/13 22:01:00 mascarenhas Exp $
 -----------------------------------------------------------------------------
 
 require "wsapi.xavante"
@@ -16,6 +16,22 @@ local bootstrap = [[
 
 _, package.path = remotedostring("return package.path")
 _, package.cpath = remotedostring("return package.cpath")
+
+function print(...)
+  remotedostring("print(...)", ...)
+end
+
+io.stdout = {
+  write = function (...)
+    remotedostring("io.write(...)", ...)
+  end
+}
+
+io.stderr = {
+  write = function (...)
+    remotedostring("io.stderr(...)", ...)
+  end
+}
 
 ]]
 
