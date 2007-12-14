@@ -10,7 +10,7 @@
 --
 -- Copyright 2005-2007 - Kepler Project (www.keplerproject.org)
 --
--- $Id: coxpcall.lua,v 1.10 2007/08/30 21:57:33 carregal Exp $
+-- $Id: coxpcall.lua,v 1.11 2007/12/14 20:34:46 mascarenhas Exp $
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
@@ -44,9 +44,13 @@ function coxpcall(f, err, ...)
     return performResume(err, co, ...)
 end
 
+local function id(...)
+  return ...
+end
+
 -------------------------------------------------------------------------------
 -- Implements pcall with coroutines
 -------------------------------------------------------------------------------
 function copcall(f, ...)
-    return coxpcall(f, error, ...)
+    return coxpcall(f, id, ...)
 end
