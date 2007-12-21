@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: httpd.lua,v 1.41 2007/11/27 15:57:05 carregal Exp $
+-- $Id: httpd.lua,v 1.42 2007/12/21 22:32:57 carregal Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"
@@ -111,7 +111,7 @@ end
 --		req.headers: table of header fields, as name => value
 function read_headers (req)
 	local headers = {}
-	local prevname
+	local prevval, prevname
 	
 	while 1 do
 		local l,err = req.socket:receive ()
