@@ -1,6 +1,6 @@
 package = "Xavante"
 
-version = "cvs"
+version = "cvs-1"
 
 description = {
   summary = "Lua Web Server Library",
