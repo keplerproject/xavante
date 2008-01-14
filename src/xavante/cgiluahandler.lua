@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.40 2007/12/13 22:01:00 mascarenhas Exp $
+-- $Id: cgiluahandler.lua,v 1.41 2008/01/14 14:41:23 mascarenhas Exp $
 -----------------------------------------------------------------------------
 
 require "wsapi.xavante"
@@ -55,9 +55,9 @@ local function cgiluahandler (req, res, diskpath, options)
     end
 
     _G.CGILUA_ISDIRECT = true
-    _G.RINGER_APP = "wsapi.sapi"
-    _G.RINGER_BOOTSTRAP = bootstrap
-    return (wsapi.xavante.makeHandler(wsapi.ringer.run, script_name))(req, res)
+    return (wsapi.xavante.makeHandler(wsapi.ringer.new("wsapi.sapi", 
+						       bootstrap), 
+				      script_name))(req, res)
 end
 
 -------------------------------------------------------------------------------
