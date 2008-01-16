@@ -1,4 +1,4 @@
-# $Id: Makefile.win,v 1.19 2007/11/17 14:15:23 carregal Exp $
+# $Id: Makefile.win,v 1.20 2008/01/16 18:09:01 mascarenhas Exp $
 
 include config.win
 
@@ -11,11 +11,11 @@ DOCS= doc\us\index.html doc\us\license.html doc\us\manual.html doc\us\sajax.html
 all:
 
 install:
-	IF NOT EXIST $(LUA_DIR) mkdir $(LUA_DIR)
-	copy $(COXPCALL_LUAS) $(LUA_DIR)\coxpcall.lua
-	copy $(SAJAX_LUAS) $(LUA_DIR)\sajax.lua
-	IF NOT EXIST $(LUA_DIR)\xavante mkdir $(LUA_DIR)\xavante
-	FOR %i IN ($(XAVANTE_LUAS)) DO copy %i $(LUA_DIR)\xavante 
-	copy src\xavante\xavante.lua $(LUA_DIR)\
+	IF NOT EXIST "$(LUA_DIR)" mkdir "$(LUA_DIR)"
+	copy $(COXPCALL_LUAS) "$(LUA_DIR)\coxpcall.lua"
+	copy $(SAJAX_LUAS) "$(LUA_DIR)\sajax.lua"
+	IF NOT EXIST "$(LUA_DIR)\xavante" mkdir "$(LUA_DIR)\xavante"
+	FOR %i IN ($(XAVANTE_LUAS)) DO copy %i "$(LUA_DIR)\xavante "
+	copy src\xavante\xavante.lua "$(LUA_DIR)\"
 
 clean:
