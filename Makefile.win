@@ -1,4 +1,4 @@
-# $Id: Makefile.win,v 1.20 2008/01/16 18:09:01 mascarenhas Exp $
+# $Id: Makefile.win,v 1.21 2008/01/16 18:09:27 mascarenhas Exp $
 
 include config.win
 
@@ -15,7 +15,7 @@ install:
 	copy $(COXPCALL_LUAS) "$(LUA_DIR)\coxpcall.lua"
 	copy $(SAJAX_LUAS) "$(LUA_DIR)\sajax.lua"
 	IF NOT EXIST "$(LUA_DIR)\xavante" mkdir "$(LUA_DIR)\xavante"
-	FOR %i IN ($(XAVANTE_LUAS)) DO copy %i "$(LUA_DIR)\xavante "
+	FOR %i IN ($(XAVANTE_LUAS)) DO copy %i "$(LUA_DIR)\xavante"
 	copy src\xavante\xavante.lua "$(LUA_DIR)\"
 
 clean:
