@@ -1,9 +1,8 @@
-# $Id: Makefile.win,v 1.21 2008/01/16 18:09:27 mascarenhas Exp $
+# $Id: Makefile.win,v 1.22 2008/01/17 21:00:22 carregal Exp $
 
 include config.win
 
 XAVANTE_START= src\xavante_start
-COXPCALL_LUAS = src\coxpcall\coxpcall.lua
 SAJAX_LUAS = src\sajax\sajax.lua
 XAVANTE_LUAS= src\xavante\cgiluahandler.lua src\xavante\encoding.lua src\xavante\filehandler.lua src\xavante\httpd.lua src\xavante\mime.lua src\xavante\patternhandler.lua src\xavante\redirecthandler.lua  src\xavante\ruleshandler.lua src\xavante\vhostshandler.lua src\xavante\indexhandler.lua src\xavante\urlhandler.lua
 DOCS= doc\us\index.html doc\us\license.html doc\us\manual.html doc\us\sajax.html doc\us\xavante.gif
@@ -12,7 +11,6 @@ all:
 
 install:
 	IF NOT EXIST "$(LUA_DIR)" mkdir "$(LUA_DIR)"
-	copy $(COXPCALL_LUAS) "$(LUA_DIR)\coxpcall.lua"
 	copy $(SAJAX_LUAS) "$(LUA_DIR)\sajax.lua"
 	IF NOT EXIST "$(LUA_DIR)\xavante" mkdir "$(LUA_DIR)\xavante"
 	FOR %i IN ($(XAVANTE_LUAS)) DO copy %i "$(LUA_DIR)\xavante"
