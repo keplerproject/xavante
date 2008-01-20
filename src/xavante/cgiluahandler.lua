@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.42 2008/01/20 14:45:20 mascarenhas Exp $
+-- $Id: cgiluahandler.lua,v 1.43 2008/01/20 23:57:27 mascarenhas Exp $
 -----------------------------------------------------------------------------
 
 require "wsapi.xavante"
@@ -20,8 +20,6 @@ local function sapi_loader(wsapi_env)
     _, package.cpath = remotedostring("return package.cpath")
 
     pcall(require, "luarocks.require")
-
-    require "kepler_init"
 
     function print(...)
        remotedostring("print(...)", ...)
@@ -39,6 +37,11 @@ local function sapi_loader(wsapi_env)
 	       end
     }
   ]]
+  for _, global in ipairs(RINGS_CGILUA_GLOBALS) do
+    bootstrap = bootstrap .. 
+      "_, _G[\"" .. global .. "\"] = remotedostring(\"return _G['" ..
+      global .. "']\")\n"
+  end
   app = wsapi.ringer.new("wsapi.sapi", bootstrap)
   return app(wsapi_env)
 end 
