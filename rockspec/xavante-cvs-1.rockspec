@@ -12,7 +12,7 @@ description = {
   homepage = "http://www.keplerproject.org/xavante"
 }
 
-dependencies = { 'luasocket', 'copas', 'luafilesystem' }
+dependencies = { 'luasocket', 'copas cvs', 'luafilesystem cvs' }
 
 source = {
   url = "cvs://:pserver:anonymous@cvs.luaforge.net:/cvsroot/xavante",
