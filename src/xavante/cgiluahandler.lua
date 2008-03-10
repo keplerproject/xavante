@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.43 2008/01/20 23:57:27 mascarenhas Exp $
+-- $Id: cgiluahandler.lua,v 1.44 2008/03/10 23:38:31 mascarenhas Exp $
 -----------------------------------------------------------------------------
 
 require "wsapi.xavante"
@@ -50,5 +50,5 @@ end
 -- Returns the CGILua handler
 -------------------------------------------------------------------------------
 function makeHandler (diskpath)
-   return wsapi.xavante.makeHandler(sapi_loader, nil, diskpath)
+   return wsapi.xavante.makeHandler(sapi_loader, nil, diskpath, diskpath)
 end
