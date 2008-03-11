@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: redirecthandler.lua,v 1.9 2008/03/10 23:38:31 mascarenhas Exp $
+-- $Id: redirecthandler.lua,v 1.10 2008/03/11 00:14:20 mascarenhas Exp $
 -------------------------------------------------------------------------------
 require "socket.url"
 require "xavante.httpd"
@@ -20,7 +20,8 @@ module ("xavante.redirecthandler", package.seeall)
 -- action can be "redirect" or "rewrite", default is "rewrite", except when
 --      dest starts with a protocol string
 local function redirect (req, res, dest, action, cap)
-  dest = string.gsub(dest, "%%(%d+)", function (capn) return cap[tonumber(capn)] or "" end)
+  dest = string.gsub(dest, "%%(%d)", function (capn) return cap[tonumber(capn)] or "" end)
+  dest = string.gsub(dest, "%%%%", "%")
   
   local path = req.parsed_url.path
   local pfx = string.sub (dest, 1,1)
@@ -43,6 +44,8 @@ local function redirect (req, res, dest, action, cap)
   if action == "redirect" then
     xavante.httpd.redirect(res, path)
     return res    
+  elseif type(action) == "function" then
+    return action(req, res, cap)
   else
     return "reparse"
   end
