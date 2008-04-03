@@ -8,36 +8,13 @@
 require "wsapi.xavante"
 require "wsapi.common"
 require "wsapi.ringer"
+require "wsapi.cosmo"
 
 module ("xavante.cosmohandler", package.seeall)
 
 local function cosmo_loader(wsapi_env)
   wsapi.common.normalize_paths(wsapi_env)
-  wsapi_env.APP_PATH = wsapi.common.splitpath(wsapi_env.PATH_TRANSLATED)
-  local bootstrap = [[
-    _, package.path = remotedostring("return package.path")
-    _, package.cpath = remotedostring("return package.cpath")
-
-    pcall(require, "luarocks.require")
-
-    function print(...)
-       remotedostring("print(...)", ...)
-    end
-    
-    io.stdout = {
-       write = function (...)
-		  remotedostring("io.write(...)", ...)
-	       end
-    }
-
-    io.stderr = {
-       write = function (...)
-		  remotedostring("io.stderr(...)", ...)
-	       end
-    }
-  ]]
-  app = wsapi.ringer.new("wsapi.cosmo", bootstrap)
-  return app(wsapi_env)
+  return wsapi.cosmo.run(wsapi_env)
 end 
 
 -------------------------------------------------------------------------------
