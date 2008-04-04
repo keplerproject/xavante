@@ -7,14 +7,13 @@
 
 require "wsapi.xavante"
 require "wsapi.common"
-require "wsapi.ringer"
-require "wsapi.cosmo"
 
 module ("xavante.cosmohandler", package.seeall)
 
 local function cosmo_loader(wsapi_env)
   wsapi.common.normalize_paths(wsapi_env)
-  return wsapi.cosmo.run(wsapi_env)
+  local app = wsapi.common.load_isolated_launcher(wsapi_env.PATH_TRANSLATED, "wsapi.cosmo")
+  return app(wsapi_env)
 end 
 
 -------------------------------------------------------------------------------
