@@ -7,9 +7,9 @@
 -- See xavante/config.lua for configuration details.
 --
 -- Authors: Javier Guerra and Andre Carregal
--- Copyright (c) 2004-2007 Kepler Project
+-- Copyright (c) 2004 Kepler Project
 --
--- $Id: xavante.lua,v 1.11 2007/11/19 21:42:35 carregal Exp $
+-- $Id: xavante.lua,v 1.12 2008/05/21 21:08:43 carregal Exp $
 -------------------------------------------------------------------------------
 module ("xavante", package.seeall)
 
@@ -20,9 +20,9 @@ require "xavante.patternhandler"
 require "xavante.vhostshandler"
 
 -- Meta information is public even begining with an "_"
-_COPYRIGHT   = "Copyright (C) 2004-2007 Kepler Project"
-_DESCRIPTION = "A Copas based Lua Web server with CGILua support"
-_VERSION     = "Xavante 2.0 Beta"
+_COPYRIGHT   = "Copyright (C) 2004 Kepler Project"
+_DESCRIPTION = "A Copas based Lua Web server with WSAPI support"
+_VERSION     = "Xavante 2.0"
 
 local _startmessage = function (ports)
   print(string.format("Xavante started on port(s) %s", table.concat(ports, ", ")))

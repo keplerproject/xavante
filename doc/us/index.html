@@ -59,9 +59,9 @@
 
 <p>
 Xavante is a Lua HTTP 1.1 Web server that uses a modular architecture based
-on URI mapped handlers. Xavante currently offers a file handler, a redirect handler and a CGILua handler.
+on URI mapped handlers. Xavante currently offers a file handler, a redirect handler and a WSAPI handler.
 Those are used for general files, URI remapping and
-<a href="http://www.keplerproject.org/cgilua/">CGILua</a> scripts respectively.
+<a href="http://wsapi.luaforge.net">WSAPI</a> applications respectively.
 </p>
 
 <p>
@@ -71,14 +71,20 @@ as Lua.
 
 <h2><a name="status"></a>Status</h2>
 
-<p>Current version is 2.0 Beta and works with Lua 5.1.</p>
+<p>Current version is 2.0 and works with Lua 5.1.</p>
 
 <h2><a name="download"></a>Download</h2>
 
 <p>
-Xavante source code can be downloaded from its
+Xavante can be downloaded from its
 <a href="http://luaforge.net/projects/xavante/files">LuaForge</a> page.
 </p>
+
+<p>You can also install Xavante using <a href="http://www.luarocks.org">LuaRocks</a>:</p>
+
+<pre class="example">
+luarocks install xavante
+</pre>
 
 <h2><a name="dependencies"></a>Dependencies</h2>
 
@@ -89,7 +95,7 @@ Xavante source code can be downloaded from its
     <dd>
         <ul>
           <li><a href="http://www.lua.org">Lua 5.1.x</a></li>
-          <li><a href="http://www.keplerproject.org/copas">Copas 1.1.1</a></li>
+          <li><a href="http://www.keplerproject.org/copas">Copas 1.1.3</a></li>
           <li><a href="http://www.cs.princeton.edu/~diego/professional/luasocket">LuaSocket 2.0.2</a></li>
         </ul>
     </dd>
@@ -105,7 +111,7 @@ Xavante source code can be downloaded from its
     <dd>
         <ul>
           <li><a href="http://www.keplerproject.org/cgilua">CGILua 5.1.1</a></li>
-          <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.3.0</a></li>
+          <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.4.1</a></li>
           <li><a href="http://wsapi.luaforge.net">WSAPI 1.0</a></li>
         </ul>
     </dd>
@@ -113,12 +119,18 @@ Xavante source code can be downloaded from its
 
 <p>
 The portability of Xavante is determined by its binary components (LuaSocket,
-LuaFileSystem and Rings) and Lua itself. The other components are written in Lua
+LuaFileSystem and Rings, a dependency of WSAPI) and Lua itself. The other components are written in Lua
 and are as portable as Lua itself.
 </p>
 
 <h2><a name="history"></a>History</h2>
 <dl>
+    <dt><strong>Xavante 2.0</strong> [20/May/2007]</dt>
+	<dd><ul>
+		<li>New WSAPI based <code>cgiluahandler</code></li>	
+		<li>Fixed a bug on <code>SAPI.redirect</code> that was not setting the statusline correctly</li>
+	</ul></dd>
+	
     <dt><strong>Xavante 2.0 Beta</strong> [21/Nov/2007]</dt>
     <dd>
     <ul>
@@ -265,7 +277,7 @@ Project <a href="http://luaforge.net/mail/?group_id=104">mailing list</a>.
 
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
-	<p><small>$Id: index.html,v 1.46 2008/01/17 21:29:07 carregal Exp $</small></p>
+	<p><small>$Id: index.html,v 1.47 2008/05/21 21:08:43 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
