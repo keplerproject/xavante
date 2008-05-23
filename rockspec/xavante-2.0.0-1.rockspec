@@ -1,6 +1,6 @@
 package = "Xavante"
 
-version = "2.0-1"
+version = "2.0.0-1"
 
 source = {
   url = "",
@@ -16,7 +16,7 @@ description = {
   homepage = "http://www.keplerproject.org/xavante"
 }
 
-dependencies = { 'luasocket', 'copas >= 1.1.3', 'luafilesystem >= 1.4.1' }
+dependencies = { 'luasocket >= 2.0.2', 'copas >= 1.1.3', 'luafilesystem >= 1.4.1' }
 
 build = {
    type = "make",

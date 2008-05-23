@@ -4,13 +4,10 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: httpd.lua,v 1.42 2007/12/21 22:32:57 carregal Exp $
+-- $Id: httpd.lua,v 1.43 2008/05/23 20:18:58 carregal Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"
---require "coxpcall"
---pcall  = copcall
---xpcall = coxpcall
 
 module ("xavante.httpd", package.seeall)
 
