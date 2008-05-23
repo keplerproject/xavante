@@ -16,7 +16,11 @@ description = {
   homepage = "http://www.keplerproject.org/xavante"
 }
 
-dependencies = { 'luasocket >= 2.0.2', 'copas >= 1.1.3', 'luafilesystem >= 1.4.1' }
+dependencies = {
+	'copas >= 1.1.3',
+	'luasocket >= 2.0.2',
+	'luafilesystem >= 1.4.1'
+}
 
 build = {
    type = "make",
