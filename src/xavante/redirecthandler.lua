@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: redirecthandler.lua,v 1.10 2008/03/11 00:14:20 mascarenhas Exp $
+-- $Id: redirecthandler.lua,v 1.11 2008/07/25 18:40:31 mascarenhas Exp $
 -------------------------------------------------------------------------------
 require "socket.url"
 require "xavante.httpd"
@@ -36,13 +36,14 @@ local function redirect (req, res, dest, action, cap)
   else
     path = string.gsub (path, "/[^/]*$", "") .. "/" .. dest
   end
-  
+
+  local path, query = path:match("^([^?]+)(%??.*)$")  
   req.parsed_url.path = path
-  req.built_url = socket.url.build (req.parsed_url)
+  req.built_url = socket.url.build (req.parsed_url) .. (query or "")
   req.cmd_url = string.gsub (req.built_url, "^[^:]+://[^/]+", "")
   
   if action == "redirect" then
-    xavante.httpd.redirect(res, path)
+    xavante.httpd.redirect(res, path .. (query or ""))
     return res    
   elseif type(action) == "function" then
     return action(req, res, cap)
