@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: httpd.lua,v 1.43 2008/05/23 20:18:58 carregal Exp $
+-- $Id: httpd.lua,v 1.44 2009/02/11 20:56:15 carregal Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"
@@ -52,6 +52,7 @@ function connection (skt)
 		read_headers (req)
 
 		repeat
+			req.params = nil
 			parse_url (req)
 			res = make_response (req)
 		until handle_request (req, res) ~= "reparse"
