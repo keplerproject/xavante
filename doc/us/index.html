@@ -71,7 +71,7 @@ as Lua.
 
 <h2><a name="status"></a>Status</h2>
 
-<p>Current version is 2.0 and works with Lua 5.1.</p>
+<p>Current version is 2.0.1 and works with Lua 5.1.</p>
 
 <h2><a name="download"></a>Download</h2>
 
@@ -95,15 +95,15 @@ luarocks install xavante
     <dd>
         <ul>
           <li><a href="http://www.lua.org">Lua 5.1.x</a></li>
-          <li><a href="http://www.keplerproject.org/copas">Copas 1.1.3</a></li>
-          <li><a href="http://www.cs.princeton.edu/~diego/professional/luasocket">LuaSocket 2.0.2</a></li>
+          <li><a href="http://www.keplerproject.org/copas">Copas 1.1</a></li>
+          <li><a href="http://www.cs.princeton.edu/~diego/professional/luasocket">LuaSocket 2.0</a></li>
         </ul>
     </dd>
 
     <dt><strong>File Handler</strong> (optional)</dt>
     <dd>
         <ul>
-          <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.4.1</a></li>
+          <li><a href="http://www.keplerproject.org/luafilesystem">LuaFileSystem 1.4</a></li>
         </ul>
     </dd>
 </dl>
@@ -115,7 +115,14 @@ and Lua itself. The other components are written in Lua and are as portable as L
 
 <h2><a name="history"></a>History</h2>
 <dl>
-    <dt><strong>Xavante 2.0</strong> [23/May/2008]</dt>
+    <dt><strong>Xavante 2.0.1</strong> [06/Mar/2009]</dt>
+	<dd><ul>
+		<li>Fixes bug <a href="http://luaforge.net/tracker/?func=detail&amp;group_id=6&amp;aid=9094&amp;atid=105">[#9094]</a>
+		keep-alive connections don't clear cached data between requests (bug report and patch by John Passaniti)</li>	
+		<li><code>redirecthandler</code> now treats query strings correctly (bug report by &aelig;ndr&uuml;k).</li>
+	</ul>
+	</dd>
+	<dt><strong>Xavante 2.0</strong> [23/May/2008]</dt>
 	<dd><ul>
 		<li>New WSAPI based <code>cgiluahandler</code></li>	
 		<li>Fixed a bug on <code>SAPI.redirect</code> that was not setting the statusline correctly</li>
@@ -268,7 +275,7 @@ Project <a href="http://luaforge.net/mail/?group_id=104">mailing list</a>.
 
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
-	<p><small>$Id: index.html,v 1.48 2008/05/23 20:18:58 carregal Exp $</small></p>
+	<p><small>$Id: index.html,v 1.49 2009/03/06 23:44:23 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
