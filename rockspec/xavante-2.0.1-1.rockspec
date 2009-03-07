@@ -3,7 +3,7 @@ package = "Xavante"
 version = "2.0.1-1"
 
 source = {
-  url = "http://luaforge.net/frs/download.php/3425/xavante-2.0.0.tar.gz",
+  url = "http://luaforge.net/frs/download.php/3966/xavante-2.0.1.tar.gz",
 }
 
 description = {
