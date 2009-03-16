@@ -1,4 +1,4 @@
--- $Id: sajax.lua,v 1.5 2007/09/26 00:08:35 carregal Exp $
+-- $Id: sajax.lua,v 1.6 2009/03/16 22:53:10 carregal Exp $
 
 local cgilua = cgilua
 local table, string, os = table, string, os
@@ -166,6 +166,11 @@ local function get_common_js ()
 			sajax_debug(func_name + " url = " + url);
 			sajax_debug(func_name + " waiting..");
 			delete x;
+		}
+		function sajax_call(func_name, script, callback, args) {
+			var url = script + "?rs=" + func_name;
+			args.push(callback);
+			sajax_do_call(func_name, url, args);
 		}
 	]]
 end
