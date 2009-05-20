@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: cgiluahandler.lua,v 1.45 2008/04/24 17:07:52 mascarenhas Exp $
+-- $Id: cgiluahandler.lua,v 1.46 2009/05/20 22:28:42 mascarenhas Exp $
 -----------------------------------------------------------------------------
 
 require "wsapi.xavante"
@@ -13,7 +13,7 @@ require "kepler_init"
 
 module ("xavante.cgiluahandler", package.seeall)
 
-local function sapi_loader(wsapi_env)
+local function sapi_loader(wsapi_env, reload)
   wsapi.common.normalize_paths(wsapi_env)
   local bootstrap = [[
     function print(...)
@@ -37,13 +37,13 @@ local function sapi_loader(wsapi_env)
       "_, _G[\"" .. global .. "\"] = remotedostring(\"return _G['" ..
       global .. "']\")\n"
   end
-  local app = wsapi.common.load_isolated_launcher(wsapi_env.PATH_TRANSLATED, "wsapi.sapi", bootstrap)
+  local app = wsapi.common.load_isolated_launcher(wsapi_env.PATH_TRANSLATED, "wsapi.sapi", bootstrap, reload)
   return app(wsapi_env)
 end 
 
 -------------------------------------------------------------------------------
 -- Returns the CGILua handler
 -------------------------------------------------------------------------------
-function makeHandler (diskpath)
-   return wsapi.xavante.makeHandler(sapi_loader, nil, diskpath, diskpath)
+function makeHandler (diskpath, reload)
+   return wsapi.xavante.makeHandler(function (wsapi_env) return sapi_loader(wsapi_env, reload) end, nil, diskpath, diskpath)
 end
