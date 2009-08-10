@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: filehandler.lua,v 1.24 2007/11/27 15:57:05 carregal Exp $
+-- $Id: filehandler.lua,v 1.25 2009/08/10 20:00:59 mascarenhas Exp $
 ----------------------------------------------------------------------------
 
 local lfs = require "lfs"
@@ -82,12 +82,29 @@ local function sendfile (f, res, numbytes)
 	end
 end
 
+local function in_base(path)
+  local l = 0
+  if path:sub(1, 1) ~= "/" then path = "/" .. path end
+  for dir in path:gmatch("/([^/]+)") do
+    if dir == ".." then
+      l = l - 1
+    else
+      l = l + 1
+    end
+    if l < 0 then return false end
+  end
+  return true
+end
 
 -- main handler
 local function filehandler (req, res, baseDir)
 
 	if req.cmd_mth ~= "GET" and req.cmd_mth ~= "HEAD" then
 		return xavante.httpd.err_405 (req, res)
+	end
+
+	if not in_base(req.relpath) then
+		return xavante.httpd.err_403 (req, res)
 	end
 
 	local path = baseDir .."/".. req.relpath

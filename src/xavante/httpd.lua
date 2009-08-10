@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: httpd.lua,v 1.44 2009/02/11 20:56:15 carregal Exp $
+-- $Id: httpd.lua,v 1.45 2009/08/10 20:00:59 mascarenhas Exp $
 -----------------------------------------------------------------------------
 
 local url = require "socket.url"
@@ -328,6 +328,20 @@ function err_404 (req, res)
 </HEAD><BODY>
 <H1>Not Found</H1>
 The requested URL %s was not found on this server.<P>
+</BODY></HTML>]], req.built_url);
+	return res
+end
+
+function err_403 (req, res)
+	res.statusline = "HTTP/1.1 403 Forbidden"
+	res.headers ["Content-Type"] = "text/html"
+	res.content = string.format ([[
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<HTML><HEAD>
+<TITLE>403 Forbidden</TITLE>
+</HEAD><BODY>
+<H1>Forbidden</H1>
+You are not allowed to access the requested URL %s .<P>
 </BODY></HTML>]], req.built_url);
 	return res
 end
