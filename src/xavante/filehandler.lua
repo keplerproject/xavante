@@ -4,7 +4,7 @@
 -- Authors: Javier Guerra and Andre Carregal
 -- Copyright (c) 2004-2007 Kepler Project
 --
--- $Id: filehandler.lua,v 1.25 2009/08/10 20:00:59 mascarenhas Exp $
+-- $Id: filehandler.lua,v 1.26 2009/08/11 01:48:07 mascarenhas Exp $
 ----------------------------------------------------------------------------
 
 local lfs = require "lfs"
@@ -88,7 +88,7 @@ local function in_base(path)
   for dir in path:gmatch("/([^/]+)") do
     if dir == ".." then
       l = l - 1
-    else
+    elseif dir ~= "." then
       l = l + 1
     end
     if l < 0 then return false end
