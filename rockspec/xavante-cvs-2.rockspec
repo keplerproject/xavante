@@ -15,8 +15,7 @@ description = {
 dependencies = { 'luasocket', 'copas cvs', 'luafilesystem cvs' }
 
 source = {
-  url = "cvs://:pserver:anonymous@cvs.luaforge.net:/cvsroot/xavante",
-  cvs_tag = "HEAD"
+  url = "git://github.com/keplerproject/xavante.git"
 }
 
 local XAVANTE_LUAS = { "src/xavante/cgiluahandler.lua", 
