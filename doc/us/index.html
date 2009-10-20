@@ -71,7 +71,7 @@ as Lua.
 
 <h2><a name="status"></a>Status</h2>
 
-<p>Current version is 2.0.1 and works with Lua 5.1.</p>
+<p>Current version is 2.1.0 and works with Lua 5.1.</p>
 
 <h2><a name="download"></a>Download</h2>
 
@@ -84,6 +84,12 @@ Xavante can be downloaded from its
 
 <pre class="example">
 luarocks install xavante
+</pre>
+
+<p>The "xavante" package installs Xavante as a library. To run Xavante as an application please install <a href="http://wsapi.luaforge.net">WSAPI</a>:</p>
+
+<pre class="example">
+luarocks install wsapi-xavante
 </pre>
 
 <h2><a name="dependencies"></a>Dependencies</h2>
@@ -115,10 +121,12 @@ and Lua itself. The other components are written in Lua and are as portable as L
 
 <h2><a name="history"></a>History</h2>
 <dl>
-    <dt><strong>Xavante 2.?.?</strong> [??/???/2009]</dt>
+    <dt><strong>Xavante 2.1.0</strong> [20/Oct/2009]</dt>
 	<dd><ul>
+    	        <li>Adds "reload" option to xavante.cgiluahandler, to force new state for every request </li>
 		<li>Fixes a bug in File Handler that was allowing the use of ".." to access forbiden directories (bug report by Matthew Wild).</li>
 	</ul></dd>
+	
 	<dt><strong>Xavante 2.0.1</strong> [06/Mar/2009]</dt>
 	<dd><ul>
 		<li>Fixes bug <a href="http://luaforge.net/tracker/?func=detail&amp;group_id=6&amp;aid=9094&amp;atid=105">[#9094]</a>
@@ -237,7 +245,7 @@ and Lua itself. The other components are written in Lua and are as portable as L
 <h2><a name="credits"></a>Credits</h2>
 
 <p>
-Xavante 2.0 and 1.3 was implemented by Javier Guerra, Andr&eacute; Carregal,
+Xavante 1.3+ was implemented by Javier Guerra, Andr&eacute; Carregal,
 and F&aacute;bio Mascarenhas with the help of Ignacio Burgue&ntilde;o, Zachary P. Landau, Mauricio Bomfim, Matthew Burke, Thomas Harning and others.
 </p>
 

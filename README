@@ -1,4 +1,4 @@
-Xavante 2.0.1
+Xavante 2.1.0
 http://keplerproject.org/xavante/
 
 Xavante is a Lua HTTP 1.1 Web server that uses a modular architecture based on
@@ -12,6 +12,9 @@ Xavante can be downloaded from its LuaForge page.
 
 You can also install Xavante using LuaRocks:
 luarocks install xavante
+
+The Xavante package provides just the Xavante libraries. To see Xavante in action
+install wsapi-xavante from LuaRocks.
 
 Dependencies
 
@@ -30,6 +33,10 @@ The portability of Xavante is determined by its binary components
 in Lua and are as portable as Lua itself.
 
 History
+
+Xavante 2.1.0 [20/Oct/2009]
+	* Fixes security bug on filehandler with ".." used in paths (access to files outside the doc root)
+	* Added "reload" option to xavante.cgiluahandler, to force new state for every request 
 
 Xavante 2.0.1 [06/Mar/2009]
         * Fixes bug [#9094] keep-alive connections don't clear cached data between requests (bug report and patch by John Passaniti)
