@@ -15,7 +15,7 @@ description = {
 dependencies = { 'luasocket >= 2.0.2', 'copas >= 1.1.5', 'luafilesystem >= 1.4.2' }
 
 source = {
-  url = "git://github.com/keplerproject/xavante.git"
+  url = "http://cloud.github.com/downloads/keplerproject/copas/xavante-2.1.0.tar.gz"
 }
 
 local XAVANTE_LUAS = { "src/xavante/cgiluahandler.lua", 
