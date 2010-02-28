@@ -28,10 +28,6 @@ local bootstrap = [[
 	      remotedostring("io.stderr(...)", ...)
 	    end
   }
-  CGILUA_APPS = wsapi.app_path .. "/cgilua"
-  CGILUA_CONF = wsapi.app_path .. "/cgilua"
-  CGILUA_TMP = os.getenv("TMP") or os.getenv("TEMP") or "/tmp"
-  CGILUA_ISDIRECT = true
 ]]
 
 -------------------------------------------------------------------------------
