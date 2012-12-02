@@ -270,7 +270,7 @@ function send_response (req, res)
         res:add_header ("Transfer-Encoding", "chunked")
     end
     
-	if res.chunked or ((res.headers ["Content-Length"]) and req.headers ["connection"].lower() == "keep-alive")
+	if res.chunked or ((res.headers ["Content-Length"]) and req.headers ["connection"]:lower() == "keep-alive")
 	then
 		res.headers ["Connection"] = "Keep-Alive"
 		res.keep_alive = true
