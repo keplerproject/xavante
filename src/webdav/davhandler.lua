@@ -5,6 +5,7 @@
 -----------------------------------------------------------------------------
 require "lxp.lom"
 require "socket.url"
+local httpd = require "xavante.httpd"
 
 local url = socket.url
 
@@ -273,7 +274,7 @@ local function dav_propfind (req, res, repos_b, props_b)
 
 	local resource_q = repos_b:getResource (req.match, path)
 	if not resource_q then
-		return xavante.httpd.err_404 (req, res)
+		return httpd.err_404 (req, res)
 	end
 
 	local content = {}
@@ -354,7 +355,7 @@ local function dav_proppatch (req, res, repos_b, props_b)
 
 	local resource = repos_b:getResource (req.match, path)
 	if not resource then
-		return xavante.httpd.err_404 (req, res)
+		return httpd.err_404 (req, res)
 	end
 
 	local content = {}
@@ -404,7 +405,7 @@ end
 local function dav_get (req, res, repos_b, props_b)
 	local resource = repos_b:getResource (req.match, req.relpath)
 	if not resource then
-		return xavante.httpd.err_404 (req, res)
+		return httpd.err_404 (req, res)
 	end
 
 	res.headers ["Content-Type"] = resource:getContentType ()
@@ -423,7 +424,7 @@ local function dav_put (req, res, repos_b)
 		or repos_b:createResource (req.match, path)
 
 	if req.headers["content-range"] then
-		return xavante.httpd.err_405 (req, res)
+		return httpd.err_405 (req, res)
 	end
 
 	local contentlength = assert (req.headers ["content-length"]) + 0
