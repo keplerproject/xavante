@@ -43,10 +43,9 @@
             </ul>
         </li>
         <li><a href="sajax.html">Sajax</a></li>
-	    <li><a href="http://luaforge.net/projects/xavante/">Project</a>
+	    <li><a href="http://github.com/keplerproject/xavante/">Project</a>
 	        <ul>
 	            <li><a href="https://github.com/keplerproject/xavante/issues">Bug Tracker</a></li>
-	            <li><a href="https://github.com/keplerproject/xavante">GIT</a></li>
 	        </ul>
 	    </li>
         <li><a href="license.html">License</a></li>
@@ -61,7 +60,7 @@
 Xavante is a Lua HTTP 1.1 Web server that uses a modular architecture based
 on URI mapped handlers. Xavante currently offers a file handler, a redirect handler and a WSAPI handler.
 Those are used for general files, URI remapping and
-<a href="http://wsapi.luaforge.net">WSAPI</a> applications respectively.
+<a href="http://keplerproject.github.com/wsapi">WSAPI</a> applications respectively.
 </p>
 
 <p>
@@ -71,7 +70,7 @@ as Lua.
 
 <h2><a name="status"></a>Status</h2>
 
-<p>Current version is 2.2.1 and works with Lua 5.1.</p>
+<p>Current version is 2.3.0 and works with Lua 5.1 and 5.2.</p>
 
 <h2><a name="download"></a>Download</h2>
 
@@ -87,7 +86,7 @@ Xavante can be downloaded from its
 luarocks install xavante
 </pre>
 
-<p>The "xavante" package installs Xavante as a library. To run Xavante as an application please install <a href="http://wsapi.luaforge.net">WSAPI</a>:</p>
+<p>The "xavante" package installs Xavante as a library. To run Xavante as an application please install <a href="http://keplerproject.github.com/wsapi">WSAPI</a>:</p>
 
 <pre class="example">
 luarocks install wsapi-xavante
@@ -122,6 +121,13 @@ and Lua itself. The other components are written in Lua and are as portable as L
 
 <h2><a name="history"></a>History</h2>
 <dl>
+
+    <dt><strong>Xavante 2.3.0</strong> [30/Jan/2013]</dt>
+        <dd><ul>
+        <li>Lua 5.2 compatibility</li>
+        <li>Bugfixes</li>
+        </ul></dd>
+
     <dt><strong>Xavante 2.2.1</strong> [21/Oct/2010]</dt>
         <dd><ul>
         <li>allow 0 as a port value, so the OS assigns one dynamically (contribut$</li>
@@ -141,7 +147,7 @@ and Lua itself. The other components are written in Lua and are as portable as L
 	
 	<dt><strong>Xavante 2.0.1</strong> [06/Mar/2009]</dt>
 	<dd><ul>
-		<li>Fixes bug <a href="http://luaforge.net/tracker/?func=detail&amp;group_id=6&amp;aid=9094&amp;atid=105">[#9094]</a>
+		<li>Fixes bug [#9094]
 		keep-alive connections don't clear cached data between requests (bug report and patch by John Passaniti)</li>	
 		<li><code>redirecthandler</code> now treats query strings correctly (bug report by &aelig;ndr&uuml;k).</li>
 	</ul>
@@ -168,7 +174,7 @@ and Lua itself. The other components are written in Lua and are as portable as L
         names to be passed to the Ring where the request is processed. If this option
         is not present it looks for a <code>RINGS_CGILUA_GLOBALS</code> global and uses it.</li>
         <li>Fixed bug
-        <a href="http://luaforge.net/tracker/?group_id=6&amp;atid=105&amp;func=detail&amp;aid=1812">[#1812]</a> -
+        [#1812] -
         <code>SAPI.Response.Write</code> was not sending all its arguments but the first one
         (bug found by Ignacio Burgue&ntilde;o)</li>
     </ul>
@@ -204,7 +210,7 @@ and Lua itself. The other components are written in Lua and are as portable as L
         <li>Content Encoding handling using <code>encoding.lua</code> as a configuration
         file, added svgz encoding and content-type</li>
         <li>Fixed bug
-        <a href="http://luaforge.net/tracker/?group_id=6&amp;atid=105&amp;func=detail&amp;aid=510">[#510]</a>
+        [#510]
         filehandler does not send correct headers for a 404 error (found by Matthew Burke)</li>
     </ul>
     </dd>
@@ -240,7 +246,7 @@ and Lua itself. The other components are written in Lua and are as portable as L
     <ul>
         <li>First public release</li>
         <li>Refactored to use <a href="http://www.keplerproject.org/copas">Copas</a></li>
-        <li>Source base merged with <a href = "http://luaforge.net/projects/luahttpd/">luahttpd</a></li>
+        <li>Source base merged with luahttpd</li>
         <li>New configuration file with simpler rules</li>
     </ul>
     </dd>
@@ -290,7 +296,7 @@ Comments are welcome!
 
 <p>
 You can also reach other Xavante developers and users on the Kepler
-Project <a href="http://luaforge.net/mail/?group_id=104">mailing list</a>.
+Project <a href="https://groups.google.com/forum/#!forum/kepler-project">mailing list</a>.
 </p>
 
 </div> <!-- id="content" -->
@@ -299,7 +305,6 @@ Project <a href="http://luaforge.net/mail/?group_id=104">mailing list</a>.
 
 <div id="about">
 	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
-	<p><small>$Id: index.html,v 1.50 2009/08/10 20:18:57 carregal Exp $</small></p>
 </div> <!-- id="about" -->
 
 </div> <!-- id="container" -->
