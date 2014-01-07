@@ -17,7 +17,7 @@ local hfile = require "xavante.filehandler"
 local hcgilua = require "xavante.cgiluahandler"
 
 
-xavantee.handle_request = hvhost {
+xavante.handle_request = hvhost {
 	[""] = hurl {
 		["/"] = hindex ("/cgi/index.lp"),
 		["/cgi/"] = hcgilua.makeHandler (XAVANTE_WEB),
