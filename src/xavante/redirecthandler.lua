@@ -37,7 +37,10 @@ local function redirect (req, res, dest, action, cap)
     path = string.gsub (path, "/[^/]*$", "") .. "/" .. dest
   end
 
-  local path, query = path:match("^([^?]+)(%??.*)$")
+  local path, query = path:match("^([^?]+)%??(.*)$")
+  if query:len() > 0 and string.sub(query, 1, 1) ~= '&' then
+	  query = '&'..query
+  end
   req.parsed_url.path = path
   req.built_url = url.build (req.parsed_url) .. (query or "")
   req.cmd_url = string.gsub (req.built_url, "^[^:]+://[^/]+", "")
