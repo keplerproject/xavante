@@ -38,7 +38,7 @@ local function redirect (req, res, dest, action, cap)
   end
 
   local path, query = path:match("^([^?]+)%??(.*)$")
-  if query and string.sub(query, 1, 1) ~= '&' then
+  if query:len() > 0 and string.sub(query, 1, 1) ~= '&' then
 	  query = '&'..query
   end
   req.parsed_url.path = path
