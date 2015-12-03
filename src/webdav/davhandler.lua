@@ -3,11 +3,9 @@
 -- Author: Javier Guerra
 -- Copyright (c) 2005 Javier Guerra
 -----------------------------------------------------------------------------
-require "lxp.lom"
-require "socket.url"
+local lom = require "lxp.lom"
+local url = require "socket.url"
 local httpd = require "xavante.httpd"
-
-local url = socket.url
 
 -- returns a copy of the string without any
 -- leading or trailing whitespace
@@ -61,7 +59,7 @@ local function req_xml (req)
 	else
 		indata = function () return req.socket:receive () end
 	end
-	return lxp.lom.parse (indata)
+	return lom.parse (indata)
 end
 
 -- expands namespace tags in-situ
@@ -244,7 +242,7 @@ local function addPropstat (outtable, propstat)
 	end
 	table.sort (codes)
 	for _, stat in ipairs (codes) do
-		props = propstat [stat]
+		local props = propstat [stat]
 		if props then
 			table.insert (outtable, [[<D:propstat>]])
 			table.insert (outtable, [[<D:prop>]])
@@ -460,7 +458,7 @@ local function dav_delete (req, res, repos_b, props_b)
 	local path = req.relpath
 	local resource = repos_b:getResource (req.match, path)
 	if not resource then
-		return http.err_404
+		return httpd.err_404
 	end
 	
 	-- NOTE: this should iterate depth-first
@@ -518,7 +516,7 @@ function xavante.davhandler (params)
 
 		local savePath = req.parsed_url.path
 		req.parsed_url.path = '/'
-		req.match = socket.url.build(req.parsed_url)
+		req.match = url.build(req.parsed_url)
 		req.parsed_url.path = savePath
 		local dav_handler = dav_cmd_dispatch [req.cmd_mth]
 		if dav_handler then
