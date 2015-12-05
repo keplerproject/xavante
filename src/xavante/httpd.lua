@@ -16,6 +16,8 @@ local socket = require "socket"
 local url = require "socket.url"
 local copas = require "copas"
 
+local unpack = table.unpack or unpack
+
 local _M = {}
 
 local _serversoftware = ""
