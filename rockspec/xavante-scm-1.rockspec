@@ -12,7 +12,7 @@ description = {
   homepage = "http://keplerproject.github.io/xavante",
 }
 
-dependencies = { 'luasocket', 'copas >= 1.1.5', 'luafilesystem >= 1.4.2' }
+dependencies = { 'luasocket >= 2.1', 'copas >= 1.2.0', 'luafilesystem >= 1.6.0' }
 
 source = {
   url = "git://github.com/keplerproject/xavante.git"
