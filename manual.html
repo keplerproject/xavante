@@ -12,9 +12,9 @@
 <div id="container">
 
 <div id="product">
-	<div id="product_logo"><a href="http://www.keplerproject.org">
-		<img alt="Xavante logo" src="xavante.gif" width="128" height="128"/></a>
-	</div>
+	<div id="product_logo">
+		<img alt="Xavante logo" src="xavante.gif" width="128" height="128"/>
+    </div>
 	<div id="product_name"><big><strong>Xavante</strong></big></div>
 	<div id="product_description">A Lua Web Server with WSAPI support</div>
 </div> <!-- id="product" -->
@@ -45,7 +45,7 @@
         <li><a href="sajax.html">Sajax</a></li>
 	    <li><a href="http://github.com/keplerproject/xavante/">Project</a>
 	        <ul>
-	            <li><a href="https://github.com/keplerproject/xavante/issues">Bug Tracker</a></li>
+	            <li><a href="http://http://github.com/keplerproject/xavante/issues">Bug Tracker</a></li>
 	        </ul>
 	    </li>
         <li><a href="license.html">License</a></li>
@@ -62,7 +62,7 @@
 luarocks install xavante
 </pre>
 
-<p>The "xavante" package installs Xavante as a library. To run Xavante as an application please install <a href="http://wsapi.luaforge.net">WSAPI</a>:</p>
+<p>The "xavante" package installs Xavante as a library. To run Xavante as an application please install <a href="http://keplerproject.github.io/wsapi">WSAPI</a>:</p>
 
 <pre class="example">
 luarocks install wsapi-xavante
@@ -87,13 +87,15 @@ a <strong>CGILua handler</strong> for general files, URL
 remapping and CGILua scripts respectively.
 </p>
 
-<p>A typical use would be (assuming the Xavante module is already loaded):</p>
+<p>A typical use would be:</p>
 
 <pre class="example">
-require "xavante.filehandler"
-require "xavante.cgiluahandler"
-require "xavante.redirecthandler"
+local hfile = require "xavante.filehandler"
+local hcgi = require "xavante.cgiluahandler"
+local hredir = require "xavante.redirecthandler"
 
+local xavante = require "xavante"
+  
 -- Define here where Xavante HTTP documents scripts are located
 local webDir = XAVANTE_WEB
 
@@ -101,18 +103,18 @@ local simplerules = {
 
     { -- URI remapping example
       match = "^[^%./]*/$",
-      with = xavante.redirecthandler,
+      with = hredir,
       params = {"index.lp"}
     }, 
 
     { -- cgiluahandler example
       match = {"%.lp$", "%.lp/.*$", "%.lua$", "%.lua/.*$" },
-      with = xavante.cgiluahandler.makeHandler (webDir)
+      with = hcgi.makeHandler (webDir)
     },
     
     { -- filehandler example
       match = ".",
-      with = xavante.filehandler,
+      with = hfile,
       params = {baseDir = webDir}
     },
 } 
