@@ -31,7 +31,7 @@ local XAVANTE_LUAS = { "src/xavante/cgiluahandler.lua",
 	         "src/xavante/ruleshandler.lua" }
 
 build = {
-   type = "module",
+   type = "builtin",
    modules = {
      sajax = "src/sajax/sajax.lua",
      xavante = "src/xavante/xavante.lua"
