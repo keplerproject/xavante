@@ -187,7 +187,7 @@ local function send_res_headers (res)
 
         if package.loaded["xavante.cookies"] then
           local cookies = require "xavante.cookies"
-          xavante.cookies.set_res_cookies (res)
+          cookies.set_res_cookies (res)
         end
 
         res.statusline = res.statusline or "HTTP/1.1 200 OK"
