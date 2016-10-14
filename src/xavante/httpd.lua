@@ -23,6 +23,7 @@ local _M = {}
 local _serversoftware = ""
 
 local _serverports = {}
+local _serverips = {}
 
 function _M.strsplit (str)
         local words = {}
@@ -376,16 +377,21 @@ function _M.register (host, port, serversoftware)
         local _server = assert(socket.bind(host, port))
         _serversoftware = serversoftware
         local _ip, _port = _server:getsockname()
+        if _ip == "0.0.0.0" then
+                _ip = "127.0.0.1"
+        end
+        table.insert(_serverips, _ip)
+        table.insert(_serverports, _port)
         _serverports[_port] = true
         copas.addserver(_server, _M.connection)
 end
 
 function _M.get_ports()
-  local ports = {}
-  for k, _ in pairs(_serverports) do
-    table.insert(ports, tostring(k))
-  end
-  return ports
+  return _serverports
+end
+
+function _M.get_ips()
+  return _serverips
 end
 
 return _M

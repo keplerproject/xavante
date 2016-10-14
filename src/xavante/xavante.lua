@@ -25,8 +25,19 @@ _M._COPYRIGHT   = "Copyright (C) 2004-2016 Kepler Project"
 _M._DESCRIPTION = "A Copas based Lua Web server with WSAPI support"
 _M._VERSION     = "Xavante 2.4.0"
 
-local _startmessage = function (ports)
-  print(string.format("Xavante started on port(s) %s", table.concat(ports, ", ")))
+local _startmessage = function(ports, ips)
+    local urls = {}
+
+    for i, port in ipairs(ports) do
+        table.insert(urls, string.format("http://%s:%s", ips[i], port))
+    end
+
+    if #urls == 1 then
+        print("Xavante started at " .. urls[1])
+    else
+        print("Xavante started at:")
+        print(table.concat(urls, "\n"))
+    end
 end
 
 local function _buildRules(rules)
@@ -90,7 +101,7 @@ end
 -- Starts the server
 -------------------------------------------------------------------------------
 function _M.start(isFinished, timeout)
-    _startmessage(httpd.get_ports())
+    _startmessage(httpd.get_ports(), httpd.get_ips())
     while true do
       if isFinished and isFinished() then break end
       copas.step(timeout)
