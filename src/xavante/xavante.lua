@@ -21,9 +21,9 @@ local phandler = require "xavante.patternhandler"
 local vhosts = require "xavante.vhostshandler"
 
 -- Meta information is public even begining with an "_"
-_M._COPYRIGHT   = "Copyright (C) 2004-2010 Kepler Project"
+_M._COPYRIGHT   = "Copyright (C) 2004-2016 Kepler Project"
 _M._DESCRIPTION = "A Copas based Lua Web server with WSAPI support"
-_M._VERSION     = "Xavante 2.3.0"
+_M._VERSION     = "Xavante 2.4.0"
 
 local _startmessage = function (ports)
   print(string.format("Xavante started on port(s) %s", table.concat(ports, ", ")))
